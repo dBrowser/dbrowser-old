@@ -37,10 +37,10 @@ export class NotificationsView extends LitElement {
             <a href="/comments" title="Comments">Comments</a>
             <a href="/users" title="Users">Users</a>
           </nav>
-          <beaker-notifications-feed loadable .user=${this.user}></beaker-notifications-feed>
+          <dbrowser-notifications-feed loadable .user=${this.user}></dbrowser-notifications-feed>
         </main>
         <nav>
-          <beaker-about loadable></beaker-about>
+          <dbrowser-about loadable></dbrowser-about>
         </nav>
       </div>
     `
@@ -51,4 +51,4 @@ export class NotificationsView extends LitElement {
 
 }
 
-customElements.define('beaker-notifications-view', NotificationsView)
+customElements.define('dbrowser-notifications-view', NotificationsView)

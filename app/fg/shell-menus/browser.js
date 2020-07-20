@@ -26,7 +26,7 @@ class BrowserMenu extends LitElement {
   async init () {
     await this.requestUpdate()
     let [browserInfo, menuItems, bookmarks] = await Promise.all([
-      bg.beakerBrowser.getInfo(),
+      bg.dBrowserX.getInfo(),
       bg.shellMenus.getWindowMenu(),
       bg.bookmarks.list({sortBy: 'title'})
     ])
@@ -54,21 +54,21 @@ class BrowserMenu extends LitElement {
         <div class="section auto-updater">
           <div class="menu-item auto-updater" @click=${this.onClickRestart}>
             <i class="fa fa-arrow-circle-up"></i>
-            <span class="label">Restart to update Beaker</span>
+            <span class="label">Restart to update dBrowser</span>
           </div>
         </div>
       `
     }
 
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         ${autoUpdaterEl}
 
         <div class="section">
           <div class="menu-item" @click=${e => this.onNewHyperdrive()}>
             <i class="fas fa-plus"></i>
-            <span class="label">New Hyperdrive...</span>
+            <span class="label">New DWebFs...</span>
           </div>
 
           <div class="menu-item" @click=${e => this.onNewHyperdriveFromFolder(e)}>
@@ -106,12 +106,12 @@ class BrowserMenu extends LitElement {
         </div>
 
         <div class="section">          
-          <div class="menu-item" @click=${e => this.onOpenPage(e, 'beaker://settings')}>
-            <img class="favicon" src="asset:favicon:beaker://settings">
+          <div class="menu-item" @click=${e => this.onOpenPage(e, 'dbrowser://settings')}>
+            <img class="favicon" src="asset:favicon:dbrowser://settings">
             <span class="label">Settings</span>
           </div>
 
-          <div class="menu-item" @click=${e => this.onOpenPage(e, 'beaker://settings/?view=devices')}>
+          <div class="menu-item" @click=${e => this.onOpenPage(e, 'dbrowser://settings/?view=devices')}>
             <i class="fas fa-sync"></i>
             <span class="label">Sync Devices</span>
           </div>
@@ -122,7 +122,7 @@ class BrowserMenu extends LitElement {
 
   renderBookmarks () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <div class="header">
           <button class="btn" @click=${e => this.onShowSubmenu('')} title="Go back">
@@ -144,7 +144,7 @@ class BrowserMenu extends LitElement {
 
   renderLibrary () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <div class="header">
           <button class="btn" @click=${e => this.onShowSubmenu('')} title="Go back">
@@ -154,33 +154,33 @@ class BrowserMenu extends LitElement {
         </div>
 
         <div class="section">
-          <div class="menu-item" @click=${e => this.onOpenPage(e, 'beaker://library/drives')}>
+          <div class="menu-item" @click=${e => this.onOpenPage(e, 'dbrowser://library/drives')}>
             <i class="far fa-star"></i>
             <span class="label">My Drives</span>
           </div>
 
-          <div class="menu-item" @click=${e => this.onOpenPage(e, 'beaker://library/hosting')}>
+          <div class="menu-item" @click=${e => this.onOpenPage(e, 'dbrowser://library/hosting')}>
             <i class="fas fa-share-alt"></i>
             <span class="label">Hosting</span>
           </div>
 
-          <div class="menu-item" @click=${e => this.onOpenPage(e, 'beaker://library/address-book')}>
+          <div class="menu-item" @click=${e => this.onOpenPage(e, 'dbrowser://library/address-book')}>
             <i class="far fa-address-card"></i>
             <span class="label">Address Book</span>
           </div>
 
-          <div class="menu-item" @click=${e => this.onOpenPage(e, 'beaker://library/bookmarks')}>
+          <div class="menu-item" @click=${e => this.onOpenPage(e, 'dbrowser://library/bookmarks')}>
             <i class="far fa-star"></i>
             <span class="label">Bookmarks</span>
           </div>
 
           <div class="menu-item downloads" @click=${e => this.onClickDownloads(e)}>
-            <img class="favicon" src="asset:favicon:beaker://downloads">
+            <img class="favicon" src="asset:favicon:dbrowser://downloads">
             <span class="label">Downloads</span>
           </div>
 
-          <div class="menu-item" @click=${e => this.onOpenPage(e, 'beaker://history')}>
-            <img class="favicon" src="asset:favicon:beaker://history">
+          <div class="menu-item" @click=${e => this.onOpenPage(e, 'dbrowser://history')}>
+            <img class="favicon" src="asset:favicon:dbrowser://history">
             <span class="label">History</span>
           </div>
         </div>
@@ -198,7 +198,7 @@ class BrowserMenu extends LitElement {
     var items = this.windowMenuItems[menu]
     if (!items) return html``
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <div class="header">
           <button class="btn" @click=${e => this.onShowSubmenu('')} title="Go back">
@@ -266,32 +266,32 @@ class BrowserMenu extends LitElement {
 
   async onNewHyperdrive () {
     bg.shellMenus.close()
-    const url = await bg.hyperdrive.createDrive()
-    bg.beakerBrowser.openUrl(url, {setActive: true})
+    const url = await bg.dwebfs.createDrive()
+    bg.dBrowserX.openUrl(url, {setActive: true})
   }
 
   async onNewHyperdriveFromFolder (e) {
     bg.shellMenus.close()
 
-    var folder = await bg.beakerBrowser.showOpenDialog({
+    var folder = await bg.dBrowserX.showOpenDialog({
       title: 'Select folder',
       buttonLabel: 'Use folder',
       properties: ['openDirectory']
     })
     if (!folder || !folder.length) return
 
-    var url = await bg.hyperdrive.createDrive({
+    var url = await bg.dwebfs.createDrive({
       title: folder[0].split('/').pop(),
       prompt: false
     })
-    await bg.hyperdrive.importFromFilesystem({src: folder[0], dst: url})
+    await bg.dwebfs.importFromFilesystem({src: folder[0], dst: url})
     
-    bg.beakerBrowser.openUrl(url, {setActive: true})
+    bg.dBrowserX.openUrl(url, {setActive: true})
   }
 
   onClickDownloads (e) {
     this.shouldPersistDownloadsIndicator = false
-    bg.shellMenus.createTab('beaker://library/downloads')
+    bg.shellMenus.createTab('dbrowser://library/downloads')
     bg.shellMenus.close()
   }
 
@@ -302,7 +302,7 @@ class BrowserMenu extends LitElement {
 
   onClickRestart () {
     bg.shellMenus.close()
-    bg.beakerBrowser.restartBrowser()
+    bg.dBrowserX.restartBrowser()
   }
 }
 BrowserMenu.styles = [commonCSS, css`

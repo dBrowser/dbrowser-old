@@ -7,4 +7,4 @@ export class ProfileAside extends ProfileHeader {
   }
 }
 
-customElements.define('beaker-profile-aside', ProfileAside)
+customElements.define('dbrowser-profile-aside', ProfileAside)

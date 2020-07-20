@@ -164,12 +164,12 @@ export class SearchResults extends LitElement {
                 </div>
               </div>
             ` : ''}
-          <beaker-paginator
+          <dbrowser-paginator
             page=${this.page}
             label="Showing results ${(this.page * PAGE_SIZE) + 1} - ${(this.page * PAGE_SIZE) + (hasMore ? PAGE_SIZE : this.results.length)}"
             @change-page=${this.onChangePage}
             ?at-end=${!hasMore}
-          ></beaker-paginator>
+          ></dbrowser-paginator>
         `}
       </div>
     `
@@ -197,7 +197,7 @@ export class SearchResults extends LitElement {
   }
 }
 
-customElements.define('beaker-search-results', SearchResults)
+customElements.define('dbrowser-search-results', SearchResults)
 
 function fromPostToResult (post) {
   var metadata = post.stat.metadata

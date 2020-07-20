@@ -27,7 +27,7 @@ export function create (opts = {}) {
 
   // parse out the origin
   let url = new URL(dst)
-  dstOrigin = `dat://${url.hostname}`
+  dstOrigin = `dweb://${url.hostname}`
   dst = url.pathname
 
   // render interface
@@ -151,7 +151,7 @@ async function onSubmit (e) {
 
     let constructedDst = dstOrigin + (dst.startsWith('/') ? dst : `/${dst}`)
     for (let src of srcs) {
-      await DatArchive.importFromFilesystem({src, dst: constructedDst, ignore: ['dat.json'], inplaceImport: false})
+      await DatArchive.importFromFilesystem({src, dst: constructedDst, ignore: ['dweb.json'], inplaceImport: false})
     }
   } catch (e) {
     toast.create(e.toString(), 'error')
@@ -175,7 +175,7 @@ async function doDryRun () {
     changes = []
     let constructedDst = dstOrigin + (dst.startsWith('/') ? dst : `/${dst}`)
     for (let src of srcs) {
-      changes.push(await DatArchive.importFromFilesystem({src, dst: constructedDst, ignore: ['dat.json'], inplaceImport: false, dryRun: true}))
+      changes.push(await DatArchive.importFromFilesystem({src, dst: constructedDst, ignore: ['dweb.json'], inplaceImport: false, dryRun: true}))
     }
     changes = mergeChanges(changes)
     console.log('Dry run:', changes)

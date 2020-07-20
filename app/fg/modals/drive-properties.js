@@ -132,7 +132,7 @@ class DrivePropertiesModal extends LitElement {
 
   render () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <h1 class="title">
           Drive Properties
@@ -203,15 +203,15 @@ class DrivePropertiesModal extends LitElement {
       reader.readAsArrayBuffer(file)
 
       await Promise.all([
-        bg.hyperdrive.unlink(joinPath(this.url, '/thumb.png')).catch(e => null),
-        bg.hyperdrive.unlink(joinPath(this.url, '/thumb.jpg')).catch(e => null),
-        bg.hyperdrive.unlink(joinPath(this.url, '/thumb.jpeg')).catch(e => null)
+        bg.dwebfs.unlink(joinPath(this.url, '/thumb.png')).catch(e => null),
+        bg.dwebfs.unlink(joinPath(this.url, '/thumb.jpg')).catch(e => null),
+        bg.dwebfs.unlink(joinPath(this.url, '/thumb.jpeg')).catch(e => null)
       ])
-      await bg.hyperdrive.writeFile(joinPath(this.url, `/thumb.${ext}`), await bufPromise)
+      await bg.dwebfs.writeFile(joinPath(this.url, `/thumb.${ext}`), await bufPromise)
     }
 
     // handle props
-    await bg.hyperdrive.configure(this.url, newProps).catch(e => null)
+    await bg.dwebfs.configure(this.url, newProps).catch(e => null)
 
     this.cbs.resolve()
   }

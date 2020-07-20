@@ -1,11 +1,11 @@
 /*
-This wrapper provides a Hyperdrive interface for non-dat sites
+This wrapper provides a DWebFs interface for non-dweb sites
 so that errors can be smoothly generated
 */
 
 export function createDrive (url) {
   if (url.startsWith('hyper:')) {
-    return beaker.hyperdrive.drive(url)
+    return dbrowser.dwebfs.drive(url)
   }
   return new Proxy({}, {
     get (obj, k) {

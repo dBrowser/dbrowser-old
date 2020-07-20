@@ -28,7 +28,7 @@ class PermPrompt extends LitElement {
 
   async fetchBrowserInfo () {
     // fetch platform information
-    var {platform} = await bg.beakerBrowser.getInfo()
+    var {platform} = await bg.dBrowserX.getInfo()
     window.platform = platform
     if (platform === 'darwin') {
       document.body.classList.add('darwin')
@@ -50,11 +50,11 @@ class PermPrompt extends LitElement {
     if (!PERM) return false
     this.isPermExperimental = PERM.experimental
 
-    // fetch dat title if needed
+    // fetch dweb title if needed
     if (!this.permOpts.title && IS_DRIVE_KEY_REGEX.test(this.permParam)) {
       let driveKey = this.permParam
       let driveInfo
-      try { driveInfo = await bg.hyperdrive.getInfo(driveKey) }
+      try { driveInfo = await bg.dwebfs.getInfo(driveKey) }
       catch (e) { /* ignore */ }
       this.permOpts.title = driveInfo && driveInfo.title ? driveInfo.title : prettyHash(this.permParam)
     }
@@ -77,7 +77,7 @@ class PermPrompt extends LitElement {
 
   render () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper" @contextmenu=${this.onContextMenu}>
         <p>This site wants to:</p>
         <p class="perm">

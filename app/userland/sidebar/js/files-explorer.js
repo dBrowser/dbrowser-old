@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'beaker://app-stdlib/vendor/lit-element/lit-element.js'
+import { LitElement, html, css } from 'dbrowser://app-stdlib/vendor/lit-element/lit-element.js'
 
 class FilesExplorer extends LitElement {
   static get styles () {
@@ -71,14 +71,14 @@ class FilesExplorer extends LitElement {
     }
     if (!target) {
       return html`
-        <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+        <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
         <div class="unsupported">
           <span class="fas fa-fw fa-exclamation-triangle"></span> Must be a <code>hyper://</code> site to explore files.
         </div>
       `
     }
     return html`
-      <iframe src="beaker://explorer/${target}"></iframe>
+      <iframe src="dbrowser://explorer/${target}"></iframe>
     `
   }
 }

@@ -86,7 +86,7 @@ a:hover {
   background: #eaeaef;
 }
 
-beaker-paginator {
+dbrowser-paginator {
   font-size: 16px;
   margin: 20px 10px;
 }

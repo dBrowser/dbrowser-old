@@ -1,5 +1,5 @@
 import { parseDriveUrl } from '../../../../lib/urls'
-import { PermissionsError } from 'beaker-error-constants'
+import { PermissionsError } from 'dbrowser-error-constants'
 import * as permissions from '../../../ui/permissions'
 import * as drives from '../../../hyper/drives'
 import * as hyperDns from '../../../hyper/dns'
@@ -8,7 +8,7 @@ import { HYPERDRIVE_HASH_REGEX } from '../../../../lib/const'
 // constants
 // =
 
-const API_DOCS_URL = 'https://beakerbrowser.com/docs/apis/experimental-datpeers.html'
+const API_DOCS_URL = 'https://dbrowser.com/docs/apis/experimental-datpeers.html'
 const API_PERM_ID = 'experimentalDatPeers'
 const LAB_API_ID = 'datPeers'
 const LAB_PERMS_OBJ = {perm: API_PERM_ID, labApi: LAB_API_ID, apiDocsUrl: API_DOCS_URL}

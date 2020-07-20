@@ -1,8 +1,8 @@
 import * as userSiteSessions from '../filesystem/site-sessions'
 import * as drives from '../hyper/drives'
 import * as archivesDb from '../dbs/archives'
-import { PermissionsError } from 'beaker-error-constants'
-import libTools from '@beaker/library-tools'
+import { PermissionsError } from 'dbrowser-error-constants'
+import libTools from '@dbrowser/library-tools'
 
 // typedefs
 // =
@@ -27,7 +27,7 @@ export async function getSessionUserDrive (sender) {
  */
 export async function toDriveOrigin (url) {
   if (!url.startsWith('hyper://')) {
-    throw new Error('Can only create sessions with hyperdrive sites')
+    throw new Error('Can only create sessions with dwebfs sites')
   }
   return `hyper://${await drives.fromURLToKey(url, true)}/`
 }
@@ -65,8 +65,8 @@ export async function assertCan (sender, perm, cap) {
  * @returns {Promise<boolean>}
  */
 export async function isTrustedApp (sender) {
-  // TEMPORARY: hyperdrive.network is trusted
-  if (/^(beaker:|https?:\/\/(.*\.)?hyperdrive\.network(:|\/))/i.test(sender.getURL())) return true
+  // TEMPORARY: dwebfs.network is trusted
+  if (/^(dbrowser:|https?:\/\/(.*\.)?dwebfs\.network(:|\/))/i.test(sender.getURL())) return true
   return true
 }
 

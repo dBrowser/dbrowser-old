@@ -24,8 +24,8 @@ export class PinnedMessage extends LitElement {
 
   async load () {
     if (localStorage.pinnedMessageHidden) return
-    var drive = hyperdrive.self
-    this.md = await drive.readFile('/beaker-forum/pinned-message.md').catch(e => undefined)
+    var drive = dwebfs.self
+    this.md = await drive.readFile('/dbrowser-forum/pinned-message.md').catch(e => undefined)
     this.requestUpdate()
   }
 
@@ -44,4 +44,4 @@ export class PinnedMessage extends LitElement {
   }
 }
 
-customElements.define('beaker-pinned-message', PinnedMessage)
+customElements.define('dbrowser-pinned-message', PinnedMessage)

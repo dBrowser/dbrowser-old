@@ -93,7 +93,7 @@ export async function collect ({olderThan} = {}) {
   //   totalBytes += item.stat.size
   // }
 
-  // // clear cached dats
+  // // clear cached dwebs
   // // TODO
   // // fetch all drive metas with lastaccesstime older than DAT_CACHE_TIME
   // // then delete the drive

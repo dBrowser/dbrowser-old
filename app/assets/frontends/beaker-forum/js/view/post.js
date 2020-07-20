@@ -30,7 +30,7 @@ export class PostView extends LitElement {
   }
 
   get path () {
-    return `/beaker-forum/posts/${this.filename}`
+    return `/dbrowser-forum/posts/${this.filename}`
   }
 
   async load () {
@@ -57,14 +57,14 @@ export class PostView extends LitElement {
     if (!this.post) return html``
     return html`
       <style>
-        beaker-post {
+        dbrowser-post {
           margin: 20px 0 16px;
         }
-        beaker-profile-aside {
+        dbrowser-profile-aside {
           width: 260px;
           margin: 0 auto 16px;
         }
-        beaker-comments-thread {
+        dbrowser-comments-thread {
           margin-left: 50px;
           margin-bottom: 100px;
         }
@@ -76,25 +76,25 @@ export class PostView extends LitElement {
             <a href="/comments" title="Comments">Comments</a>
             <a href="/users" title="Users">Users</a>
           </nav>
-          <beaker-post
+          <dbrowser-post
             fullpage
             expanded
             .post=${this.post}
             user-url="${this.user ? this.user.url : ''}"
             @deleted=${this.onPostDeleted}
-          ></beaker-post>
+          ></dbrowser-post>
           ${this.post.comments ? html`
-            <beaker-comments-thread
+            <dbrowser-comments-thread
               .comments=${this.post ? this.post.comments : undefined}
               href="${this.post ? this.post.url : ''}"
               user-url="${this.user ? this.user.url : ''}"
               @submit-comment=${this.onSubmitComment}
               @delete-comment=${this.onDeleteComment}
-            ></beaker-comments-thread>
+            ></dbrowser-comments-thread>
           ` : html`<div class="spinner" style="margin-left: 40px"></div>`}
         </main>
         <nav>
-          <beaker-about loadable></beaker-about>
+          <dbrowser-about loadable></dbrowser-about>
         </nav>
       </div>
     `
@@ -119,7 +119,7 @@ export class PostView extends LitElement {
         await uwg.comments.add({href, parent, content})
       }
     } catch (e) {
-      alert('Something went wrong. Please let the Beaker team know! (An error is logged in the console.)')
+      alert('Something went wrong. Please let the dBrowser team know! (An error is logged in the console.)')
       console.error('Failed to add comment')
       console.error(e)
       return
@@ -134,7 +134,7 @@ export class PostView extends LitElement {
     try {
       await uwg.comments.remove(comment)
     } catch (e) {
-      alert('Something went wrong. Please let the Beaker team know! (An error is logged in the console.)')
+      alert('Something went wrong. Please let the dBrowser team know! (An error is logged in the console.)')
       console.error('Failed to delete comment')
       console.error(e)
       return
@@ -148,7 +148,7 @@ export class PostView extends LitElement {
   }
 }
 
-customElements.define('beaker-post-view', PostView)
+customElements.define('dbrowser-post-view', PostView)
 
 async function loadCommentAnnotations (comments) {
   await Promise.all(comments.map(async (comment) => {

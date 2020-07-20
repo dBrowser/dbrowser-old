@@ -1,7 +1,7 @@
 import { Duplex, Readable } from 'streamx'
 import { getClient } from '../../hyper/daemon'
 import * as drives from '../../hyper/drives'
-import { PermissionsError } from 'beaker-error-constants'
+import { PermissionsError } from 'dbrowser-error-constants'
 
 // exported api
 // =

@@ -39,7 +39,7 @@ class CreatePagePrompt extends LitElement {
 
   render () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         Create a new page here using
         <button @click=${e => this.onClickCreate(e, 'md')}>Markdown</button>
@@ -68,7 +68,7 @@ class CreatePagePrompt extends LitElement {
     }
 
     // create the file
-    await bg.hyperdrive.writeFile(joinPath(urlp.hostname, path), '')
+    await bg.dwebfs.writeFile(joinPath(urlp.hostname, path), '')
     let newUrl = joinPath(urlp.origin, path)
     bg.prompts.executeSidebarCommand('show-panel', 'editor-app')
     bg.prompts.executeSidebarCommand('set-context', 'editor-app', newUrl)

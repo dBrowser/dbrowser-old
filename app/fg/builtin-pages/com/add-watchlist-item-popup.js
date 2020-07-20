@@ -1,4 +1,4 @@
-/* globals beaker DatArchive */
+/* globals dbrowser DatArchive */
 
 import yo from 'yo-yo'
 import closeIcon from '../icon/close'
@@ -78,7 +78,7 @@ function render () {
             <input type="text" id="description-input" name="description" value=${description} placeholder="Optional" />
 
             <p>
-              Beaker will search the network and notify you when the site is found.
+            dBrowser will search the network and notify you when the site is found.
             </p>
           </div>
 

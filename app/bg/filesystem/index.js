@@ -66,7 +66,7 @@ export async function setup () {
   // create the root drive as needed
   var isInitialCreation = false
   browsingProfile = await db.get(`SELECT * FROM profiles WHERE id = 0`)
-  if (!browsingProfile.url || (typeof browsingProfile.url === 'string' && browsingProfile.url.startsWith('dat:'))) {
+  if (!browsingProfile.url || (typeof browsingProfile.url === 'string' && browsingProfile.url.startsWith('dweb:'))) {
     let drive = await hyper.drives.createNewRootDrive()
     logger.info('Root drive created', {url: drive.url})
     await db.run(`UPDATE profiles SET url = ? WHERE id = 0`, [drive.url])
@@ -88,9 +88,9 @@ export async function setup () {
     // default bookmarks
     if (isInitialCreation) {
       await bookmarks.add({href: 'hyper://a8e9bd0f4df60ed5246a1b1f53d51a1feaeb1315266f769ac218436f12fda830/', title: 'Blahbity Blog', pinned: true})
-      await bookmarks.add({href: 'https://docs.beakerbrowser.com/', title: 'Beaker Documentation', pinned: true})
-      await bookmarks.add({href: 'https://beaker.dev/', title: 'Beaker Developer Portal', pinned: true})
-      await bookmarks.add({href: 'https://github.com/beakerbrowser/beaker/discussions', title: 'Beaker Discussions', pinned: true})
+      await bookmarks.add({href: 'https://docs.dbrowser.com/', title: 'dBrowser Documentation', pinned: true})
+      await bookmarks.add({href: 'https://dbrowser.dev/', title: 'dBrowser Developer Portal', pinned: true})
+      await bookmarks.add({href: 'https://github.com/dbrowser/dbrowser/discussions', title: 'dBrowser Discussions', pinned: true})
     }
 
     // ensure all user mounts are set

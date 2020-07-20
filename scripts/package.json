@@ -1,5 +1,5 @@
 {
-  "name": "beakerbrowser",
+  "name": "dwebbrowser",
   "devDependencies": {
     "browserify": "^16.0.0",
     "electron": "10.0.0-beta.2",
@@ -29,14 +29,14 @@
   },
   "build": {
     "afterSign": "./afterSignHook.js",
-    "appId": "com.bluelinklabs.beaker-browser",
+    "appId": "com.bluelinklabs.dbrowser-browser",
     "asar": false,
     "asarUnpack": [
       "./fg/json-renderer/index.build.js",
       "./fg/syntax-highlighter/index.js",
-      "./node_modules/@beaker/dat-legacy-tools/**",
+      "./node_modules/@dbrowser/dweb-legacy-tools/**",
       "./node_modules/sodium-native/**",
-      "./node_modules/hyperdrive-daemon/**"
+      "./node_modules/dwebfs-daemon/**"
     ],
     "copyright": "© 2020, Blue Link Labs",
     "directories": {
@@ -60,20 +60,20 @@
         ]
       },
       {
-        "name": "dat",
+        "name": "dweb",
         "schemes": [
-          "dat"
+          "dweb"
         ]
       }
     ],
     "appImage": {
       "category": "Network",
       "desktop": {
-        "Name": "Beaker Browser",
+        "Name": "dBrowser",
         "GenericName": "Web Browser",
         "Type": "Application",
         "Terminal": false,
-        "MimeType": "text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/dat;video/webm;application/x-xpinstall;",
+        "MimeType": "text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/dweb;video/webm;application/x-xpinstall;",
         "Categories": "GNOME;GTK;Network;WebBrowser;"
       }
     },
@@ -93,7 +93,7 @@
     }
   },
   "scripts": {
-    "postinstall": "cd ../app && npm install && cd bg/dat/converter && npm install",
+    "postinstall": "cd ../app && npm install && cd bg/dweb/converter && npm install",
     "build": "gulp build",
     "burnthemall": "node ./tasks/burnthemall.js",
     "lint": "eslint --ignore-pattern 'color-thief.js' --ignore-pattern 'app/node_modules' --ignore-pattern 'vendor' --ignore-pattern '*.build.js' --ignore-pattern 'assets' --fix app",
@@ -104,16 +104,16 @@
   },
   "collective": {
     "type": "opencollective",
-    "url": "https://opencollective.com/beaker",
+    "url": "https://opencollective.com/dbrowser",
     "logo": "https://opencollective.com/opencollective/logo.txt"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/beakerbrowser/beaker"
+    "url": "https://github.com/dbrowser/dbrowser"
   },
   "bugs": {
-    "url": "https://github.com/beakerbrowser/beaker/issues"
+    "url": "https://github.com/dbrowser/dbrowser/issues"
   },
-  "homepage": "https://beakerbrowser.com/",
+  "homepage": "https://dbrowser.com/",
   "dependencies": {}
 }

@@ -64,20 +64,20 @@ export function buildWindowMenu (opts = {}) {
   const isWritable = driveInfo && driveInfo.writable
 
   var darwinMenu = {
-    label: 'Beaker',
+    label: 'dBrowser',
     submenu: [
       {
         label: 'Preferences',
         accelerator: 'Cmd+,',
         click (item) {
-          if (win) tabManager.create(win, 'beaker://settings', {setActive: true})
-          else createShellWindow({ pages: ['beaker://settings'] })
+          if (win) tabManager.create(win, 'dbrowser://settings', {setActive: true})
+          else createShellWindow({ pages: ['dbrowser://settings'] })
         }
       },
       { type: 'separator' },
       { label: 'Services', role: 'services', submenu: [] },
       { type: 'separator' },
-      { label: 'Hide Beaker', accelerator: 'Cmd+H', role: 'hide' },
+      { label: 'Hide dBrowser', accelerator: 'Cmd+H', role: 'hide' },
       { label: 'Hide Others', accelerator: 'Cmd+Alt+H', role: 'hideothers' },
       { label: 'Show All', role: 'unhide' },
       { type: 'separator' },
@@ -395,7 +395,7 @@ export function buildWindowMenu (opts = {}) {
         label: 'Diff / Merge',
         enabled: !!isDriveSite,
         async click (item) {
-          if (win) tabManager.create(win, `beaker://diff/?base=${url}`, {setActive: true})
+          if (win) tabManager.create(win, `dbrowser://diff/?base=${url}`, {setActive: true})
         }
       },
       { type: 'separator' },
@@ -528,8 +528,8 @@ export function buildWindowMenu (opts = {}) {
         label: 'Show Full History',
         accelerator: showHistoryAccelerator,
         click: function (item) {
-          if (win) tabManager.create(win, 'beaker://history', {setActive: true})
-          else createShellWindow({ pages: ['beaker://history'] })
+          if (win) tabManager.create(win, 'dbrowser://history', {setActive: true})
+          else createShellWindow({ pages: ['dbrowser://history'] })
         }
       },
       { type: 'separator' },
@@ -722,17 +722,17 @@ export function buildWindowMenu (opts = {}) {
     submenu: [
       {
         id: 'beakerHelp',
-        label: 'Beaker Help',
+        label: 'dBrowser Help',
         accelerator: 'F1',
         click: function (item) {
-          if (win) tabManager.create(win, 'https://docs.beakerbrowser.com/', {setActive: true})
+          if (win) tabManager.create(win, 'https://docs.dbrowser.com/', {setActive: true})
         }
       },
       {
         id: 'developerPortal',
         label: 'Developer Portal',
         click: function (item) {
-          if (win) tabManager.create(win, 'https://beaker.dev/', {setActive: true})
+          if (win) tabManager.create(win, 'https://dbrowser.dev/', {setActive: true})
         }
       },
       {type: 'separator'},
@@ -740,14 +740,14 @@ export function buildWindowMenu (opts = {}) {
         id: 'reportIssue',
         label: 'Report Issue',
         click: function (item) {
-          if (win) tabManager.create(win, 'https://github.com/beakerbrowser/beaker/issues', {setActive: true})
+          if (win) tabManager.create(win, 'https://github.com/dbrowser/dbrowser/issues', {setActive: true})
         }
       },
       {
         id: 'beakerDiscussions',
         label: 'Discussion Forum',
         click: function (item) {
-          if (win) tabManager.create(win, 'https://github.com/beakerbrowser/beaker/discussions', {setActive: true})
+          if (win) tabManager.create(win, 'https://github.com/dbrowser/dbrowser/discussions', {setActive: true})
         }
       }
     ]
@@ -758,7 +758,7 @@ export function buildWindowMenu (opts = {}) {
       label: 'About',
       role: 'about',
       click: function (item) {
-        if (win) tabManager.create(win, 'beaker://settings', {setActive: true})
+        if (win) tabManager.create(win, 'dbrowser://settings', {setActive: true})
       }
     })
   }

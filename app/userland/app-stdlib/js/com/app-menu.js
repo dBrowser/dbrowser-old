@@ -30,13 +30,13 @@ export function create ({x, y}) {
         </style>
         <div class="app-menu dropdown-items with-triangle no-border right">
           <div class="section-header small light">Applications</div>
-          <a class="dropdown-item" href="beaker://library/">
-            <img src="/vendor/beaker-app-stdlib/img/icons/library.png">
+          <a class="dropdown-item" href="dbrowser://library/">
+            <img src="/vendor/dbrowser-app-stdlib/img/icons/library.png">
             Library
           </a>
-          <a class="dropdown-item" href="dat://beaker.social/">
-            <img src="/vendor/beaker-app-stdlib/img/icons/newsfeed.png">
-            Beaker.Social
+          <a class="dropdown-item" href="dweb://dbrowser.social/">
+            <img src="/vendor/dbrowser-app-stdlib/img/icons/newsfeed.png">
+            dBrowser.Social
           </a>
         </div>
       `

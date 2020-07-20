@@ -1,9 +1,9 @@
-/* globals beaker */
+/* globals dbrowser */
 
 import yo from 'yo-yo'
 import * as toast from '../com/toast'
 import Logger from '../com/settings/logger'
-import DatCache from '../com/settings/dat-cache'
+import DatCache from '../com/settings/dweb-cache'
 import CrawlerStatus from '../com/settings/crawler-status'
 import renderBuiltinPagesNav from '../com/builtin-pages-nav'
 
@@ -28,16 +28,16 @@ async function setup () {
   renderToPage()
 
   // wire up events
-  browserEvents = beaker.browser.createEventsStream()
+  browserEvents = dbrowser.browser.createEventsStream()
   browserEvents.addEventListener('updater-state-changed', onUpdaterStateChanged)
   browserEvents.addEventListener('updater-error', onUpdaterError)
   window.addEventListener('popstate', onPopState)
 
   // fetch data
-  browserInfo = beaker.browser.getInfo()
-  settings = await beaker.browser.getSettings()
-  defaultProtocolSettings = await beaker.browser.getDefaultProtocolSettings()
-  users = await beaker.users.list()
+  browserInfo = dbrowser.browser.getInfo()
+  settings = await dbrowser.browser.getSettings()
+  defaultProtocolSettings = await dbrowser.browser.getDefaultProtocolSettings()
+  users = await dbrowser.users.list()
 
   // set the view and render
   setViewFromHash()
@@ -70,7 +70,7 @@ function renderToPage () {
 function renderSidebar () {
   return yo`
     <div class="builtin-sidebar">
-      ${renderBuiltinPagesNav('beaker://settings/', 'Settings')}
+      ${renderBuiltinPagesNav('dbrowser://settings/', 'Settings')}
 
       <div class="nav-item ${activeView === 'general' ? 'active' : ''}" onclick=${() => onUpdateView('general')}>
         <i class="fa fa-angle-right"></i>
@@ -82,9 +82,9 @@ function renderSidebar () {
         Users
       </div>
 
-      <div class="nav-item ${activeView === 'dat-network' ? 'active' : ''}" onclick=${() => onUpdateView('dat-network')}>
+      <div class="nav-item ${activeView === 'dweb-network' ? 'active' : ''}" onclick=${() => onUpdateView('dweb-network')}>
         <i class="fa fa-angle-right"></i>
-        Dat Network
+        DWeb Network
       </div>
 
       <hr>
@@ -99,9 +99,9 @@ function renderSidebar () {
         Crawler
       </div>
 
-      <div class="nav-item ${activeView === 'dat-cache' ? 'active' : ''}" onclick=${() => onUpdateView('dat-cache')}>
+      <div class="nav-item ${activeView === 'dweb-cache' ? 'active' : ''}" onclick=${() => onUpdateView('dweb-cache')}>
         <i class="fa fa-angle-right"></i>
-        Dat Cache
+        DWeb Cache
       </div>
 
       <hr>
@@ -119,11 +119,11 @@ function renderView () {
       return renderGeneral()
     case 'users':
       return renderUsers()
-    case 'dat-network':
+    case 'dweb-network':
       return renderDatNetwork()
     case 'logger':
       return renderLogger()
-    case 'dat-cache':
+    case 'dweb-cache':
       return renderDatCache()
     case 'crawler':
       return renderCrawler()
@@ -148,7 +148,7 @@ function renderUsers () {
     e.preventDefault()
     e.stopPropagation()
 
-    var opts = await beaker.browser.showModal('user', user)
+    var opts = await dbrowser.browser.showModal('user', user)
     Object.assign(user, opts)
     renderToPage()
   }
@@ -157,7 +157,7 @@ function renderUsers () {
     e.preventDefault()
     e.stopPropagation()
     if (confirm('Are you sure?')) {
-      await beaker.users.remove(user.url)
+      await dbrowser.users.remove(user.url)
       location.reload()
     }
   }
@@ -204,7 +204,7 @@ function renderOnStartupSettings () {
       <h2 id="on-startup" class="subtitle-heading">Startup settings</h2>
 
       <p>
-        When Beaker starts
+        When dBrowser starts
       </p>
 
       <div class="radio-group">
@@ -232,14 +232,14 @@ function renderDatSettings () {
   function onChangeUpload (e) {
     var v = e.currentTarget.value
     settings.dat_bandwidth_limit_up = (v && +v) ? +v : 0
-    beaker.browser.setSetting('dat_bandwidth_limit_up', settings.dat_bandwidth_limit_up)
+    dbrowser.browser.setSetting('dat_bandwidth_limit_up', settings.dat_bandwidth_limit_up)
     renderToPage()
     toast.create('Upload limit updated')
   }
   function onChangeDownload (e) {
     var v = e.currentTarget.value
     settings.dat_bandwidth_limit_down = (v && +v) ? +v : 0
-    beaker.browser.setSetting('dat_bandwidth_limit_down', settings.dat_bandwidth_limit_down)
+    dbrowser.browser.setSetting('dat_bandwidth_limit_down', settings.dat_bandwidth_limit_down)
     renderToPage()
     toast.create('Download limit updated')
   }
@@ -248,21 +248,21 @@ function renderDatSettings () {
   var down = settings.dat_bandwidth_limit_down || ''
 
   return yo`
-    <div class="section dat-bandwidth">
-      <h2 id="dat-bandwidth" class="subtitle-heading">Dat Settings</h2>
+    <div class="section dweb-bandwidth">
+      <h2 id="dweb-bandwidth" class="subtitle-heading">DWeb Settings</h2>
 
       <p>
-        Set a limit on your bandwidth usage for Dat.
+        Set a limit on your bandwidth usage for DWeb.
       </p>
 
       <div class="inputs">
         <div>
-          <label for="dat-upload-limit">Upload limit (MB/s)</label>
-          <input id="dat-upload-limit" type="text" placeholder="Unlimited" value=${up} onchange=${onChangeUpload} />
+          <label for="dweb-upload-limit">Upload limit (MB/s)</label>
+          <input id="dweb-upload-limit" type="text" placeholder="Unlimited" value=${up} onchange=${onChangeUpload} />
         </div>
         <div>
-          <label for="dat-download-limit">Download limit (MB/s)</label>
-          <input id="dat-download-limit" type="text" placeholder="Unlimited" value=${down} onchange=${onChangeDownload} />
+          <label for="dweb-download-limit">Download limit (MB/s)</label>
+          <input id="dweb-download-limit" type="text" placeholder="Unlimited" value=${down} onchange=${onChangeDownload} />
         </div>
       </div>
     </div>
@@ -271,8 +271,8 @@ function renderDatSettings () {
 
 function renderDefaultDatIgnoreSettings () {
   return yo`
-    <div class="section default-dat-ignore">
-      <h2 id="default-dat-ignore" class="subtitle-heading">Default .datignore</h2>
+    <div class="section default-dweb-ignore">
+      <h2 id="default-dweb-ignore" class="subtitle-heading">Default .datignore</h2>
 
       <p>
         Specify which files should be excluded from your published sites.
@@ -287,13 +287,13 @@ function renderAnalyticsSettings () {
   function toggle () {
     // update and optimistically render
     settings.analytics_enabled = (settings.analytics_enabled == 1) ? 0 : 1
-    beaker.browser.setSetting('analytics_enabled', settings.analytics_enabled)
+    dbrowser.browser.setSetting('analytics_enabled', settings.analytics_enabled)
     renderToPage()
   }
 
   return yo`
     <div class="section analytics">
-      <h2 class="subtitle-heading">Beaker Analytics</h2>
+      <h2 class="subtitle-heading">dBrowser Analytics</h2>
 
       <label class="toggle">
         <input checked=${settings.analytics_enabled == 1 ? 'true' : 'false'} type="checkbox" onchange=${toggle} />
@@ -309,7 +309,7 @@ function renderAnalyticsSettings () {
 
         <ul>
           <li>An anonymous ID</li>
-          <li>Your Beaker version, e.g. ${browserInfo.version}</li>
+          <li>Your dBrowser version, e.g. ${browserInfo.version}</li>
           <li>Your operating system, e.g. Windows 10</li>
         </ul>
       </div>
@@ -330,7 +330,7 @@ function renderDatCache () {
   return yo`
     <div class="view">
       <div class="section">
-        <h2 id="dat-cache" class="subtitle-heading">Dat cache</h2>
+        <h2 id="dweb-cache" class="subtitle-heading">DWeb cache</h2>
         ${datCache.render()}
       </div>
     </div>
@@ -352,7 +352,7 @@ function renderInformation () {
   return yo`
     <div class="view not-fullwidth">
       <div class="section">
-        <h2 id="information" class="subtitle-heading">About Beaker</h2>
+        <h2 id="information" class="subtitle-heading">About dBrowser</h2>
         <ul>
           <li>Version: ${browserInfo.version} Electron: ${browserInfo.electronVersion} - Chromium: ${browserInfo.chromiumVersion} - Node: ${browserInfo.nodeVersion}</li>
           <li>User data: ${browserInfo.paths.userData}</li>
@@ -361,9 +361,9 @@ function renderInformation () {
       <div class="section">
         <h2 class="subtitle-heading">Get help</h2>
         <ul>
-          <li><a href="https://beakerbrowser.com/docs/using-beaker">Take a tour of Beaker</a></li>
-          <li><a href="https://beakerbrowser.com/docs">Read the documentation</a></li>
-          <li><a href="https://github.com/beakerbrowser/beaker/issues/new">Report an issue</a></li>
+          <li><a href="https://dbrowser.com/docs/using-dbrowser">Take a tour of dBrowser</a></li>
+          <li><a href="https://dbrowser.com/docs">Read the documentation</a></li>
+          <li><a href="https://github.com/dbrowser/dbrowser/issues/new">Report an issue</a></li>
         </ul>
       </div>
     </div>
@@ -376,9 +376,9 @@ function renderProtocolSettings () {
     defaultProtocolSettings[protocol] = !defaultProtocolSettings[protocol]
 
     if (defaultProtocolSettings[protocol]) {
-      beaker.browser.setAsDefaultProtocolClient(protocol)
+      dbrowser.browser.setAsDefaultProtocolClient(protocol)
     } else {
-      beaker.browser.removeAsDefaultProtocolClient(protocol)
+      dbrowser.browser.removeAsDefaultProtocolClient(protocol)
     }
     renderToPage()
   }
@@ -388,7 +388,7 @@ function renderProtocolSettings () {
       <h2 id="protocol" class="subtitle-heading">Default browser settings</h2>
 
       <p>
-        Set Beaker as the default browser for:
+        Set dBrowser as the default browser for:
       </p>
 
       ${Object.keys(defaultProtocolSettings).map(proto => yo`
@@ -406,15 +406,15 @@ function renderProtocolSettings () {
 
 function renderDefaultToDatSetting () {
   return yo`
-    <div class="section default-to-dat">
-      <h2 id="protocol" class="subtitle-heading">Default redirect to dat</h2>
+    <div class="section default-to-dweb">
+      <h2 id="protocol" class="subtitle-heading">Default redirect to dweb</h2>
 
       <label class="toggle">
         <input checked=${isAutoRedirectEnabled()} type="checkbox" onchange=${onToggleAutoRedirect} />
 
         <div class="switch"></div>
         <span class="text">
-          Automatically redirect to dat:// when available
+          Automatically redirect to dweb:// when available
         </span>
       </label>
     </div>`
@@ -427,12 +427,12 @@ function renderAutoUpdater () {
         <h2 id="auto-updater" class="subtitle-heading">Auto updater</h2>
 
         <div class="message info">
-          Sorry! Beaker auto-updates are only supported on the production build for macOS and Windows.
+          Sorry! dBrowser auto-updates are only supported on the production build for macOS and Windows.
         </div>
 
         <p>
-          To get the most recent version of Beaker, you'll need to <a href="https://github.com/beakerbrowser/beaker">
-          build Beaker from source</a>.
+          To get the most recent version of dBrowser, you'll need to <a href="https://github.com/dbrowser/dbrowser">
+          build dBrowser from source</a>.
         </p>
       </div>`
   }
@@ -461,7 +461,7 @@ function renderAutoUpdater () {
 
             <span class="up-to-date">
               <span class="fa fa-check"></span>
-              Beaker v${browserInfo.version} is up-to-date
+              dBrowser v${browserInfo.version} is up-to-date
             </span>
           </p>
 
@@ -516,7 +516,7 @@ function renderAutoUpdater () {
           <button class="btn" disabled>Updating</button>
           <span class="version-info">
             <div class="spinner"></div>
-            Downloading the latest version of Beaker...
+            Downloading the latest version of dBrowser...
           </span>
           ${renderAutoUpdateCheckbox()}
         </div>
@@ -531,7 +531,7 @@ function renderAutoUpdater () {
           <button class="btn" onclick=${onClickRestart}>Restart now</button>
           <span class="version-info">
             <i class="fa fa-arrow-circle-o-up"></i>
-            <strong>New version available.</strong> Restart Beaker to install.
+            <strong>New version available.</strong> Restart dBrowser to install.
           </span>
           ${renderAutoUpdateCheckbox()}
         </div>
@@ -561,33 +561,33 @@ function onUpdateView (view) {
 
 function onCustomStartPageChange (e) {
   settings.custom_start_page = e.target.value
-  beaker.browser.setSetting('custom_start_page', settings.custom_start_page)
+  dbrowser.browser.setSetting('custom_start_page', settings.custom_start_page)
 }
 
 function onClickCheckUpdates () {
   // trigger check
-  beaker.browser.checkForUpdates()
+  dbrowser.browser.checkForUpdates()
 }
 
 function onClickCheckPrereleases (e) {
   e.preventDefault()
-  beaker.browser.checkForUpdates({prerelease: true})
+  dbrowser.browser.checkForUpdates({prerelease: true})
 }
 
 function onToggleAutoRedirect () {
   settings.auto_redirect_to_dat = isAutoRedirectEnabled() ? 0 : 1
   renderToPage()
-  beaker.browser.setSetting('auto_redirect_to_dat', settings.auto_redirect_to_dat)
+  dbrowser.browser.setSetting('auto_redirect_to_dat', settings.auto_redirect_to_dat)
 }
 
 function onToggleAutoUpdate () {
   settings.auto_update_enabled = isAutoUpdateEnabled() ? 0 : 1
   renderToPage()
-  beaker.browser.setSetting('auto_update_enabled', settings.auto_update_enabled)
+  dbrowser.browser.setSetting('auto_update_enabled', settings.auto_update_enabled)
 }
 
 async function onUpdateWorkspaceDefaultPath () {
-  let path = await beaker.browser.showOpenDialog({
+  let path = await dbrowser.browser.showOpenDialog({
     title: 'Select a folder',
     buttonLabel: 'Select folder',
     properties: ['openDirectory']
@@ -596,7 +596,7 @@ async function onUpdateWorkspaceDefaultPath () {
   if (path) {
     path = path[0]
     settings.workspace_default_path = path
-    beaker.browser.setSetting('workspace_default_path', settings.workspace_default_path)
+    dbrowser.browser.setSetting('workspace_default_path', settings.workspace_default_path)
     renderToPage()
     toast.create('Default working directory updated')
   }
@@ -604,7 +604,7 @@ async function onUpdateWorkspaceDefaultPath () {
 
 async function onChangeDefaultDatIgnore (e) {
   try {
-    await beaker.browser.setSetting('default_dat_ignore', e.target.value)
+    await dbrowser.browser.setSetting('default_dat_ignore', e.target.value)
     toast.create('Default .datignore updated')
   } catch (e) {
     console.error(e)
@@ -612,7 +612,7 @@ async function onChangeDefaultDatIgnore (e) {
 }
 
 function onClickRestart () {
-  beaker.browser.restartBrowser()
+  dbrowser.browser.restartBrowser()
 }
 
 function onUpdaterStateChanged (e) {

@@ -2,7 +2,7 @@ import { join } from 'path'
 import yazl from 'yazl'
 
 /**
- * @typedef {import('../dat/daemon').DaemonHyperdrive} DaemonHyperdrive
+ * @typedef {import('../dweb/daemon').DaemonHyperdrive} DaemonHyperdrive
  * @typedef {import('stream').Readable} Readable
  */
 
@@ -34,7 +34,7 @@ export const toZipStream = function (drive, dirpath = '/') {
       zipfile.addBuffer(await drive.pda.readFile(readPath, 'binary'), path)
       // NOTE
       // for some reason using drive.createReadStream() to feed into the zipfile addReadStream() was not working with multiple files
-      // no idea why, maybe a sign of a bug in the dat-daemon's zip rpc
+      // no idea why, maybe a sign of a bug in the dweb-daemon's zip rpc
       // -prf
     }
     zipfile.end()

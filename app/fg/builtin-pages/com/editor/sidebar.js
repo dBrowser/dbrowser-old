@@ -1,7 +1,7 @@
 import yo from 'yo-yo'
 import * as models from './models'
 import _get from 'lodash.get'
-import {FSArchiveFolder_BeingCreated, FSArchiveFile_BeingCreated} from 'beaker-virtual-fs'
+import {FSArchiveFolder_BeingCreated, FSArchiveFile_BeingCreated} from 'dbrowser-virtual-fs'
 import * as contextMenu from '../context-menu'
 import * as contextInput from '../context-input'
 import {findParent, writeToClipboard} from '../../../lib/event-handlers'

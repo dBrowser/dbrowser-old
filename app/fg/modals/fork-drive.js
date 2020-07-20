@@ -140,7 +140,7 @@ class ForkDriveModal extends LitElement {
       justify-content: space-between;
     }
 
-    .fork-dat-progress {
+    .fork-dweb-progress {
       font-size: 14px;
     }
     `]
@@ -173,7 +173,7 @@ class ForkDriveModal extends LitElement {
     await this.requestUpdate()
 
     // fetch drive info
-    this.driveInfo = await bg.hyperdrive.getInfo(this.base.url)
+    this.driveInfo = await bg.dwebfs.getInfo(this.base.url)
     this.title =  params.title || this.driveInfo.title || ''
     this.description = params.description || this.driveInfo.description || ''
     await this.requestUpdate()
@@ -201,15 +201,15 @@ class ForkDriveModal extends LitElement {
     var actionBtn
     switch (this.state) {
       case STATES.READY:
-        progressEl = html`<div class="fork-dat-progress">Ready to ${this.isDetached ? 'make a copy' : 'fork'}.</div>`
+        progressEl = html`<div class="fork-dweb-progress">Ready to ${this.isDetached ? 'make a copy' : 'fork'}.</div>`
         actionBtn = html`<button type="submit" class="btn primary" tabindex="5">${this.isDetached ? 'Copy drive' : 'Create fork'}</button>`
         break
       case STATES.DOWNLOADING:
-        progressEl = html`<div class="fork-dat-progress">Downloading remaining files...</div>`
+        progressEl = html`<div class="fork-dweb-progress">Downloading remaining files...</div>`
         actionBtn = html`<button type="submit" class="btn" disabled tabindex="5"><span class="spinner"></span></button>`
         break
       case STATES.CLONING:
-        progressEl = html`<div class="fork-dat-progress">Downloading and copying...</div>`
+        progressEl = html`<div class="fork-dweb-progress">Downloading and copying...</div>`
         actionBtn = html`<button type="submit" class="btn" disabled tabindex="5"><span class="spinner"></span></button>`
         break
     }
@@ -225,7 +225,7 @@ class ForkDriveModal extends LitElement {
       `
     }
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <form @submit=${this.onSubmit}>
           <div class="tabbed-nav">
@@ -312,7 +312,7 @@ class ForkDriveModal extends LitElement {
 
   async onChangeBase (e) {
     this.base = this.forks.find(fork => fork.url === e.currentTarget.value)
-    this.driveInfo = await bg.hyperdrive.getInfo(this.base.url)
+    this.driveInfo = await bg.dwebfs.getInfo(this.base.url)
     this.requestUpdate()
   }
 
@@ -343,11 +343,11 @@ class ForkDriveModal extends LitElement {
     }
 
     // this.state = STATES.DOWNLOADING
-    // await bg.hyperdrive.download(this.base.url)
+    // await bg.dwebfs.download(this.base.url)
 
     this.state = STATES.CLONING
     try {
-      var url = await bg.hyperdrive.forkDrive(this.base.url, {
+      var url = await bg.dwebfs.forkDrive(this.base.url, {
         detached: this.isDetached,
         title: this.isDetached ? this.title : this.driveInfo.title,
         description: this.isDetached ? this.description : this.driveInfo.description,

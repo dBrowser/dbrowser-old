@@ -188,13 +188,13 @@ export default function (e) {
         break
       case -501:
         title = 'Your connection is not secure'
-        info = `<p>Beaker cannot establish a secure connection to the server for <strong>${origin}</strong>.</p>`
+        info = `<p>dBrowser cannot establish a secure connection to the server for <strong>${origin}</strong>.</p>`
         icon = 'fa-close warning'
         button = '<a class="btn right" href="javascript:window.history.back()">Go back</a>'
         break
       case 504:
         icon = 'fa-share-alt'
-        title = `Beaker is unable to access this ${e.resource} right now.`
+        title = `dBrowser is unable to access this ${e.resource} right now.`
         errorDescription = `The p2p ${e.resource} was not reachable on the network.`
         break
     }
@@ -209,7 +209,7 @@ export default function (e) {
       </head>
       <body>
         <style>${errorPageCSS}</style>
-        <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+        <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
         <div class="error-page-content">
           <div class="icon-wrapper"><i class="fa ${icon}"></i></div>
 

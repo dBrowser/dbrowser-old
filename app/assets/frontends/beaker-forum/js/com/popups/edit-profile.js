@@ -1,4 +1,4 @@
-/* globals beaker */
+/* globals dbrowser */
 import { html, css } from '../../../vendor/lit-element/lit-element.js'
 import { BasePopup } from './base.js'
 import popupsCSS from '../../../css/com/popups.css.js'
@@ -75,7 +75,7 @@ export class EditProfilePopup extends BasePopup {
   }
 
   static destroy () {
-    return BasePopup.destroy('beaker-edit-profile-popup')
+    return BasePopup.destroy('dbrowser-edit-profile-popup')
   }
 
   // rendering
@@ -92,10 +92,10 @@ export class EditProfilePopup extends BasePopup {
           ${this.thumbDataURL ? html`
             <img src=${this.thumbDataURL}>
           ` : html`
-            <beaker-img-fallbacks>
+            <dbrowser-img-fallbacks>
               <img src="${this.user.url}/thumb" slot="img1">
               <img src="/.ui/img/default-user-thumb" slot="img2">
-            </beaker-img-fallbacks>
+            </dbrowser-img-fallbacks>
           `}
           <input type="file" accept=".jpg,.jpeg,.png" @change=${this.onChooseThumbFile}>
           <button type="button" @click=${this.onClickChangeThumb} class="btn" tabindex="4">Choose Picture</button>
@@ -160,7 +160,7 @@ export class EditProfilePopup extends BasePopup {
     }
 
     try {
-      let drive = hyperdrive.load(this.user.url)
+      let drive = dwebfs.load(this.user.url)
       await drive.configure({
         title: this.title,
         description: this.description
@@ -181,4 +181,4 @@ export class EditProfilePopup extends BasePopup {
   }
 }
 
-customElements.define('beaker-edit-profile-popup', EditProfilePopup)
+customElements.define('dbrowser-edit-profile-popup', EditProfilePopup)

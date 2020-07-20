@@ -1,4 +1,4 @@
-/* globals beaker */
+/* globals dbrowser */
 import { html, css } from '../../../vendor/lit-element/lit-element.js'
 import { BasePopup } from './base.js'
 import popupsCSS from '../../../css/com/popups.css.js'
@@ -21,12 +21,12 @@ export class ViewStatusPopup extends BasePopup {
       padding: 4px 4px 8px;
     }
 
-    beaker-status {
+    dbrowser-status {
       margin: 0;
       border: 0;
     }
     
-    beaker-comments-thread {
+    dbrowser-comments-thread {
       --border-color: #fff;
       --body-font-size: 14px;
       --composer-margin: 0 10px;
@@ -51,7 +51,7 @@ export class ViewStatusPopup extends BasePopup {
   }
 
   static destroy () {
-    return BasePopup.destroy('beaker-view-status-popup')
+    return BasePopup.destroy('dbrowser-view-status-popup')
   }
 
   // rendering
@@ -63,17 +63,17 @@ export class ViewStatusPopup extends BasePopup {
 
   renderBody () {
     return html`
-      <beaker-status
+      <dbrowser-status
         expanded
         inline-avi
         .status=${this.status}
         user-url="${this.user.url}"
-      ></beaker-status>
-      <beaker-comments-thread
+      ></dbrowser-status>
+      <dbrowser-comments-thread
         .comments=${this.status.comments}
         href="${this.status.url}"
         user-url="${this.user.url}"
-      ></beaker-comments-thread>
+      ></dbrowser-comments-thread>
     `
   }
 
@@ -81,4 +81,4 @@ export class ViewStatusPopup extends BasePopup {
   // =
 }
 
-customElements.define('beaker-view-status-popup', ViewStatusPopup)
+customElements.define('dbrowser-view-status-popup', ViewStatusPopup)

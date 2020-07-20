@@ -1,4 +1,4 @@
-/* globals beaker */
+/* globals dbrowser */
 import { html, css } from '../../../vendor/lit-element/lit-element.js'
 import { BasePopup } from './base.js'
 import popupsCSS from '../../../css/com/popups.css.js'
@@ -164,7 +164,7 @@ export class AddUserPopup extends BasePopup {
       return {success: false, message: `You must provide a "hyper:" URL. This is "${urlp.protocol}".`}
     }
 
-    var drive = hyperdrive.load(url)
+    var drive = dwebfs.load(url)
     var info
     try {
       info = await this.attempt(
@@ -200,7 +200,7 @@ export class AddUserPopup extends BasePopup {
   }
 
   static destroy () {
-    return BasePopup.destroy('beaker-add-user-popup')
+    return BasePopup.destroy('dbrowser-add-user-popup')
   }
 
   // rendering
@@ -340,4 +340,4 @@ export class AddUserPopup extends BasePopup {
   }
 }
 
-customElements.define('beaker-add-user-popup', AddUserPopup)
+customElements.define('dbrowser-add-user-popup', AddUserPopup)

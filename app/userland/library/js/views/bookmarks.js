@@ -1,9 +1,9 @@
-import { LitElement, html } from 'beaker://app-stdlib/vendor/lit-element/lit-element.js'
-import { repeat } from 'beaker://app-stdlib/vendor/lit-element/lit-html/directives/repeat.js'
-import { writeToClipboard } from 'beaker://app-stdlib/js/clipboard.js'
-import { emit } from 'beaker://app-stdlib/js/dom.js'
-import * as toast from 'beaker://app-stdlib/js/com/toast.js'
-import * as contextMenu from 'beaker://app-stdlib/js/com/context-menu.js'
+import { LitElement, html } from 'dbrowser://app-stdlib/vendor/lit-element/lit-element.js'
+import { repeat } from 'dbrowser://app-stdlib/vendor/lit-element/lit-html/directives/repeat.js'
+import { writeToClipboard } from 'dbrowser://app-stdlib/js/clipboard.js'
+import { emit } from 'dbrowser://app-stdlib/js/dom.js'
+import * as toast from 'dbrowser://app-stdlib/js/com/toast.js'
+import * as contextMenu from 'dbrowser://app-stdlib/js/com/context-menu.js'
 import { EditBookmarkPopup } from '../com/edit-bookmark-popup.js'
 import bookmarksCSS from '../../css/views/bookmarks.css.js'
 
@@ -42,7 +42,7 @@ export class BookmarksView extends LitElement {
   }
 
   async load () {
-    var bookmarks = await beaker.hyperdrive.drive('hyper://system/').query({
+    var bookmarks = await dbrowser.dwebfs.drive('hyper://system/').query({
       type: 'file',
       path: ['/bookmarks/*.goto']
     })
@@ -59,7 +59,7 @@ export class BookmarksView extends LitElement {
       top: (y > window.innerHeight / 2),
       roomy: false,
       noBorders: true,
-      fontAwesomeCSSUrl: 'beaker://assets/font-awesome.css',
+      fontAwesomeCSSUrl: 'dbrowser://assets/font-awesome.css',
       style: `padding: 4px 0`,
       items: [
         {icon: 'fa fa-external-link-alt', label: 'Open Link in New Tab', click: () => window.open(bookmark.stat.metadata.href)},
@@ -82,7 +82,7 @@ export class BookmarksView extends LitElement {
       ))
     }
     return html`
-      <link rel="stylesheet" href="beaker://app-stdlib/css/fontawesome.css">
+      <link rel="stylesheet" href="dbrowser://app-stdlib/css/fontawesome.css">
       ${bookmarks ? html`
         ${this.showHeader && !(this.hideEmpty && bookmarks.length === 0) ? html`
           <h4>Bookmarks</h4>
@@ -145,9 +145,9 @@ export class BookmarksView extends LitElement {
     e.preventDefault()
     e.stopPropagation()
     if (_pinned(bookmark)) {
-      await beaker.hyperdrive.drive('hyper://system/').deleteMetadata(bookmark.path, ['pinned'])
+      await dbrowser.dwebfs.drive('hyper://system/').deleteMetadata(bookmark.path, ['pinned'])
     } else {
-      await beaker.hyperdrive.drive('hyper://system/').updateMetadata(bookmark.path, {pinned: '1'})
+      await dbrowser.dwebfs.drive('hyper://system/').updateMetadata(bookmark.path, {pinned: '1'})
     }
     this.load()
     emit(this, 'update-pins')
@@ -165,7 +165,7 @@ export class BookmarksView extends LitElement {
 
   async onClickRemove (file) {
     if (!confirm('Are you sure?')) return
-    await beaker.hyperdrive.drive('hyper://system/').unlink(file.path)
+    await dbrowser.dwebfs.drive('hyper://system/').unlink(file.path)
     toast.create('Bookmark removed', '', 10e3)
     this.load()
   }

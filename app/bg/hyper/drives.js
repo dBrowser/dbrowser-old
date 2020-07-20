@@ -1,9 +1,9 @@
 import emitStream from 'emit-stream'
 import EventEmitter from 'events'
-import datEncoding from 'dat-encoding'
+import datEncoding from 'dweb-encoding'
 import { parseDriveUrl } from '../../lib/urls'
 import _debounce from 'lodash.debounce'
-import pda from 'pauls-dat-api2'
+import pda from 'pauls-dweb-api2'
 import { wait } from '../../lib/functions'
 import * as logLib from '../logger'
 const baseLogger = logLib.get()
@@ -11,9 +11,9 @@ const logger = baseLogger.child({category: 'hyper', subcategory: 'drives'})
 
 // dbs
 import * as archivesDb from '../dbs/archives'
-import * as hyperDnsDb from '../dbs/dat-dns'
+import * as hyperDnsDb from '../dbs/dweb-dns'
 
-// hyperdrive modules
+// dwebfs modules
 import * as daemon from './daemon'
 import * as driveAssets from './assets'
 import * as hyperDns from './dns'
@@ -25,7 +25,7 @@ import * as filesystem from '../filesystem/index'
 // =
 
 import { HYPERDRIVE_HASH_REGEX, DRIVE_MANIFEST_FILENAME } from '../../lib/const'
-import { InvalidURLError, TimeoutError } from 'beaker-error-constants'
+import { InvalidURLError, TimeoutError } from 'dbrowser-error-constants'
 
 // typedefs
 // =
@@ -62,7 +62,7 @@ export async function setup () {
   //   }
   // })
 
-  logger.info('Initialized dat daemon')
+  logger.info('Initialized dweb daemon')
 }
 
 /**
@@ -152,7 +152,7 @@ export async function pullLatestDriveMeta (drive, {updateMTime} = {}) {
     // emit the updated event
     details.url = 'hyper://' + key + '/'
     drivesEvents.emit('updated', {key, details, oldMeta})
-    logger.info('Updated recorded metadata for hyperdrive', {key, details})
+    logger.info('Updated recorded metadata for dwebfs', {key, details})
     return details
   } catch (e) {
     console.error('Error pulling meta', e)
@@ -243,7 +243,7 @@ export async function forkDrive (srcDriveUrl, opts = {}) {
   var dstDrive = await createNewDrive(dstManifest)
 
   // copy files
-  var ignore = ['/.dat', '/.git', '/index.json']
+  var ignore = ['/.dweb', '/.git', '/index.json']
   await pda.exportArchiveToArchive({
     srcArchive: srcDrive.session.drive,
     dstArchive: dstDrive.session.drive,
@@ -261,7 +261,7 @@ export async function loadDrive (key, opts) {
   // validate key
   if (key) {
     if (!Buffer.isBuffer(key)) {
-      // existing dat
+      // existing dweb
       key = await fromURLToKey(key, true)
       if (!HYPERDRIVE_HASH_REGEX.test(key)) {
         throw new InvalidURLError()
@@ -450,7 +450,7 @@ export async function clearFileCache (key) {
 
 /**
  * @desc
- * Get the primary URL for a given dat URL
+ * Get the primary URL for a given dweb URL
  *
  * @param {string} url
  * @returns {Promise<string>}
@@ -478,24 +478,24 @@ export async function confirmDomain (key) {
   // // fetch the current domain from the manifest
   // try {
   //   var drive = await getOrLoadDrive(key)
-  //   var datJson = await drive.pda.readManifest()
+  //   var dwebJson = await drive.pda.readManifest()
   // } catch (e) {
   //   return false
   // }
-  // if (!datJson.domain) {
+  // if (!dwebJson.domain) {
   //   await hyperDnsDb.unset(key)
   //   return false
   // }
 
   // // confirm match with current DNS
-  // var dnsKey = await hyperDns.resolveName(datJson.domain)
+  // var dnsKey = await hyperDns.resolveName(dwebJson.domain)
   // if (key !== dnsKey) {
   //   await hyperDnsDb.unset(key)
   //   return false
   // }
 
   // // update mapping
-  // await hyperDnsDb.update({name: datJson.domain, key})
+  // await hyperDnsDb.update({name: dwebJson.domain, key})
   // return true
 }
 
@@ -512,8 +512,8 @@ export function fromURLToKey (url, lookupDns = false) {
   }
 
   var urlp = parseDriveUrl(url)
-  if (urlp.protocol !== 'hyper:' && urlp.protocol !== 'dat:') {
-    throw new InvalidURLError('URL must be a hyper: or dat: scheme')
+  if (urlp.protocol !== 'hyper:' && urlp.protocol !== 'dweb:') {
+    throw new InvalidURLError('URL must be a hyper: or dweb: scheme')
   }
   if (!HYPERDRIVE_HASH_REGEX.test(urlp.host)) {
     if (!lookupDns) {

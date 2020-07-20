@@ -21,7 +21,7 @@ class NetworkMenu extends LitElement {
   }
 
   async init (params) {
-    this.daemonStatus = await bg.beakerBrowser.getDaemonStatus()
+    this.daemonStatus = await bg.dBrowserX.getDaemonStatus()
   }
 
   // rendering
@@ -30,7 +30,7 @@ class NetworkMenu extends LitElement {
   render () {
     if (!this.daemonStatus) return html`<div class="wrapper"></div>`
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <div class="header">
           <h1 class="page-title">
@@ -53,7 +53,7 @@ class NetworkMenu extends LitElement {
           </table>
           ${!this.daemonStatus.holepunchable ? html`
             <div class="help">
-              <a @click=${this.onClickLink} href="https://docs.beakerbrowser.com/help/hole-punchability">
+              <a @click=${this.onClickLink} href="https://docs.dbrowser.com/help/hole-punchability">
                 <span class="far fa-fw fa-question-circle"></span> What does this mean?
               </a>
            </div>
@@ -75,7 +75,7 @@ class NetworkMenu extends LitElement {
 
   onClickLink (e) {
     e.preventDefault()
-    bg.beakerBrowser.openUrl(e.currentTarget.getAttribute('href'), {setActive: true})
+    bg.dBrowserX.openUrl(e.currentTarget.getAttribute('href'), {setActive: true})
   }
 }
 NetworkMenu.styles = [inputsCSS, css`

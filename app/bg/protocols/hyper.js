@@ -8,7 +8,7 @@ import markdown from '../../lib/markdown'
 import * as drives from '../hyper/drives'
 import * as filesystem from '../filesystem/index'
 import * as capabilities from '../hyper/capabilities'
-import datServeResolvePath from '@beaker/dat-serve-resolve-path'
+import datServeResolvePath from '@dbrowser/dweb-serve-resolve-path'
 import errorPage from '../lib/error-page'
 import * as mime from '../lib/mime'
 import * as auditLog from '../dbs/audit-log'
@@ -69,7 +69,7 @@ export const protocolHandler = async function (request, respond) {
         statusCode: code,
         headers: {
           'Content-Type': 'text/html',
-          'Content-Security-Policy': "default-src 'unsafe-inline' beaker:;",
+          'Content-Security-Policy': "default-src 'unsafe-inline' dbrowser:;",
           'Access-Control-Allow-Origin': '*',
           'Allow-CSP-From': '*'
         },
@@ -129,7 +129,7 @@ export const protocolHandler = async function (request, respond) {
     // so we're going to handle all system-drive requests by redirecting
     // to the files explorer
     // -prf
-    return respondRedirect(`beaker://explorer/${urlp.host}${urlp.version ? ('+' + urlp.version) : ''}${urlp.pathname || ''}`)
+    return respondRedirect(`dbrowser://explorer/${urlp.host}${urlp.version ? ('+' + urlp.version) : ''}${urlp.pathname || ''}`)
   }
 
   auditLog.record('-browser', 'serve', {url: urlp.origin, path: urlp.pathname}, undefined, async () => {
@@ -162,8 +162,8 @@ export const protocolHandler = async function (request, respond) {
     // check to see if we actually have data from the drive
     var version = await checkoutFS.session.drive.version()
     if (version === 0) {
-      return respondError(404, 'Hyperdrive not found', {
-        title: 'Hyperdrive Not Found',
+      return respondError(404, 'DWebFs not found', {
+        title: 'DWebFs Not Found',
         errorDescription: 'No peers hosting this drive were found',
         errorInfo: 'You may still be connecting to peers - try reloading the page.'
       })
@@ -234,14 +234,14 @@ export const protocolHandler = async function (request, respond) {
           'Access-Control-Allow-Origin': '*',
           'Allow-CSP-From': '*',
           'Cache-Control': 'no-cache',
-          'Content-Security-Policy': `default-src 'self' beaker:`
+          'Content-Security-Policy': `default-src 'self' dbrowser:`
         },
         data: intoStream(`<!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="beaker://app-stdlib/css/fontawesome.css">
-    <script type="module" src="beaker://drive-view/index.js"></script>
+    <link rel="stylesheet" href="dbrowser://app-stdlib/css/fontawesome.css">
+    <script type="module" src="dbrowser://drive-view/index.js"></script>
   </head>
 </html>`)
       })
@@ -258,7 +258,7 @@ export const protocolHandler = async function (request, respond) {
       // error page
       return respondError(404, 'File Not Found', {
         errorDescription: 'File Not Found',
-        errorInfo: `Beaker could not find the file ${urlp.path}`,
+        errorInfo: `dBrowser could not find the file ${urlp.path}`,
         title: 'File Not Found'
       })
     }

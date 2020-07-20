@@ -2,7 +2,7 @@ The process is currently a little silly. This file is getting progressively less
 
 ## Check the deps installation
 
-Run npm install. Make sure ./app/bg/dat/converter has its node_modules installed.
+Run npm install. Make sure ./app/bg/dweb/converter has its node_modules installed.
 
 ## Build
 
@@ -10,17 +10,17 @@ Run npm install. Make sure ./app/bg/dat/converter has its node_modules installed
 
 ## Apply the following patches manually to the scripts/node_modules
 
-`app-builder-lib/out/util/AppFileWalker.js` this one stops electron-bunder from removing ./app/bg/dat/converter/node_modules
+`app-builder-lib/out/util/AppFileWalker.js` this one stops electron-bunder from removing ./app/bg/dweb/converter/node_modules
 
 ```
 if (!nodeModulesFilter(file, fileStat)) {
-  if (!file.includes('dat')) {
+  if (!file.includes('dweb')) {
     return false;
   }
 }
 
 if (file.endsWith(nodeModulesSystemDependentSuffix)) {
-  if (!file.includes('dat')) {
+  if (!file.includes('dweb')) {
     return false;
   }
 }

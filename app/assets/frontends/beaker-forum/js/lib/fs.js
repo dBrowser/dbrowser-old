@@ -44,7 +44,7 @@ import { chunkMapAsync } from './functions.js'
 
 /**
  * @param {FSQueryOpts} query
- * @param {Hyperdrive} [drive]
+ * @param {DWebFs} [drive]
  * @returns {Promise<FSQueryResult[]>}
  */
 export async function queryRead (query, drive = navigator.filesystem) {
@@ -65,7 +65,7 @@ export async function queryRead (query, drive = navigator.filesystem) {
 
 /**
  * @param {FSQueryOpts} query
- * @param {Hyperdrive} [drive]
+ * @param {DWebFs} [drive]
  * @returns {Promise<boolean>}
  */
 export async function queryHas (query, drive = navigator.filesystem) {

@@ -25,7 +25,7 @@ class ShellWindowTabs extends LitElement {
     // (we use this instead of mouseup because mouseup could happen outside the window)
     window.addEventListener('mousemove', e => {
       if (this.isDraggingWindow && (e.buttons & 1) === 0) {
-        bg.beakerBrowser.setWindowDragModeEnabled(false)
+        bg.dBrowserX.setWindowDragModeEnabled(false)
         this.isDraggingWindow = false
       }
     })
@@ -38,7 +38,7 @@ class ShellWindowTabs extends LitElement {
       fullscreen: this.isFullscreen
     })
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div
         class="${shellCls}"
         @mousedown=${this.onMousedownShell}
@@ -66,7 +66,7 @@ class ShellWindowTabs extends LitElement {
       tab.isLoading
       || tab.isPinned
       || (tab.favicons && tab.favicons[0])
-      || tab.url.startsWith('beaker:')
+      || tab.url.startsWith('dbrowser:')
     )
     const cls = classMap({tab: true, current: tab.isActive, pinned: tab.isPinned, 'no-favicon': !showFavicon})
     return html`
@@ -239,7 +239,7 @@ class ShellWindowTabs extends LitElement {
     const is = v => e.target.classList.contains(v)
     if ((is('shell') || is('tabs') || is('unused-space')) && e.button === 0) {
       this.isDraggingWindow = true
-      bg.beakerBrowser.setWindowDragModeEnabled(true)
+      bg.dBrowserX.setWindowDragModeEnabled(true)
     }
   }
 
@@ -247,8 +247,8 @@ class ShellWindowTabs extends LitElement {
     const is = v => e.target.classList.contains(v)
     if (is('shell') || is('tabs') || is('unused-space')) {
       this.isDraggingWindow = false
-      bg.beakerBrowser.setWindowDragModeEnabled(false)
-      bg.beakerBrowser.maximizeWindow()
+      bg.dBrowserX.setWindowDragModeEnabled(false)
+      bg.dBrowserX.maximizeWindow()
     }
   }
 }

@@ -316,7 +316,7 @@ class SelectFileModal extends LitElement {
       }
     }
 
-    this.driveInfo = !this.isVirtualListing ? await bg.hyperdrive.getInfo(this.drive) : undefined
+    this.driveInfo = !this.isVirtualListing ? await bg.dwebfs.getInfo(this.drive) : undefined
     await this.readdir()
     this.updateComplete.then(_ => {
       this.adjustHeight()
@@ -331,7 +331,7 @@ class SelectFileModal extends LitElement {
     this.drives.push({url: 'hyper://system/', info: {title: 'System Drive', writable: true}})
     this.drives.sort((a, b) => (a.info.title || '').toLowerCase().localeCompare(b.info.title || ''))
     this.contacts = await bg.contacts.list()
-    this.contacts.push(await bg.hyperdrive.getInfo((await bg.beakerBrowser.getProfile()).key))
+    this.contacts.push(await bg.dwebfs.getInfo((await bg.dBrowserX.getProfile()).key))
     this.contacts.sort((a, b) => (a.title || '').toLowerCase().localeCompare(b.title || ''))
     if (this.isVirtualListing) {
       this.readvirtual()
@@ -366,7 +366,7 @@ class SelectFileModal extends LitElement {
       path: url,
       icon: url.startsWith('hyper:')
         ? url === 'hyper://system/'
-          ? html`<img class="favicon" srcset="beaker://assets/img/drive-types/files.png 1x, beaker://assets/img/drive-types/files-64.png 2x">`
+          ? html`<img class="favicon" srcset="dbrowser://assets/img/drive-types/files.png 1x, dbrowser://assets/img/drive-types/files-64.png 2x">`
           : html`<img class="favicon" src="asset:favicon:${url}">`
         : html`<span class="fa-fw ${icon}"></span>`,
       name,
@@ -397,7 +397,7 @@ class SelectFileModal extends LitElement {
       return this.readvirtual()
     }
 
-    var files = await bg.hyperdrive.readdir(joinPath(this.drive, this.path), {includeStats: true})
+    var files = await bg.dwebfs.readdir(joinPath(this.drive, this.path), {includeStats: true})
     files.forEach(file => {
       file.stat = createStat(file.stat)
       file.path = joinPath(this.path, file.name)
@@ -473,7 +473,7 @@ class SelectFileModal extends LitElement {
 
   render () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div>
         <div class="title">${this.title}</div>
         <div class="wrapper">
@@ -636,7 +636,7 @@ class SelectFileModal extends LitElement {
     if (this.isVirtualListing) {
       this.drive = this.selectedPaths[0]
       if (this.drive.startsWith('hyper://')) {
-        this.driveInfo = await bg.hyperdrive.getInfo(this.drive)
+        this.driveInfo = await bg.dwebfs.getInfo(this.drive)
       }
       return this.goto('/')
     }

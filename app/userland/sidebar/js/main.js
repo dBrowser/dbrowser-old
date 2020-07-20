@@ -1,5 +1,5 @@
-import 'beaker://editor/js/main.build.js'
-import 'beaker://webterm/js/main.js'
+import 'dbrowser://editor/js/main.build.js'
+import 'dbrowser://webterm/js/main.js'
 import './files-explorer.js'
 
 /**
@@ -86,7 +86,7 @@ class SidebarApp extends HTMLElement {
     this.panels.splice(i, 1)
 
     if (this.panels.length === 0) {
-      return beaker.browser.executeSidebarCommand('close')
+      return dbrowser.browser.executeSidebarCommand('close')
     }
 
     this.redistributeHeights()
@@ -111,7 +111,7 @@ class SidebarApp extends HTMLElement {
     closeBtnEl.className = 'panel-btn close-btn'
     closeBtnEl.setAttribute('title', 'Close panel')
     closeBtnEl.innerHTML = '<span class="fas fa-times"></span>'
-    closeBtnEl.addEventListener('click', e => beaker.browser.executeSidebarCommand('hide-panel', panel.tagName))
+    closeBtnEl.addEventListener('click', e => dbrowser.browser.executeSidebarCommand('hide-panel', panel.tagName))
 
     let detachBtnEl = document.createElement('button')
     detachBtnEl.className = 'panel-btn detach-btn'
@@ -119,7 +119,7 @@ class SidebarApp extends HTMLElement {
     detachBtnEl.innerHTML = '<span class="far fa-clone"></span>'
     detachBtnEl.addEventListener('click', async (e) => {
       this.openDetached(panel, true)
-      beaker.browser.executeSidebarCommand('hide-panel', panel.tagName)
+      dbrowser.browser.executeSidebarCommand('hide-panel', panel.tagName)
     })
 
     let panelEl = document.createElement('div')
@@ -164,17 +164,17 @@ class SidebarApp extends HTMLElement {
     var ctx = this.querySelector(panel.tagName).getContext()
     var url
     switch (panel.tagName) {
-      case 'editor-app': url = `beaker://editor/?url=${encodeURI(ctx)}`; break
-      case 'files-explorer-app': url = `beaker://explorer/${encodeURI(ctx.slice('hyper://'.length))}`; break
-      case 'web-term': url = `beaker://webterm/?url=${encodeURI(ctx)}`; break
+      case 'editor-app': url = `dbrowser://editor/?url=${encodeURI(ctx)}`; break
+      case 'files-explorer-app': url = `dbrowser://explorer/${encodeURI(ctx.slice('hyper://'.length))}`; break
+      case 'web-term': url = `dbrowser://webterm/?url=${encodeURI(ctx)}`; break
     }
     if (!url) return
     if (newWindow) {
       let width = panel.tagName === 'files-explorer-app' ? 1000 : 600
       let height = panel.tagName === 'files-explorer-app' ? 800 : 500
-      beaker.browser.newWindow({pages: [url], width, height, isAppWindow: true})
+      dbrowser.browser.newWindow({pages: [url], width, height, isAppWindow: true})
     } else {
-      beaker.browser.openUrl(url, {setActive: true, adjacentActive: true})
+      dbrowser.browser.openUrl(url, {setActive: true, adjacentActive: true})
     }
   }
 

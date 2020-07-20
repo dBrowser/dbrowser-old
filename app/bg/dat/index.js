@@ -4,7 +4,7 @@ import { tmpdir } from 'os'
 import { join } from 'path'
 import mkdirp from 'mkdirp'
 import rimraf from 'rimraf'
-import pda from 'pauls-dat-api2'
+import pda from 'pauls-dweb-api2'
 import hyper from '../hyper/index'
 import * as filesystem from '../filesystem/index'
 import * as prompts from '../ui/subwindows/prompts'
@@ -12,7 +12,7 @@ import * as prompts from '../ui/subwindows/prompts'
 var tmpdirs = {}
 export function getStoragePathFor (key) {
   if (tmpdirs[key]) return tmpdirs[key]
-  tmpdirs[key] = join(tmpdir(), 'dat', key)
+  tmpdirs[key] = join(tmpdir(), 'dweb', key)
   return tmpdirs[key]
 }
 
@@ -52,7 +52,7 @@ export async function convertDatArchive (win, key) {
   })
   numFilesToImport += stats.fileCount
 
-  var prompt = await prompts.create(win.webContents, 'progress', {label: 'Converting dat...'})
+  var prompt = await prompts.create(win.webContents, 'progress', {label: 'Converting dweb...'})
   try {
     await pda.exportFilesystemToArchive({
       srcPath: storagePath,
@@ -67,13 +67,13 @@ export async function convertDatArchive (win, key) {
     prompts.close(prompt.tab)
   }
 
-  await drive.pda.rename('/dat.json', drive.session.drive, '/index.json').catch(e => undefined)
+  await drive.pda.rename('/dweb.json', drive.session.drive, '/index.json').catch(e => undefined)
   await filesystem.configDrive(drive.url)
   return drive.url
 }
 
 async function runConvertProcess (...args) {
-  var fullModulePath = join(__dirname, 'bg', 'dat', 'converter', 'index.js')
+  var fullModulePath = join(__dirname, 'bg', 'dweb', 'converter', 'index.js')
   const opts = {
     stdio: 'inherit',
     env: Object.assign({}, process.env, {

@@ -12,13 +12,13 @@ ${spinnerCSS}
   margin-top: -10px;
 }
 
-beaker-post {
+dbrowser-post {
   padding: 16px 6px 10px;
   margin: 0;
   border-bottom: 1px solid #eef;
 }
 
-beaker-paginator {
+dbrowser-paginator {
   font-size: 16px;
   margin: 20px 10px;
 }

@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@beaker/dat-legacy-tools": "^1.1.0"
+    "@dbrowser/dweb-legacy-tools": "^1.1.0"
   }
 }

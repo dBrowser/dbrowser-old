@@ -1,7 +1,7 @@
-import errors from 'beaker-error-constants'
+import errors from 'dbrowser-error-constants'
 import { parseDriveUrl } from '../../../lib/urls'
-import hyperdriveManifest from '../manifests/external/hyperdrive'
-import filesystemManifest from '../manifests/internal/beaker-filesystem'
+import hyperdriveManifest from '../manifests/external/dwebfs'
+import filesystemManifest from '../manifests/internal/dbrowser-filesystem'
 import { EventTarget, Event, fromEventStream } from './event-target'
 import { createStat } from './stat'
 
@@ -9,7 +9,7 @@ const isDriveUrlRe = /^(hyper:\/\/)?[^\/]+/i
 
 export function setup (rpc) {
   // create the rpc apis
-  const hyperdriveRPC = rpc.importAPI('hyperdrive', hyperdriveManifest, { timeout: false, errors })
+  const hyperdriveRPC = rpc.importAPI('dwebfs', hyperdriveManifest, { timeout: false, errors })
 
   function massageUrl (url) {
     if (!url) url = '/'
@@ -330,7 +330,7 @@ export function setup (rpc) {
   }
 
   // add internal methods
-  if (window.location.protocol === 'beaker:') {
+  if (window.location.protocol === 'dbrowser:') {
     api.importFromFilesystem = async function (opts = {}) {
       return hyperdriveRPC.importFromFilesystem(opts)
     }

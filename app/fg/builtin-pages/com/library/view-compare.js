@@ -1,8 +1,8 @@
-/* globals beaker DatArchive */
+/* globals dbrowser DatArchive */
 
 import yo from 'yo-yo'
-import {Archive as LibraryDatArchive} from 'builtin-pages-lib'
-import {diffLines} from '@beaker/dat-archive-file-diff'
+import {Archive as LibraryDatArchive} from 'dbrowser-bpages-lib'
+import {diffLines} from '@dbrowser/dweb-archive-file-diff'
 import renderArchiveComparison from '../archive/archive-comparison'
 import * as toast from '../toast'
 
@@ -46,11 +46,11 @@ export default class LibraryViewCompare {
     }
 
     // TEMP
-    // diff the dat.json so that we can render it in a grayed-out interface
-    // this should be replaced with a semantically-aware dat.json diff tool
+    // diff the dweb.json so that we can render it in a grayed-out interface
+    // this should be replaced with a semantically-aware dweb.json diff tool
     // -prf
-    // diffLines(target, '/dat.json', base, '/dat.json').then(diff => {
-    //   var d = {diff, path: 'dat.json', debug_isManifest: true, debug_shouldIgnoreChange: false}
+    // diffLines(target, '/dweb.json', base, '/dweb.json').then(diff => {
+    //   var d = {diff, path: 'dweb.json', debug_isManifest: true, debug_shouldIgnoreChange: false}
     //   d.diffDeletions = d.diff.reduce((sum, el) => sum + (el.removed ? el.count : 0), 0)
     //   d.diffAdditions = d.diff.reduce((sum, el) => sum + (el.added ? el.count : 0), 0)
     //   if      ( d.diffAdditions && !d.diffDeletions) d.change ='add'

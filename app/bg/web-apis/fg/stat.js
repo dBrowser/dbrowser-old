@@ -1,5 +1,5 @@
 // http://man7.org/linux/man-pages/man2/stat.2.html
-// mirrored from hyperdrive/lib/stat.js
+// mirrored from dwebfs/lib/stat.js
 
 function toHex (buf) {
   return buf.reduce((memo, i) => (

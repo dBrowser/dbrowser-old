@@ -1,12 +1,12 @@
-import { InvalidDomainName } from 'beaker-error-constants'
+import { InvalidDomainName } from 'dbrowser-error-constants'
 import * as logLib from '../logger'
-const logger = logLib.child({category: 'dat', subcategory: 'dns'})
+const logger = logLib.child({category: 'dweb', subcategory: 'dns'})
 
 const DNS_PROVIDERS = [['cloudflare-dns.com', '/dns-query'], ['dns.google.com', '/resolve']]
 const DNS_PROVIDER = DNS_PROVIDERS[Math.random() > 0.5 ? 1 : 0]
 
 // instantate a dns cache and export it
-import datDnsFactory from 'dat-dns'
+import datDnsFactory from 'dweb-dns'
 
 const datDns = datDnsFactory({
   dnsHost: DNS_PROVIDER[0],

@@ -4,10 +4,10 @@
  * Helper protocol to serve site favicons and avatars from the cache.
  * Examples:
  *
- *  - asset:favicon:hyper://beakerbrowser.com
- *  - asset:favicon-32:hyper://beakerbrowser.com
- *  - asset:thumb:hyper://beakerbrowser.com
- *  - asset:cover:hyper://beakerbrowser.com
+ *  - asset:favicon:hyper://dbrowser.com
+ *  - asset:favicon-32:hyper://dbrowser.com
+ *  - asset:thumb:hyper://dbrowser.com
+ *  - asset:cover:hyper://dbrowser.com
  **/
 
 import { screen, nativeImage } from 'electron'
@@ -64,8 +64,8 @@ export function setup () {
     }
 
     // hardcoded assets
-    if (asset !== 'screenshot' && url.startsWith('beaker://')) {
-      let name = /beaker:\/\/([^\/]+)/.exec(url)[1]
+    if (asset !== 'screenshot' && url.startsWith('dbrowser://')) {
+      let name = /dbrowser:\/\/([^\/]+)/.exec(url)[1]
       return servePng(path.join(__dirname, `./assets/img/favicons/${name}.png`), DEFAULTS[asset], cb)
     }
 
@@ -74,7 +74,7 @@ export function setup () {
       let data
       if (asset === 'screenshot') {
         data = await sitedata.get(url, 'screenshot', {dontExtractOrigin: true, normalizeUrl: true})
-        if (!data && !url.startsWith('dat:')) {
+        if (!data && !url.startsWith('dweb:')) {
           // try to fetch the screenshot
           let p = activeCaptures[url]
           if (!p) {

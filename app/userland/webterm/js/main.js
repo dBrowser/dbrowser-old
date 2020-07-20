@@ -1,12 +1,12 @@
-import { LitElement, html, TemplateResult } from 'beaker://app-stdlib/vendor/lit-element/lit-element.js'
-import { render } from 'beaker://app-stdlib/vendor/lit-element/lit-html/lit-html.js'
-import { repeat } from 'beaker://app-stdlib/vendor/lit-element/lit-html/directives/repeat.js'
+import { LitElement, html, TemplateResult } from 'dbrowser://app-stdlib/vendor/lit-element/lit-element.js'
+import { render } from 'dbrowser://app-stdlib/vendor/lit-element/lit-html/lit-html.js'
+import { repeat } from 'dbrowser://app-stdlib/vendor/lit-element/lit-html/directives/repeat.js'
 import { parser } from './lib/parser.js'
 import { Cliclopts } from './lib/cliclopts.1.1.1.js'
 import { createDrive } from './lib/term-drive-wrapper.js'
 import { importModule } from './lib/import-module.js'
-import { joinPath, shortenAllKeys } from 'beaker://app-stdlib/js/strings.js'
-import { findParent } from 'beaker://app-stdlib/js/dom.js'
+import { joinPath, shortenAllKeys } from 'dbrowser://app-stdlib/js/strings.js'
+import { findParent } from 'dbrowser://app-stdlib/js/dom.js'
 import css from '../css/main.css.js'
 import './lib/term-icon.js'
 
@@ -96,9 +96,9 @@ class WebTerm extends LitElement {
         e.stopPropagation()
         e.preventDefault()
         if (e.metaKey || anchor.getAttribute('target') === '_blank') {
-          beaker.browser.openUrl(anchor.getAttribute('href'), {setActive: true})
+          dbrowser.browser.openUrl(anchor.getAttribute('href'), {setActive: true})
         } else {
-          beaker.browser.gotoUrl(anchor.getAttribute('href'))
+          dbrowser.browser.gotoUrl(anchor.getAttribute('href'))
         }
         return
       }
@@ -110,7 +110,7 @@ class WebTerm extends LitElement {
 
     if (this.isDetached) {
       let ctx = (new URLSearchParams(location.search)).get('url')
-      this.load(ctx || beaker.hyperdrive.drive('hyper://system/').url).then(_ => {
+      this.load(ctx || dbrowser.dwebfs.drive('hyper://system/').url).then(_ => {
         this.setFocus()
       })
     }
@@ -164,16 +164,16 @@ class WebTerm extends LitElement {
 
   async loadCommands () {
     var packages = [{
-      url: 'beaker://std-cmds/',
-      manifest: JSON.parse(await beaker.browser.readFile('beaker://std-cmds/index.json', 'utf8'))
+      url: 'dbrowser://std-cmds/',
+      manifest: JSON.parse(await dbrowser.browser.readFile('dbrowser://std-cmds/index.json', 'utf8'))
     }]
 
-    var cmdPkgDrives = await beaker.hyperdrive.readFile('hyper://system/webterm/command-packages.json').then(JSON.parse).catch(e => ([]))
+    var cmdPkgDrives = await dbrowser.dwebfs.readFile('hyper://system/webterm/command-packages.json').then(JSON.parse).catch(e => ([]))
     for (let driveUrl of cmdPkgDrives) {
       try {
         packages.push({
           url: driveUrl,
-          manifest: JSON.parse(await beaker.hyperdrive.drive(driveUrl).readFile(`index.json`))
+          manifest: JSON.parse(await dbrowser.dwebfs.drive(driveUrl).readFile(`index.json`))
         })
       } catch (e) {
         console.log(e)
@@ -232,11 +232,11 @@ class WebTerm extends LitElement {
   }
 
   async loadPageCommands () {
-    this.pageCommands = await beaker.browser.executeJavaScriptInPage(`
+    this.pageCommands = await dbrowser.browser.executeJavaScriptInPage(`
       ;(() => {
         let commands = {}
-        if (beaker.terminal.getCommands().length) {
-          for (let command of beaker.terminal.getCommands()) {
+        if (dbrowser.terminal.getCommands().length) {
+          for (let command of dbrowser.terminal.getCommands()) {
             commands[command.name] = {
               package: 'page commands',
               name: '@' + command.name,
@@ -273,7 +273,7 @@ class WebTerm extends LitElement {
     if (this.isDetached) {
       history.replaceState({}, '', `/?url=${locationParsed.toString()}`)
     } else {
-      beaker.browser.gotoUrl(locationParsed.toString())
+      dbrowser.browser.gotoUrl(locationParsed.toString())
     }
   }
 
@@ -412,7 +412,7 @@ class WebTerm extends LitElement {
     }
     this.commandHist.add(prompt.value)
 
-    this.envVars['@'] = await beaker.browser.getPageUrl()
+    this.envVars['@'] = await dbrowser.browser.getPageUrl()
 
     var inputValue = prompt.value
     try {
@@ -432,9 +432,9 @@ class WebTerm extends LitElement {
       await this.loadPageCommands()
       command = this.pageCommands[commandName.slice(1)]
       if (command) {
-        command.fn = (...args) => beaker.browser.executeJavaScriptInPage(`
+        command.fn = (...args) => dbrowser.browser.executeJavaScriptInPage(`
           ;(() => {
-            let command = beaker.terminal.getCommands().find(c => c.name === ${JSON.stringify(commandName.slice(1))});
+            let command = dbrowser.terminal.getCommands().find(c => c.name === ${JSON.stringify(commandName.slice(1))});
             if (command) {
               return command.handle.apply(command, ${JSON.stringify(args)})
             }
@@ -486,20 +486,20 @@ class WebTerm extends LitElement {
         },
         page: {
           goto (url, opts = {}) {
-            if (opts.newTab) beaker.browser.openUrl(url, {setActive: true})
-            else beaker.browser.gotoUrl(url)
+            if (opts.newTab) dbrowser.browser.openUrl(url, {setActive: true})
+            else dbrowser.browser.gotoUrl(url)
           },
-          refresh () { beaker.browser.refreshPage() },
-          focus () { beaker.browser.focusPage() },
-          exec (js) { return beaker.browser.executeJavaScriptInPage(js) },
-          inject (css) { return beaker.browser.injectCssInPage(css) },
-          uninject (id) { return beaker.browser.uninjectCssInPage(id) }
+          refresh () { dbrowser.browser.refreshPage() },
+          focus () { dbrowser.browser.focusPage() },
+          exec (js) { return dbrowser.browser.executeJavaScriptInPage(js) },
+          inject (css) { return dbrowser.browser.injectCssInPage(css) },
+          uninject (id) { return dbrowser.browser.uninjectCssInPage(id) }
         },
         panel: {
-          open (panel, ...args) { return beaker.browser.executeSidebarCommand('show-panel', panel, ...args) },
-          close (panel) { return beaker.browser.executeSidebarCommand('hide-panel', panel) },
-          focus (panel) { return beaker.browser.executeSidebarCommand('focus-panel', panel) },
-          goto (panel, url) { return beaker.browser.executeSidebarCommand('set-context', panel, url) }
+          open (panel, ...args) { return dbrowser.browser.executeSidebarCommand('show-panel', panel, ...args) },
+          close (panel) { return dbrowser.browser.executeSidebarCommand('hide-panel', panel) },
+          focus (panel) { return dbrowser.browser.executeSidebarCommand('focus-panel', panel) },
+          goto (panel, url) { return dbrowser.browser.executeSidebarCommand('set-context', panel, url) }
         },
         out: (...args) => {
           args = args.map(arg => {
@@ -567,7 +567,7 @@ class WebTerm extends LitElement {
     if (this.isDetached) {
       window.close()
     } else {
-      beaker.browser.executeSidebarCommand('hide-panel', 'web-term')
+      dbrowser.browser.executeSidebarCommand('hide-panel', 'web-term')
     }
   }
 
@@ -751,7 +751,7 @@ class WebTerm extends LitElement {
           ${commands.map(command => {
             var name = parentCmdName + command.name
             var pkg
-            if (command.package.startsWith('beaker://')) {
+            if (command.package.startsWith('dbrowser://')) {
               pkg = html`std-cmds`
             } else {
               pkg = html`<a href=${command.package} target="_blank">${shortenHash(command.package)}</a>`
@@ -782,7 +782,7 @@ class WebTerm extends LitElement {
     var additionalTabCompleteOptions = this.tabCompletion ? this.tabCompletion.length - TAB_COMPLETION_RENDER_LIMIT : 0
     let endOfInput = this.promptInput.split(' ').pop().split('/').pop()
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper" @keydown=${this.onKeyDown}>
         <div class="output">
           ${this.outputHist}

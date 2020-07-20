@@ -46,10 +46,10 @@ export class ProfileHeader extends LitElement {
       <link rel="stylesheet" href="/.ui/webfonts/fontawesome.css">
       <button class="transparent menu" @click=${this.onClickMenu}><span class="fas fa-ellipsis-h"></span></button>
       <a class="avatar" href="/users/${this.profile.id}">
-        <beaker-img-fallbacks>
+        <dbrowser-img-fallbacks>
           <img src="/users/${this.profile.id}/thumb" slot="img1">
           <img src="/.ui/img/default-user-thumb.jpg" slot="img2">
-        </beaker-img-fallbacks>
+        </dbrowser-img-fallbacks>
       </a>
       <div class="main">
         <h1 class="title"><a href="/users/${this.profile.id}">${this.profile.title}</a></h1>
@@ -148,4 +148,4 @@ export class ProfileHeader extends LitElement {
 
 }
 
-customElements.define('beaker-profile-header', ProfileHeader)
+customElements.define('dbrowser-profile-header', ProfileHeader)

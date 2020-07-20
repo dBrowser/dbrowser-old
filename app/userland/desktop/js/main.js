@@ -1,24 +1,24 @@
-import { LitElement, html } from 'beaker://app-stdlib/vendor/lit-element/lit-element.js'
-import { repeat } from 'beaker://app-stdlib/vendor/lit-element/lit-html/directives/repeat.js'
-import * as contextMenu from 'beaker://app-stdlib/js/com/context-menu.js'
-import { EditBookmarkPopup } from 'beaker://library/js/com/edit-bookmark-popup.js'
-import { AddContactPopup } from 'beaker://library/js/com/add-contact-popup.js'
+import { LitElement, html } from 'dbrowser://app-stdlib/vendor/lit-element/lit-element.js'
+import { repeat } from 'dbrowser://app-stdlib/vendor/lit-element/lit-html/directives/repeat.js'
+import * as contextMenu from 'dbrowser://app-stdlib/js/com/context-menu.js'
+import { EditBookmarkPopup } from 'dbrowser://library/js/com/edit-bookmark-popup.js'
+import { AddContactPopup } from 'dbrowser://library/js/com/add-contact-popup.js'
 import { AddLinkPopup } from './com/add-link-popup.js'
 import { AddPostPopup } from './com/add-post-popup.js'
-import * as toast from 'beaker://app-stdlib/js/com/toast.js'
-import { writeToClipboard } from 'beaker://app-stdlib/js/clipboard.js'
-import { joinPath, pluralize } from 'beaker://app-stdlib/js/strings.js'
+import * as toast from 'dbrowser://app-stdlib/js/com/toast.js'
+import { writeToClipboard } from 'dbrowser://app-stdlib/js/clipboard.js'
+import { joinPath, pluralize } from 'dbrowser://app-stdlib/js/strings.js'
 import * as desktop from './lib/desktop.js'
 import * as addressBook from './lib/address-book.js'
 
-import 'beaker://library/js/views/drives.js'
-import 'beaker://library/js/views/bookmarks.js'
-import 'beaker://library/js/views/address-book.js'
+import 'dbrowser://library/js/views/drives.js'
+import 'dbrowser://library/js/views/bookmarks.js'
+import 'dbrowser://library/js/views/address-book.js'
 import './views/recent.js'
 import css from '../css/main.css.js'
 
-const DOCS_URL = 'https://docs.beakerbrowser.com'
-const USERLIST_URL = 'https://userlist.beakerbrowser.com'
+const DOCS_URL = 'https://docs.dbrowser.com'
+const USERLIST_URL = 'https://userlist.dbrowser.com'
 const BLAHBITY_BLOG_URL = 'hyper://a8e9bd0f4df60ed5246a1b1f53d51a1feaeb1315266f769ac218436f12fda830/'
 
 var cacheBuster = Date.now()
@@ -70,7 +70,7 @@ class DesktopApp extends LitElement {
       desktop.load()
     ])
     console.log(this.pins)
-    this.legacyArchives = await beaker.datLegacy.list()
+    this.legacyArchives = await dbrowser.datLegacy.list()
   }
 
   // rendering
@@ -80,20 +80,20 @@ class DesktopApp extends LitElement {
     const navItem = (id, label) => html`<a class=${id === this.currentNav ? 'active' : ''} @click=${e => {this.currentNav = id}}>${label}</a>`
     const hiddenCls = id => this.currentNav === id ? '' : 'hidden'
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div id="topleft">
         ${this.profile ? html`
           <a class="profile-ctrl" href=${this.profile.url}>
-            <beaker-img-fallbacks>
+            <dbrowser-img-fallbacks>
               <img src="${this.profile.url}/thumb?cache_buster=${cacheBuster}" slot="img1">
-              <img src="beaker://assets/default-user-thumb" slot="img2">
-            </beaker-img-fallbacks>
+              <img src="dbrowser://assets/default-user-thumb" slot="img2">
+            </dbrowser-img-fallbacks>
             <span>${this.profile.title}</span>
           </a>
         ` : ''}
       </div>
       <div id="topright">
-        <a href="beaker://settings/" title="Settings"><span class="fas fa-cog"></span></a>
+        <a href="dbrowser://settings/" title="Settings"><span class="fas fa-cog"></span></a>
       </div>
       ${this.renderFiles()}
       <nav>
@@ -164,16 +164,16 @@ class DesktopApp extends LitElement {
     return html`
       <div class="intro">
         <a class="close" @click=${this.onClickCloseIntro}><span class="fas fa-times"></span></a>
-        <h3>Welcome to Beaker!</h3>
-        <h5>Let's set up your network and get you familiar with Beaker.</h5>
+        <h3>Welcome to dBrowser!</h3>
+        <h5>Let's set up your network and get you familiar with dBrowser.</h5>
         <div class="col3">
           <div>
             ${this.profile ? html`
               <a href=${this.profile.url} target="_blank">
-                <beaker-img-fallbacks class="avatar">
+                <dbrowser-img-fallbacks class="avatar">
                   <img src="${this.profile.url}/thumb?cache_buster=${cacheBuster}" slot="img1">
-                  <img src="beaker://assets/default-user-thumb" slot="img2">
-                </beaker-img-fallbacks>
+                  <img src="dbrowser://assets/default-user-thumb" slot="img2">
+                </dbrowser-img-fallbacks>
               </a>
             ` : ''}
             <h4>1. Customize your <a href=${this.profile ? this.profile.url : ''} target="_blank">profile</a></h4>
@@ -207,10 +207,10 @@ class DesktopApp extends LitElement {
           </div>
         </div>
         <div class="col1">
-          <a class="icon" href="${DOCS_URL}/getting-started-with-beaker" target="_blank">
+          <a class="icon" href="${DOCS_URL}/getting-started-with-dbrowser" target="_blank">
             <span class="fas fa-book"></span>
           </a>
-          <h4>4. Read the <a href="${DOCS_URL}/getting-started-with-beaker" target="_blank">Getting Started Guide</a>.</h4>
+          <h4>4. Read the <a href="${DOCS_URL}/getting-started-with-dbrowser" target="_blank">Getting Started Guide</a>.</h4>
         </div>
       </div>
     `
@@ -223,12 +223,12 @@ class DesktopApp extends LitElement {
     return html`
       <div class="legacy-archives-notice">
         <details>
-          <summary>You have ${this.legacyArchives.length} legacy Dat ${pluralize(this.legacyArchives.length, 'archive')} which can be converted to Hyperdrive.</summary>
+          <summary>You have ${this.legacyArchives.length} legacy DWeb ${pluralize(this.legacyArchives.length, 'archive')} which can be converted to DWebFs.</summary>
           <div class="archives">
           ${this.legacyArchives.map(archive => html`
             <div class="archive">
-              <a href="dat://${archive.key}" title=${archive.title} target="_blank">${archive.title || archive.key}</a>
-              <button @click=${e => {window.location = `dat://${archive.key}`}}>View</button>
+              <a href="dweb://${archive.key}" title=${archive.title} target="_blank">${archive.title || archive.key}</a>
+              <button @click=${e => {window.location = `dweb://${archive.key}`}}>View</button>
               <button @click=${e => this.onClickRemoveLegacyArchive(e, archive)}>Remove</button>
             </div>
           `)}
@@ -251,9 +251,9 @@ class DesktopApp extends LitElement {
     e.preventDefault()
     e.stopPropagation()
     const items = [
-      {icon: 'fas fa-share-alt', label: 'Hosting', click: () => { window.location = `beaker://library/hosting` }}
+      {icon: 'fas fa-share-alt', label: 'Hosting', click: () => { window.location = `dbrowser://library/hosting` }}
     ]
-    contextMenu.create({x: rect.left, y: rect.bottom, noBorders: true, roomy: true, items, fontAwesomeCSSUrl: 'beaker://assets/font-awesome.css'})
+    contextMenu.create({x: rect.left, y: rect.bottom, noBorders: true, roomy: true, items, fontAwesomeCSSUrl: 'dbrowser://assets/font-awesome.css'})
   }
 
   async onClickSyncFeed (e) {
@@ -268,7 +268,7 @@ class DesktopApp extends LitElement {
       let post = await AddPostPopup.create()
       post.filename = post.filename || `${Date.now()}.md`
       if (/\.(md|txt|htm|html)$/i.test(post.filename) === false) post.filename += '.md'
-      await beaker.hyperdrive.drive(this.profile.url).writeFile(joinPath('microblog', post.filename), post.body)
+      await dbrowser.dwebfs.drive(this.profile.url).writeFile(joinPath('microblog', post.filename), post.body)
       toast.create('Post published', '', 3e3)
     } catch (e) {
       // ignore, user probably cancelled
@@ -279,7 +279,7 @@ class DesktopApp extends LitElement {
   }
 
   async onClickNewDrive (e) {
-    var drive = await beaker.hyperdrive.createDrive()
+    var drive = await dbrowser.dwebfs.createDrive()
     window.location = drive.url
   }
 
@@ -315,7 +315,7 @@ class DesktopApp extends LitElement {
       (file.isFixed) ? undefined : {icon: 'fa fa-pencil-alt', label: 'Edit', click: () => this.onClickEdit(file)},
       (file.isFixed) ? undefined : {icon: 'fa fa-times', label: 'Unpin', click: () => this.onClickRemove(file)}
     ].filter(Boolean)
-    await contextMenu.create({x: e.clientX, y: e.clientY, noBorders: true, roomy: true, items, fontAwesomeCSSUrl: 'beaker://assets/font-awesome.css'})
+    await contextMenu.create({x: e.clientX, y: e.clientY, noBorders: true, roomy: true, items, fontAwesomeCSSUrl: 'dbrowser://assets/font-awesome.css'})
   }
 
   async onClickEdit (file) {
@@ -329,7 +329,7 @@ class DesktopApp extends LitElement {
   }
 
   async onClickRemove (file) {
-    await beaker.hyperdrive.deleteMetadata(`hyper://system/bookmarks/${file.name}`, 'pinned')
+    await dbrowser.dwebfs.deleteMetadata(`hyper://system/bookmarks/${file.name}`, 'pinned')
     toast.create('Bookmark unpinned', '', 10e3)
     this.load()
   }
@@ -337,7 +337,7 @@ class DesktopApp extends LitElement {
   async onClickRemoveLegacyArchive (e, archive) {
     e.preventDefault()
     if (!confirm('Are you sure?')) return
-    await beaker.datLegacy.remove(archive.key)
+    await dbrowser.datLegacy.remove(archive.key)
     this.legacyArchives.splice(this.legacyArchives.indexOf(archive), 1)
     toast.create('Archive removed')
     this.requestUpdate()

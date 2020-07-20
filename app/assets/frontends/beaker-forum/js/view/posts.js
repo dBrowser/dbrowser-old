@@ -33,11 +33,11 @@ export class PostsView extends LitElement {
             <a href="/comments" title="Comments">Comments</a>
             <a href="/users" title="Users">Users</a>
           </nav>
-          <beaker-pinned-message loadable></beaker-pinned-message>
-          <beaker-posts-feed loadable .user=${this.user}></beaker-posts-feed>
+          <dbrowser-pinned-message loadable></dbrowser-pinned-message>
+          <dbrowser-posts-feed loadable .user=${this.user}></dbrowser-posts-feed>
         </main>
         <nav>
-          <beaker-about loadable></beaker-about>
+          <dbrowser-about loadable></dbrowser-about>
         </nav>
       </div>
     `
@@ -48,4 +48,4 @@ export class PostsView extends LitElement {
 
 }
 
-customElements.define('beaker-posts-view', PostsView)
+customElements.define('dbrowser-posts-view', PostsView)

@@ -51,7 +51,7 @@ export const getCurrentByKey = async function (key) {
  * @returns {Promise<void>}
  */
 export const update = async function ({key, name}) {
-  var release = await lock('dat-dns-update:' + name)
+  var release = await lock('dweb-dns-update:' + name)
   try {
     var old = await db.get(knex('dat_dns').where({name, isCurrent: 1}))
     if (old && old.key !== key) {

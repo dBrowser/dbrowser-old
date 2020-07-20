@@ -50,11 +50,11 @@ class SetupModal extends LitElement {
 
   renderStage1 () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <div class="intro">
-          <img class="intro-logo" src="beaker://assets/logo">
-          <h1 class="intro-title">Welcome to Beaker</h1>
+          <img class="intro-logo" src="dbrowser://assets/logo">
+          <h1 class="intro-title">Welcome to dBrowser</h1>
           <p class="intro-text">
             The browser that <strong>does more</strong>.
           </p>
@@ -69,10 +69,10 @@ class SetupModal extends LitElement {
 
   renderStage2 () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <div class="intro">
-          <h1 class="intro-title" style="margin: 10px 0 30px; font-size: 52px;">What can Beaker do?</h1>
+          <h1 class="intro-title" style="margin: 10px 0 30px; font-size: 52px;">What can dBrowser do?</h1>
           <div class="feature feat1">
             <span class="feature-icon fas fa-fw fa-magic"></span>
             <div class="feature-text">

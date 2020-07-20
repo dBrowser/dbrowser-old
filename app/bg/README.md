@@ -1,13 +1,13 @@
 # BG (background)
 
-This folder contains backend code that drives Beaker's main electron process.
+This folder contains backend code that drives dBrowser's main electron process.
 
 Notable folders:
 
  - `lib` is reusable code that's specific to backend.
- - `dat` manages the dat daemon and any dat-specific behaviors.
+ - `dweb` manages the dweb daemon and any dweb-specific behaviors.
  - `dbs` contains all sqlite databases and manages any data persisted to them.
- - `filesystem` manages the user's primary hyperdrive and manages any data which is persisted to it. This includes the dats library and users.
+ - `filesystem` manages the user's primary dwebfs and manages any data which is persisted to it. This includes the dwebs library and users.
  - `protocols` contains the custom URL scheme handlers.
  - `rpc-manifests` contains the RPC manifests for internal RPC that's leveraged by `/app/fg` components.
  - `ui` contains the code which manages windows, tabs, subwindows, and everything about the user interface.

@@ -9,7 +9,7 @@ import * as auditLog from '../dbs/audit-log'
 // =
 
 /**
- * @typedef {import('../dat/daemon').DaemonHyperdrive} DaemonHyperdrive
+ * @typedef {import('../dweb/daemon').DaemonHyperdrive} DaemonHyperdrive
  * 
  * @typedef {Object} FSQueryOpts
  * @prop {string|string[]} path

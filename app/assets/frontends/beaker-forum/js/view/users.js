@@ -32,10 +32,10 @@ export class UsersView extends LitElement {
             <a href="/comments" title="Comments">Comments</a>
             <a class="selected" href="/users" title="Users">Users</a>
           </nav>
-          <beaker-profile-list loadable .user=${this.user}></beaker-profiles-list>
+          <dbrowser-profile-list loadable .user=${this.user}></dbrowser-profiles-list>
         </main>
         <nav>
-          <beaker-about loadable></beaker-about>
+          <dbrowser-about loadable></dbrowser-about>
         </nav>
       </div>
     `
@@ -46,4 +46,4 @@ export class UsersView extends LitElement {
 
 }
 
-customElements.define('beaker-users-view', UsersView)
+customElements.define('dbrowser-users-view', UsersView)

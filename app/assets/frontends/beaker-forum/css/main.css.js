@@ -143,7 +143,7 @@ header .circle-btn small {
   font-size: 8px;
 }
 
-header beaker-search-input {
+header dbrowser-search-input {
   --input-bg-color: var(--header-search-background);
   --input-color: var(--header-search-color);
   --input-border: 1px solid var(--header-search-border-color);
@@ -255,7 +255,7 @@ nav.pills a.selected:after {
 }
 
 @media(max-width: 840px) {
-  header beaker-search-input {
+  header dbrowser-search-input {
     display: none;
   }
 }

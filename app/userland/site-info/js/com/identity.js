@@ -25,11 +25,11 @@ class Identity extends LitElement {
 
   render () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="field-group">
         ${this.cert ? html`
-          ${this.cert.type === 'beaker' ? html`
-            This is a builtin interface of Beaker
+          ${this.cert.type === 'dbrowser' ? html`
+            This is a builtin interface of dBrowser
           ` : ''}
           ${this.cert.type === 'tls' ? html`
             <div class="identity">
@@ -40,7 +40,7 @@ class Identity extends LitElement {
               Issued by ${this.cert.issuerName}
             </div>
           ` : ''}
-          ${this.cert.type === 'hyperdrive' ? html`
+          ${this.cert.type === 'dwebfs' ? html`
             ${this.cert.ident.profile ? html`
               <div class="identity">
                 <span class="fa-fw fas fa-address-card"></span>
@@ -84,7 +84,7 @@ class Identity extends LitElement {
   }
 
   // ${this.renderSignal({icon: 'fab fa-twitter', url: 'https://twitter.com/pfrazee', userid: 'pfrazee', directory})}
-  // ${this.renderSignal({icon: 'fab fa-github', url: 'https://github.com/pfrazee', userid: 'pfrazee', directory})}
+  // ${this.renderSignal({icon: 'fab fa-github', url: 'https://github.com/distributedweb', userid: 'pfrazee', directory})}
   // renderSignal (signal) {
   //   return html`
   //     <div class="identity">
@@ -103,9 +103,9 @@ class Identity extends LitElement {
   async onToggleSaveContact (e) {
     var isContact = this.cert && this.cert.ident ? this.cert.ident.contact : false
     if (isContact) {
-      await beaker.contacts.remove(this.url)
+      await dbrowser.contacts.remove(this.url)
     } else {
-      await beaker.contacts.requestAddContact(this.url)
+      await dbrowser.contacts.requestAddContact(this.url)
     }
     emit(this, 'change-url', {detail: {url: this.url}})
   }

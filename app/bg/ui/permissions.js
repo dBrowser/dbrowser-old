@@ -6,7 +6,7 @@ import _get from 'lodash.get'
 import { parseDriveUrl } from '../../lib/urls'
 import * as permPromptSubwindow from './subwindows/perm-prompt'
 import * as tabManager from './tab-manager'
-import {PermissionsError, UserDeniedError} from 'beaker-error-constants'
+import {PermissionsError, UserDeniedError} from 'dbrowser-error-constants'
 
 // globals
 // =
@@ -65,7 +65,7 @@ export function denyAllRequests (win) {
 
 export async function checkLabsPerm ({perm, labApi, apiDocsUrl, sender}) {
   var urlp = parseDriveUrl(sender.getURL())
-  if (urlp.protocol === 'beaker:') return true
+  if (urlp.protocol === 'dbrowser:') return true
   if (urlp.protocol === 'hyper:') {
     // resolve name
     let key = await hyper.dns.resolveName(urlp.hostname)
@@ -99,8 +99,8 @@ export async function checkLabsPerm ({perm, labApi, apiDocsUrl, sender}) {
 async function onPermissionRequestHandler (webContents, permission, cb, opts) {
   const url = webContents.getURL()
 
-  // always allow beaker:// origins
-  if (url.startsWith('beaker://')) {
+  // always allow dbrowser:// origins
+  if (url.startsWith('dbrowser://')) {
     return cb(true)
   }
 

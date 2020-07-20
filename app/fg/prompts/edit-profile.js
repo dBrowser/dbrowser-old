@@ -42,7 +42,7 @@ class EditProfilePrompt extends LitElement {
 
   render () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         This is your profile! You can customize it with the editor.
         <button @click=${this.onClickEdit}>Edit Page</button>

@@ -26,7 +26,7 @@ class SiteMenu extends LitElement {
 
     if (this.url.startsWith('hyper://')) {
       try {
-        this.driveInfo = await bg.hyperdrive.getInfo(this.url)
+        this.driveInfo = await bg.dwebfs.getInfo(this.url)
       } catch (e) {
         console.debug(e)
       }
@@ -36,7 +36,7 @@ class SiteMenu extends LitElement {
 
   render () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <div class="section">
           <div class="menu-item" @click=${this.onCopyURL}>

@@ -1,6 +1,6 @@
 import { app, dialog, BrowserView, BrowserWindow, Menu, clipboard, ipcMain, webContents } from 'electron'
 import errorPage from '../lib/error-page'
-import * as libTools from '@beaker/library-tools'
+import * as libTools from '@dbrowser/library-tools'
 import path from 'path'
 import { promises as fs } from 'fs'
 import { EventEmitter } from 'events'
@@ -119,7 +119,7 @@ var closedURLs = {} // map of {[win.id]: Array<string>}
 var windowEvents = {} // mapof {[win.id]: EventEmitter}
 var noRedirectHostnames = new Set() // set of hostnames which have drive-redirection disabled
 var nextTabIsScriptCloseable = false // will the next tab created be "script closable"?
-var defaultUrl = 'beaker://desktop/'
+var defaultUrl = 'dbrowser://desktop/'
 
 // classes
 // =
@@ -174,11 +174,11 @@ class Tab extends EventEmitter {
     this.folderSyncPath = undefined // current folder sync path
     this.peers = 0 // how many peers does the site have?
     this.isBookmarked = false // is the active page bookmarked?
-    this.driveInfo = null // metadata about the site if viewing a hyperdrive
+    this.driveInfo = null // metadata about the site if viewing a dwebfs
     this.confirmedAuthorTitle = undefined // the title of the confirmed author of the site
     this.donateLinkHref = null // the URL of the donate site, if set by the index.json
     this.availableAlternative = '' // tracks if there's alternative protocol available for the site
-    this.wasDriveTimeout = false // did the last navigation result in a timed-out hyperdrive?
+    this.wasDriveTimeout = false // did the last navigation result in a timed-out dwebfs?
     this.tabCreationTime = 0 // when was the tab created?
 
     // wire up events
@@ -254,14 +254,14 @@ class Tab extends EventEmitter {
           }
         }
       }
-      if (urlp.protocol === 'beaker:') {
-        if (urlp.hostname === 'diff') return 'Beaker Diff/Merge Tool'
-        if (urlp.hostname === 'explorer') return 'Beaker Files Explorer'
-        if (urlp.hostname === 'history') return 'Beaker History'
-        if (urlp.hostname === 'library') return 'Beaker Library'
-        if (urlp.hostname === 'settings') return 'Beaker Settings'
-        if (urlp.hostname === 'webterm') return 'Beaker Webterm'
-        return 'Beaker'
+      if (urlp.protocol === 'dbrowser:') {
+        if (urlp.hostname === 'diff') return 'dBrowser Diff/Merge Tool'
+        if (urlp.hostname === 'explorer') return 'dBrowser Files Explorer'
+        if (urlp.hostname === 'history') return 'dBrowser History'
+        if (urlp.hostname === 'library') return 'dBrowser Library'
+        if (urlp.hostname === 'settings') return 'dBrowser Settings'
+        if (urlp.hostname === 'webterm') return 'dBrowser Webterm'
+        return 'dBrowser'
       }
       return hostname + (urlp.port ? `:${urlp.port}` : '')
     } catch (e) {
@@ -293,8 +293,8 @@ class Tab extends EventEmitter {
     if (url.startsWith('https:') && !(this.loadError && this.loadError.isInsecureResponse)) {
       return 'fas fa-check-circle'
     }
-    if (url.startsWith('beaker:')) {
-      return 'beaker-logo'
+    if (url.startsWith('dbrowser:')) {
+      return 'dbrowser-logo'
     }
     return 'fas fa-info-circle'
   }
@@ -305,7 +305,7 @@ class Tab extends EventEmitter {
       if (this.loadError && this.loadError.isInsecureResponse) {
         return 'untrusted'
       }
-      if (['https:', 'beaker:'].includes(urlp.protocol)) {
+      if (['https:', 'dbrowser:'].includes(urlp.protocol)) {
         return 'trusted'
       }
       if (urlp.protocol === 'http:') {
@@ -505,7 +505,7 @@ class Tab extends EventEmitter {
     var url = this.url
     var title = this.title
 
-    if (url !== 'beaker://desktop/' && url !== 'beaker://history/') {
+    if (url !== 'dbrowser://desktop/' && url !== 'dbrowser://history/') {
       historyDb.addVisit(0, {url, title})
       if (this.isPinned) {
         savePins(this.browserWindow)
@@ -522,7 +522,7 @@ class Tab extends EventEmitter {
     if (this.isSidebarActive) return
     
     let v = sidebars.create(this)
-    v.webContents.loadURL('beaker://sidebar/')
+    v.webContents.loadURL('dbrowser://sidebar/')
     var onDidFinishLoad = new Promise(r => v.webContents.on('did-finish-load', r))
 
     this.sidebarWidth = clamp((this.browserWindow.getContentBounds().width / 2)|0, 100, 800)
@@ -554,9 +554,9 @@ class Tab extends EventEmitter {
         let url
         let ctx = args[1] || this.url
         switch (args[0]) {
-          case 'editor-app': url = `beaker://editor/?url=${encodeURI(ctx)}`; break
-          case 'files-explorer-app': url = `beaker://explorer/${encodeURI(ctx.slice('hyper://'.length))}`; break
-          case 'web-term': url = `beaker://webterm/?url=${encodeURI(ctx)}`; break
+          case 'editor-app': url = `dbrowser://editor/?url=${encodeURI(ctx)}`; break
+          case 'files-explorer-app': url = `dbrowser://explorer/${encodeURI(ctx.slice('hyper://'.length))}`; break
+          case 'web-term': url = `dbrowser://webterm/?url=${encodeURI(ctx)}`; break
         }
         if (url) {
           create(this.browserWindow, url, {setActive: true})
@@ -681,11 +681,11 @@ class Tab extends EventEmitter {
       var autoRedirectToDat = !!await settingsDb.get('auto_redirect_to_dat')
       if (autoRedirectToDat && !noRedirectHostnames.has(u.hostname)) {
         // automatically redirect
-        let datUrl = url.replace(u.protocol, 'dat:')
+        let datUrl = url.replace(u.protocol, 'dweb:')
         this.loadURL(datUrl)
       } else {
-        // track that dat is available
-        this.availableAlternative = 'dat:'
+        // track that dweb is available
+        this.availableAlternative = 'dweb:'
       }
     } else {
       this.availableAlternative = ''
@@ -963,7 +963,7 @@ class Tab extends EventEmitter {
     this.loadingURL = null
     this.isReceivingAssets = false
 
-    // check for hyperdrive alternatives
+    // check for dwebfs alternatives
     if (this.url.startsWith('https://')) {
       this.checkForHyperdriveAlternative(this.url)
     } else {
@@ -1081,7 +1081,7 @@ export async function setup () {
     var browserView = BrowserView.fromWebContents(e.sender)
     if (browserView) {
       var tab = findTab(browserView)
-      if (tab && (tab.isScriptClosable || tab.url.startsWith('beaker:'))) {
+      if (tab && (tab.isScriptClosable || tab.url.startsWith('dbrowser:'))) {
         remove(tab.browserWindow, tab)
         e.returnValue = true
         return
@@ -1520,9 +1520,9 @@ export function getPreviousTabIndex (win) {
 export function openOrFocusDownloadsPage (win) {
   win = getTopWindow(win)
   var tabs = getAll(win)
-  var downloadsTab = tabs.find(v => v.url.startsWith('beaker://library/downloads'))
+  var downloadsTab = tabs.find(v => v.url.startsWith('dbrowser://library/downloads'))
   if (!downloadsTab) {
-    downloadsTab = create(win, 'beaker://library/downloads')
+    downloadsTab = create(win, 'dbrowser://library/downloads')
   }
   setActive(win, downloadsTab)
 }
@@ -1778,8 +1778,8 @@ rpc.exportAPI('background-process-views', viewsRPCManifest, {
   async onFaviconLoadSuccess (index, dataUrl) {
     var tab = getByIndex(getWindow(this.sender), index)
     if (tab) {
-      // if not a hyperdrive site, store the favicon
-      // (hyperdrive caches favicons through the hyperdrive/assets.js process)
+      // if not a dwebfs site, store the favicon
+      // (dwebfs caches favicons through the dwebfs/assets.js process)
       if (!tab.url.startsWith('hyper:')) {
         sitedataDb.set(tab.url, 'favicon', dataUrl)
       }

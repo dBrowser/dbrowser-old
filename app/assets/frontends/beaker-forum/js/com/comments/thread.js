@@ -34,10 +34,10 @@ export class CommentsThread extends LitElement {
   render () {
     return html`
       <link rel="stylesheet" href="/.ui/webfonts/fontawesome.css">
-      <beaker-comment-composer
+      <dbrowser-comment-composer
         href="${this.href}"
         placeholder=${this.composerPlaceholder || 'Add a comment'}
-      ></beaker-comment-composer>
+      ></dbrowser-comment-composer>
       ${this.renderComments(this.comments)}
     `
   }
@@ -78,20 +78,20 @@ export class CommentsThread extends LitElement {
             ` : ''}
           </div>
           ${this.activeReplies[comment.url] ? html`
-            <beaker-comment-composer
+            <dbrowser-comment-composer
               href="${comment.stat.metadata.href}"
               parent="${comment.url}"
               @submit-comment=${e => this.onSubmitComment(e, comment.url)}
-            ></beaker-comment-composer>
+            ></dbrowser-comment-composer>
           ` : ''}
           ${this.activeEdits[comment.url] ? html`
-            <beaker-comment-composer
+            <dbrowser-comment-composer
               editing
               href="${comment.stat.metadata.href}"
               parent="${comment.url}"
               .comment=${comment}
               @submit-comment=${e => this.onSubmitEdit(e, comment.url)}
-            ></beaker-comment-composer>
+            ></dbrowser-comment-composer>
           ` : ''}
           ${comment.replies && comment.replies.length ? this.renderComments(comment.replies) : ''}
         </div>
@@ -107,7 +107,7 @@ export class CommentsThread extends LitElement {
     this.activeEdits[url] = false
     await this.requestUpdate()
     if (this.activeReplies[url]) {
-      this.shadowRoot.querySelector(`beaker-comment-composer[parent="${url}"]`).focus()
+      this.shadowRoot.querySelector(`dbrowser-comment-composer[parent="${url}"]`).focus()
     }
   }
 
@@ -116,7 +116,7 @@ export class CommentsThread extends LitElement {
     this.activeReplies[url] = false
     await this.requestUpdate()
     if (this.activeEdits[url]) {
-      this.shadowRoot.querySelector(`beaker-comment-composer[parent="${url}"]`).focus()
+      this.shadowRoot.querySelector(`dbrowser-comment-composer[parent="${url}"]`).focus()
     }
   }
 
@@ -168,4 +168,4 @@ export class CommentsThread extends LitElement {
 }
 CommentsThread.styles = commentsThreadCSS
 
-customElements.define('beaker-comments-thread', CommentsThread)
+customElements.define('dbrowser-comments-thread', CommentsThread)

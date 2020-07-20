@@ -7,7 +7,7 @@ export class DriveHeader extends HTMLElement {
   }
 
   async load () {
-    this.info = await hyperdrive.self.getInfo()
+    this.info = await dwebfs.self.getInfo()
     this.render()
   }
 

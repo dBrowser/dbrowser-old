@@ -183,7 +183,7 @@ export function renderPermDesc ({html, bg, url, permId, permParam, permOpts}) {
     e.stopPropagation()
     url = isDriveRegex.test(url) ? `hyper://${url}/` : url
     if (api) api.createTab(url)
-    else beaker.browser.openUrl(url, {setActive: true})
+    else dbrowser.browser.openUrl(url, {setActive: true})
   }
   const mediaTypeToTool = v => ({video: 'camera', audio: 'microphone'})[v]
   switch (permId) {
@@ -198,7 +198,7 @@ export function renderPermDesc ({html, bg, url, permId, permParam, permOpts}) {
     case 'experimentalLibrary': return 'Read and modify your Library'
     case 'experimentalDatPeers': return 'Send and receive messages with peers'
     case 'dangerousAppControl': return 'Read and write your data, including bookmarks, archives, and files'
-    case 'contactsList': return 'Read your address-book in Beaker'
+    case 'contactsList': return 'Read your address-book in dBrowser'
 
     case 'network':
       if (permParam === '*') return 'Access the network freely'
@@ -208,8 +208,8 @@ export function renderPermDesc ({html, bg, url, permId, permParam, permOpts}) {
       return html`<span>Download ${permOpts.filename}</span>`
 
     case 'createDrive':
-      if (permOpts.title) return `Create a new Hyperdrive, "${permOpts.title}"`
-      return 'Create a new Hyperdrive'
+      if (permOpts.title) return `Create a new DWebFs, "${permOpts.title}"`
+      return 'Create a new DWebFs'
 
     case 'modifyDrive':
       {

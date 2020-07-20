@@ -95,4 +95,4 @@ export class CommentComposer extends LitElement {
 }
 CommentComposer.styles = commentComposerCSS
 
-customElements.define('beaker-comment-composer', CommentComposer)
+customElements.define('dbrowser-comment-composer', CommentComposer)

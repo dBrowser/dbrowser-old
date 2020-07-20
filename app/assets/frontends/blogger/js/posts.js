@@ -19,9 +19,9 @@ export class DrivePosts extends HTMLElement {
   }
 
   async load () {
-    this.info = await hyperdrive.self.getInfo()
+    this.info = await dwebfs.self.getInfo()
     var path = this.mode === 'topic' ? `/posts/${this.topic}/*` : '/posts/*/*'
-    this.posts = await hyperdrive.self.query({
+    this.posts = await dwebfs.self.query({
       type: 'file',
       path,
       sort: 'ctime',

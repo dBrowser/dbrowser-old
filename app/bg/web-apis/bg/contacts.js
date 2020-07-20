@@ -2,7 +2,7 @@ import * as modals from '../../ui/subwindows/modals'
 import * as drives from '../../hyper/drives'
 import * as filesystem from '../../filesystem/index'
 import * as permissions from '../../ui/permissions'
-import { UserDeniedError, PermissionsError } from 'beaker-error-constants'
+import { UserDeniedError, PermissionsError } from 'dbrowser-error-constants'
 import { HYPERDRIVE_HASH_REGEX } from '../../../lib/const'
 
 // typedefs
@@ -159,7 +159,7 @@ async function assembleRecords (contactsList) {
 }
 
 function isBeakerApp (sender) {
-  if (/^(beaker:|https?:\/\/(.*\.)?hyperdrive\.network(:|\/))/.test(sender.getURL())) {
+  if (/^(dbrowser:|https?:\/\/(.*\.)?dwebfs\.network(:|\/))/.test(sender.getURL())) {
     return true
   }
   return false

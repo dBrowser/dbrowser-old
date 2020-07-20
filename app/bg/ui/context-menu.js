@@ -34,8 +34,8 @@ export default function registerContextMenu () {
       const addedWindowSettings = getAddedWindowSettings(targetWindow)
 
       // handle shell UI specially
-      if (props.pageURL == 'beaker://shell-window/') { return }
-      if (props.pageURL.startsWith('beaker://modals')) {
+      if (props.pageURL == 'dbrowser://shell-window/') { return }
+      if (props.pageURL.startsWith('dbrowser://modals')) {
         return modals.handleContextMenu(webContents, targetWindow, can, props)
       }
 

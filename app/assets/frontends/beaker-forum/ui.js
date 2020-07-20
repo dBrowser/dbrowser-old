@@ -89,7 +89,7 @@ export class App extends LitElement {
     }
 
     // load group data
-    var self = hyperdrive.self
+    var self = dwebfs.self
     this.groupInfo = await self.getInfo()
     this.session = await navigator.session.get()
     if (this.session) {
@@ -118,7 +118,7 @@ export class App extends LitElement {
 
   async doCommentRedirect () {
     try {
-      var comment = await uwg.comments.get(this.routeParams.groups.id, `/beaker-forum/comments/${this.routeParams.groups.filename}`)
+      var comment = await uwg.comments.get(this.routeParams.groups.id, `/dbrowser-forum/comments/${this.routeParams.groups.filename}`)
       window.location = fromPostUrlToAppRoute(comment.stat.metadata.href)
     } catch (e) {
       console.error('Failed to load comment', e)
@@ -139,7 +139,7 @@ export class App extends LitElement {
         <span class="spacer"></span>
         ${this.session?.user?.group?.isMember ? html`
           <a class="compose-btn" href="/compose">New Post</a>
-          <beaker-search-input placeholder="Search this group"></beaker-search-input>
+          <dbrowser-search-input placeholder="Search this group"></dbrowser-search-input>
           <a
             class=${classMap({'circle-btn': true, highlighted: !!this.notificationCount})}
             href="/notifications"
@@ -180,37 +180,37 @@ export class App extends LitElement {
   renderView () {
     switch (this.route) {
       case 'home': return html`
-        <beaker-posts-view loadable .user=${this.session?.user}></beaker-posts-view>
+        <dbrowser-posts-view loadable .user=${this.session?.user}></dbrowser-posts-view>
       `
       case 'compose': return html`
-        <beaker-compose-view loadable .user=${this.session?.user}></beaker-compose-view>
+        <dbrowser-compose-view loadable .user=${this.session?.user}></dbrowser-compose-view>
       `
       case 'comments': return html`
-        <beaker-comments-view loadable .user=${this.session?.user}></beaker-comments-view>
+        <dbrowser-comments-view loadable .user=${this.session?.user}></dbrowser-comments-view>
       `
       case 'users': return html`
-        <beaker-users-view loadable .user=${this.session?.user}></beaker-users-view>
+        <dbrowser-users-view loadable .user=${this.session?.user}></dbrowser-users-view>
       `
       case 'notifications': return html`
-        <beaker-notifications-view loadable .user=${this.session?.user}></beaker-notifications-view>
+        <dbrowser-notifications-view loadable .user=${this.session?.user}></dbrowser-notifications-view>
       `
       case 'search': return html`
-        <beaker-search-view loadable .user=${this.session?.user}></beaker-search-view>
+        <dbrowser-search-view loadable .user=${this.session?.user}></dbrowser-search-view>
       `
       case 'userProfile':
       case 'userPosts': return html`
-        <beaker-profile-view loadable .user=${this.session?.user} profile-id=${this.routeParams.groups.id} ?admin-ctrls=${this.groupInfo.writable}></beaker-profile-view>
+        <dbrowser-profile-view loadable .user=${this.session?.user} profile-id=${this.routeParams.groups.id} ?admin-ctrls=${this.groupInfo.writable}></dbrowser-profile-view>
       `
       case 'userComments': return html`
-        <beaker-profile-view loadable .user=${this.session?.user} profile-id=${this.routeParams.groups.id} subview="comments" ?admin-ctrls=${this.groupInfo.writable}></beaker-profile-view>
+        <dbrowser-profile-view loadable .user=${this.session?.user} profile-id=${this.routeParams.groups.id} subview="comments" ?admin-ctrls=${this.groupInfo.writable}></dbrowser-profile-view>
       `
       case 'post': return html`
-        <beaker-post-view
+        <dbrowser-post-view
           loadable
           .user=${this.session?.user}
           author=${this.routeParams.groups.id}
           filename=${this.routeParams.groups.filename}
-        ></beaker-post-view>
+        ></dbrowser-post-view>
       `
       case '404': return html`<div class="layout"><main><h1>404 not found</h1></main></div>`
     }

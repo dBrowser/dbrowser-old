@@ -34,13 +34,13 @@ a:hover {
   text-decoration: underline;
 }
 
-beaker-comment-composer {
+dbrowser-comment-composer {
   border: var(--composer-border);
   padding: var(--composer-padding);
   margin: var(--composer-margin);
 }
 
-beaker-comment-composer.focused {
+dbrowser-comment-composer.focused {
   border: var(--composer-border--focused);
 }
 
@@ -114,7 +114,7 @@ beaker-comment-composer.focused {
   color: inherit;
 }
 
-.comment beaker-comment-composer {
+.comment dbrowser-comment-composer {
   margin: 10px 16px;
   --input-font-size: var(--body-font-size);
 }

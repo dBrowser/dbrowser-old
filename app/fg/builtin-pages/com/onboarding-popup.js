@@ -1,4 +1,4 @@
-/* globals beaker DatArchive localStorage */
+/* globals dbrowser DatArchive localStorage */
 
 import yo from 'yo-yo'
 
@@ -15,19 +15,19 @@ let reject
 
 const STEPS = [
   {
-    title: 'Welcome to Beaker!',
+    title: 'Welcome to dBrowser!',
     subtitle: 'Configure your preferences',
-    description: 'Beaker is a browser for exploring and building the peer-to-peer Web.',
+    description: 'dBrowser is a browser for exploring and building the peer-to-peer Web.',
     content: () => yo`
       <div>
-        <img class="icon" src="beaker://assets/img/onboarding/p2p-connection.svg" />
+        <img class="icon" src="dBrowser://assets/img/onboarding/p2p-connection.svg" />
 
         <p>
           <label class="toggle">
-            <input checked=${defaultProtocolSettings.dat} type="checkbox" onchange=${onToggleDefaultBrowser} />
+            <input checked=${defaultProtocolSettings.dweb} type="checkbox" onchange=${onToggleDefaultBrowser} />
             <div class="switch"></div>
             <span class="text">
-              Set Beaker as the default browser for dat:// URLs
+              Set dBrowser as the default browser for dweb:// URLs
             </span>
 
             <button type="button" class="btn hint-btn plain link" onclick=${onShowHint}>
@@ -36,16 +36,16 @@ const STEPS = [
           </label>
 
           <div class="onboarding-hint ${isHintHidden ? 'hidden' : ''}">
-            dat:// is a peer-to-peer protocol that Beaker uses to host websites
+            dweb:// is a peer-to-peer protocol that dBrowser uses to host websites
           </div>
         </p>
       </div>`,
     color: 'blue',
     onLeave: async () => {
-      if (defaultProtocolSettings.dat) {
-        await beaker.browser.setAsDefaultProtocolClient('dat')
+      if (defaultProtocolSettings.dweb) {
+        await dbrowser.browser.setAsDefaultProtocolClient('dweb')
       } else {
-        await beaker.browser.removeAsDefaultProtocolClient('dat')
+        await dbrowser.browser.removeAsDefaultProtocolClient('dweb')
       }
     }
   },
@@ -56,7 +56,7 @@ const STEPS = [
     content: () => yo`
       <p>
         <div class="module" onclick=${onCreateWebsite}>
-          <img src="beaker://assets/img/onboarding/create-website.svg"/>
+          <img src="dbrowser://assets/img/onboarding/create-website.svg"/>
 
           <span>
             <h3 class="module-heading">
@@ -70,8 +70,8 @@ const STEPS = [
           </span>
         </div>
 
-        <a href="dat://explore.beakerbrowser.com" class="module" target="_blank">
-          <img src="beaker://assets/img/onboarding/community.svg"/>
+        <a href="dweb://explore.dbrowser.com" class="module" target="_blank">
+          <img src="dbrowser://assets/img/onboarding/community.svg"/>
 
           <span>
             <h3 class="module-heading">
@@ -80,13 +80,13 @@ const STEPS = [
             </h3>
 
             <p>
-              Explore websites, apps, and tools built with Beaker and dat://.
+              Explore websites, apps, and tools built with dBrowser and dweb://.
             </p>
           </span>
         </a>
 
-        <a href="dat://beakerbrowser.com/docs" class="module" target="_blank">
-          <img src="beaker://assets/img/onboarding/documentation.svg"/>
+        <a href="dweb://dbrowser.com/docs" class="module" target="_blank">
+          <img src="dbrowser://assets/img/onboarding/documentation.svg"/>
 
           <span>
             <h3 class="module-heading">
@@ -95,7 +95,7 @@ const STEPS = [
             </h3>
 
             <p>
-              Explore Beaker${"'"}s documentation and tutorials.
+              Explore dBrowser${"'"}s documentation and tutorials.
             </p>
           </span>
         </a>
@@ -109,15 +109,15 @@ const STEPS = [
 
 async function onCreateWebsite () {
   var archive = await DatArchive.create({template: 'website', prompt: false})
-  window.location = `beaker://editor/${archive.url}#setup`
+  window.location = `dbrowser://editor/${archive.url}#setup`
 }
 
 // exported api
 // =
 
 export async function create (opts = {}) {
-  settings = await beaker.browser.getSettings()
-  defaultProtocolSettings = await beaker.browser.getDefaultProtocolSettings()
+  settings = await dbrowser.browser.getSettings()
+  defaultProtocolSettings = await dbrowser.browser.getDefaultProtocolSettings()
   currentStep = (opts.showHelpOnly) ? (STEPS.length - 1) : 0
   showNavigation = !opts.showHelpOnly
 
@@ -278,6 +278,6 @@ function onShowHint (e) {
 
 function onToggleDefaultBrowser (e) {
   e.preventDefault()
-  defaultProtocolSettings.dat = !defaultProtocolSettings.dat
+  defaultProtocolSettings.dweb = !defaultProtocolSettings.dweb
   update()
 }

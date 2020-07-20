@@ -1,4 +1,4 @@
-var self = hyperdrive.self
+var self = dwebfs.self
 
 var editors = {
   js: ace.edit('js'),

@@ -13,8 +13,8 @@ const exec = require('util').promisify(require('child_process').exec)
 import * as logLib from './logger'
 const logger = logLib.child({category: 'browser'})
 import * as settingsDb from './dbs/settings'
-import { convertDatArchive } from './dat/index'
-import datDns from './dat/dns'
+import { convertDatArchive } from './dweb/index'
+import datDns from './dweb/dns'
 import { open as openUrl } from './open-url'
 import * as windows from './ui/windows'
 import * as tabManager from './ui/tab-manager'
@@ -32,7 +32,7 @@ import { setupDefaultProfile, getProfile, getDriveIdent } from './filesystem/ind
 
 const IS_FROM_SOURCE = (process.defaultApp || /node_modules[\\/]electron[\\/]/.test(process.execPath))
 const IS_LINUX = !(/^win/.test(process.platform)) && process.platform !== 'darwin'
-const DOT_DESKTOP_FILENAME = 'appimagekit-beaker-browser.desktop'
+const DOT_DESKTOP_FILENAME = 'appimagekit-dbrowser-browser.desktop'
 const isBrowserUpdatesSupported = !(IS_LINUX || IS_FROM_SOURCE) // linux is temporarily not supported
 
 // how long between scheduled auto updates?
@@ -234,7 +234,7 @@ export async function downloadURL (url) {
 
 function readFile (obj, opts) {
   var pathname = undefined
-  if (obj === 'beaker://std-cmds/index.json') {
+  if (obj === 'dbrowser://std-cmds/index.json') {
     pathname = path.join(__dirname, 'userland', 'std-cmds', 'index.json')
   }
   if (!pathname) return
@@ -267,12 +267,12 @@ export async function getCertificate (url) {
   var cert = originCerts.get(url)
   if (cert) {
     return Object.assign({type: 'tls'}, cert)
-  } else if (url.startsWith('beaker:')) {
-    return {type: 'beaker'}
+  } else if (url.startsWith('dbrowser:')) {
+    return {type: 'dbrowser'}
   } else if (url.startsWith('hyper://')) {
     let ident = await getDriveIdent(url, true)
     return {
-      type: 'hyperdrive',
+      type: 'dwebfs',
       ident
     }
   }
@@ -489,14 +489,14 @@ export async function getDefaultProtocolSettings () {
     // HACK
     // xdb-settings doesnt currently handle apps that you can't `which`
     // we can just use xdg-mime directly instead
-    // see https://github.com/beakerbrowser/beaker/issues/915
+    // see https://github.com/dbrowser/dbrowser/issues/915
     // -prf
     let [httpHandler, hyperHandler, datHandler] = await Promise.all([
       // If there is no default specified, be sure to catch any error
       // from exec and return '' otherwise Promise.all errors out.
       exec('xdg-mime query default "x-scheme-handler/http"').catch(err => ''),
       exec('xdg-mime query default "x-scheme-handler/hyper"').catch(err => ''),
-      exec('xdg-mime query default "x-scheme-handler/dat"').catch(err => '')
+      exec('xdg-mime query default "x-scheme-handler/dweb"').catch(err => '')
     ])
     if (httpHandler && httpHandler.stdout) httpHandler = httpHandler.stdout
     if (hyperHandler && hyperHandler.stdout) hyperHandler = hyperHandler.stdout
@@ -504,11 +504,11 @@ export async function getDefaultProtocolSettings () {
     return {
       http: (httpHandler || '').toString().trim() === DOT_DESKTOP_FILENAME,
       hyper: (hyperHandler || '').toString().trim() === DOT_DESKTOP_FILENAME,
-      dat: (datHandler || '').toString().trim() === DOT_DESKTOP_FILENAME
+      dweb: (datHandler || '').toString().trim() === DOT_DESKTOP_FILENAME
     }
   }
 
-  return Promise.resolve(['http', 'hyper', 'dat'].reduce((res, x) => {
+  return Promise.resolve(['http', 'hyper', 'dweb'].reduce((res, x) => {
     res[x] = app.isDefaultProtocolClient(x)
     return res
   }, {}))
@@ -519,7 +519,7 @@ export async function setAsDefaultProtocolClient (protocol) {
     // HACK
     // xdb-settings doesnt currently handle apps that you can't `which`
     // we can just use xdg-mime directly instead
-    // see https://github.com/beakerbrowser/beaker/issues/915
+    // see https://github.com/dbrowser/dbrowser/issues/915
     // -prf
     await exec(`xdg-mime default ${DOT_DESKTOP_FILENAME} "x-scheme-handler/${protocol}"`)
     return true
@@ -554,7 +554,7 @@ export async function getDaemonStatus () {
   return hyperDaemon.getDaemonStatus()
 }
 
-var crypto = require('hypercore-crypto')
+var crypto = require('ddatabase-crypto')
 export async function getDaemonNetworkStatus () {
   var allStats = await hyperDaemon.getClient().drive.allStats()
   for (let stats of allStats) {
@@ -591,7 +591,7 @@ export function restartBrowser () {
     autoUpdater.quitAndInstall()
     logger.info('[AUTO-UPDATE] Quitting and installing.')
   } else {
-    logger.info('Restarting Beaker by restartBrowser()')
+    logger.info('Restarting dBrowser by restartBrowser()')
     // do a simple restart
     app.relaunch()
     setTimeout(() => app.exit(0), 1e3)
@@ -789,8 +789,8 @@ function setUpdaterState (state) {
 function getAutoUpdaterFeedSettings () {
   return {
     provider: 'github',
-    repo: 'beaker',
-    owner: 'beakerbrowser',
+    repo: 'dbrowser',
+    owner: 'dwebbrowser',
     vPrefixedTagName: false
   }
 }

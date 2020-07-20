@@ -20,8 +20,8 @@ class InfoSettingsView extends LitElement {
   }
 
   async load () {
-    this.browserInfo = await beaker.browser.getInfo()
-    this.daemonStatus = await beaker.browser.getDaemonStatus()
+    this.browserInfo = await dbrowser.browser.getInfo()
+    this.daemonStatus = await dbrowser.browser.getDaemonStatus()
     console.log('loaded', {
       browserInfo: this.browserInfo,
       daemonStatus: this.daemonStatus
@@ -35,9 +35,9 @@ class InfoSettingsView extends LitElement {
   render () {
     if (!this.browserInfo) return html``
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="section">
-        <h2 id="information" class="subtitle-heading">About Beaker</h2>
+        <h2 id="information" class="subtitle-heading">About dBrowser</h2>
         <p>
           <strong>Version</strong>:
           ${this.browserInfo.version}
@@ -50,7 +50,7 @@ class InfoSettingsView extends LitElement {
             <li><strong>Electron:</strong> ${this.browserInfo.electronVersion}</li>
             <li><strong>Chromium:</strong> ${this.browserInfo.chromiumVersion}</li>
             <li><strong>Node:</strong> ${this.browserInfo.nodeVersion}</li>
-            <li><strong>Hyperdrive:</strong> ${this.daemonStatus.hyperdriveVersion}
+            <li><strong>DWebFs:</strong> ${this.daemonStatus.hyperdriveVersion}
               <ul>
                 <li><strong>API:</strong> ${this.daemonStatus.apiVersion}</li>
                 <li><strong>Daemon:</strong> ${this.daemonStatus.daemonVersion}</li>

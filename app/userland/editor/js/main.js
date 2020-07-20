@@ -4,7 +4,7 @@ import { LitElement, html } from '../../app-stdlib/vendor/lit-element/lit-elemen
 import { repeat } from '../../app-stdlib/vendor/lit-element/lit-html/directives/repeat.js'
 import { isFilenameBinary } from '../../app-stdlib/js/is-ext-binary.js'
 import lock from '../../../lib/lock.js'
-import datServeResolvePath from '@beaker/dat-serve-resolve-path'
+import datServeResolvePath from '@dbrowser/dweb-serve-resolve-path'
 import { joinPath } from '../../app-stdlib/js/strings.js'
 import * as contextMenu from '../../app-stdlib/js/com/context-menu.js'
 import { writeToClipboard } from '../../app-stdlib/js/clipboard.js'
@@ -30,7 +30,7 @@ class EditorApp extends LitElement {
   }
 
   get drive () {
-    return beaker.hyperdrive.drive(this.url)
+    return dbrowser.dwebfs.drive(this.url)
   }
 
   get origin () {
@@ -124,7 +124,7 @@ class EditorApp extends LitElement {
   async createEditor () {
     this.ensureEditorEl()
     return new Promise((resolve, reject) => {
-      window.require.config({ baseUrl: 'beaker://assets/' })
+      window.require.config({ baseUrl: 'dbrowser://assets/' })
       window.require(['vs/editor/editor.main'], () => {
         // update monaco to syntax-highlight <script type="module">
         var jsLang = monaco.languages.getLanguages().find(lang => lang.id === 'javascript')
@@ -210,7 +210,7 @@ class EditorApp extends LitElement {
           body = await this.loadDrive(url)
         } else if (url.startsWith('http:') || url.startsWith('https:')) {
           this.isFilesOpen = false
-          body = await beaker.browser.fetchBody(url)
+          body = await dbrowser.browser.fetchBody(url)
         } else {
           this.isFilesOpen = false
           let res = await fetch(url)
@@ -229,7 +229,7 @@ class EditorApp extends LitElement {
 
         // override the model syntax highlighting when the URL doesnt give enough info (no extension)
         if (body && model.getModeId() === 'plaintext') {
-          let type = await beaker.browser.getResourceContentType(url)
+          let type = await dbrowser.browser.getResourceContentType(url)
           if (type) {
             if (type.includes('text/html')) {
               monaco.editor.setModelLanguage(model, 'html')
@@ -276,7 +276,7 @@ class EditorApp extends LitElement {
     var body
 
     // load drive meta
-    let drive = beaker.hyperdrive.drive(url)
+    let drive = dbrowser.dwebfs.drive(url)
     let [info, manifest] = await Promise.all([
       drive.getInfo(),
       drive.readFile('/index.json', 'utf8').catch(e => '')
@@ -314,7 +314,7 @@ class EditorApp extends LitElement {
         let path = '/' + pathParts.join('/')
         let stat = await drive.stat(path).catch(e => undefined)
         if (stat && stat.mount) {
-          this.mountInfo = await beaker.hyperdrive.drive(stat.mount.key).getInfo()
+          this.mountInfo = await dbrowser.dwebfs.drive(stat.mount.key).getInfo()
           this.mountInfo.resolvedPath = '/' + realPathParts.join('/')
           break
         }
@@ -368,7 +368,7 @@ class EditorApp extends LitElement {
       items.push({
         label: 'Open in new tab',
         click () {
-          beaker.browser.openUrl(item.url)
+          dbrowser.browser.openUrl(item.url)
         }
       })
       items.push({
@@ -462,7 +462,7 @@ class EditorApp extends LitElement {
       delete items[i].click
     }
 
-    var choice = await beaker.browser.showContextMenu(items)
+    var choice = await dbrowser.browser.showContextMenu(items)
     if (fns[choice]) fns[choice]()
   }
 
@@ -476,7 +476,7 @@ class EditorApp extends LitElement {
       this.classList.remove('files-open')
     }
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       ${this.renderToolbar()}
       ${this.isFilesOpen ? html`
         <files-explorer
@@ -580,7 +580,7 @@ class EditorApp extends LitElement {
     }
     if (!this.isDetached && !e.detail.url.endsWith('.goto') && e.detail.url !== this.url) {
       this.resetEditor()
-      beaker.browser.gotoUrl(e.detail.url)
+      dbrowser.browser.gotoUrl(e.detail.url)
     } else {
       this.load(e.detail.url)
     }
@@ -606,7 +606,7 @@ class EditorApp extends LitElement {
       x: rect.right,
       y: rect.bottom,
       right: true,
-      fontAwesomeCSSUrl: 'beaker://assets/font-awesome.css',
+      fontAwesomeCSSUrl: 'dbrowser://assets/font-awesome.css',
       noBorders: true,
       roomy: true,
       items: [
@@ -635,7 +635,7 @@ class EditorApp extends LitElement {
   }
 
   onClickEditReal (e) {
-    beaker.browser.openUrl(this.mountInfo.url + this.mountInfo.resolvedPath, {
+    dbrowser.browser.openUrl(this.mountInfo.url + this.mountInfo.resolvedPath, {
       setActive: true,
       adjacentActive: true,
       sidebarPanels: ['editor-app']
@@ -742,7 +742,7 @@ class EditorApp extends LitElement {
     var dataUrl = await ResizeImagePopup.create(this.url)
     var base64buf = dataUrl.split(',').pop()
     await this.drive.writeFile(this.resolvedPath, base64buf, 'base64')
-    if (!this.isDetached) beaker.browser.gotoUrl(this.url)
+    if (!this.isDetached) dbrowser.browser.gotoUrl(this.url)
   }
 
   onClickView () {
@@ -751,13 +751,13 @@ class EditorApp extends LitElement {
 
   async onClickOpen () {
     var origin = this.origin
-    var res = await beaker.shell.selectFileDialog({
+    var res = await dbrowser.shell.selectFileDialog({
       drive: origin.startsWith('hyper:') ? origin : undefined,
       allowMultiple: false
     })
     if (res && res[0]) {
       if (!this.isDetached && !res[0].url.endsWith('.goto')) {
-        beaker.browser.gotoUrl(res[0].url)
+        dbrowser.browser.gotoUrl(res[0].url)
       } else {
         this.load(res[0].url)
       }
@@ -772,7 +772,7 @@ class EditorApp extends LitElement {
     await this.drive.writeFile(this.resolvedPath, model.getValue(), {metadata})
     this.lastSavedVersionId = model.getAlternativeVersionId()
     this.setSaveBtnState()
-    if (!this.isDetached) beaker.browser.gotoUrl(this.url)
+    if (!this.isDetached) dbrowser.browser.gotoUrl(this.url)
     this.setFocus()
   }
 
@@ -790,7 +790,7 @@ class EditorApp extends LitElement {
       var urlp = new URL(this.url)
       urlp.pathname = newpath
       this.load(urlp.toString())
-      if (!this.isDetached) beaker.browser.gotoUrl(urlp.toString())
+      if (!this.isDetached) dbrowser.browser.gotoUrl(urlp.toString())
     }
   }
 
@@ -809,7 +809,7 @@ class EditorApp extends LitElement {
       this.loadExplorer()
       if (this.resolvedPath === path) {
         this.load(this.url)
-        if (!this.isDetached) beaker.browser.gotoUrl(this.url)
+        if (!this.isDetached) dbrowser.browser.gotoUrl(this.url)
       }
     }
   }
@@ -839,7 +839,7 @@ class EditorApp extends LitElement {
 
   async onClickNewMount (folderPath) {
     if (this.readOnly) return
-    var url = await beaker.shell.selectDriveDialog()
+    var url = await dbrowser.shell.selectDriveDialog()
     if (!url) return
     var name = await prompt('Enter the new mount name')
     if (!name) return
@@ -850,7 +850,7 @@ class EditorApp extends LitElement {
   async onClickImportFiles (folderPath) {
     toast.create('Importing...')
     try {
-      var {numImported} = await beaker.shell.importFilesDialog(joinPath(this.drive.url, folderPath))
+      var {numImported} = await dbrowser.shell.importFilesDialog(joinPath(this.drive.url, folderPath))
       if (numImported > 0) toast.create('Import complete', 'success')
       else toast.destroy()
     } catch (e) {
@@ -863,7 +863,7 @@ class EditorApp extends LitElement {
   async onClickImportFolders (folderPath) {
     toast.create('Importing...')
     try {
-      var {numImported} = await beaker.shell.importFoldersDialog(joinPath(this.drive.url, folderPath))
+      var {numImported} = await dbrowser.shell.importFoldersDialog(joinPath(this.drive.url, folderPath))
       if (numImported > 0) toast.create('Import complete', 'success')
       else toast.destroy()
     } catch (e) {
@@ -876,7 +876,7 @@ class EditorApp extends LitElement {
   async onClickExportFiles (urls) {
     toast.create('Exporting...')
     try {
-      var {numExported} = await beaker.shell.exportFilesDialog(urls)
+      var {numExported} = await dbrowser.shell.exportFilesDialog(urls)
       if (numExported > 0) toast.create('Export complete', 'success')
       else toast.destroy()
     } catch (e) {
@@ -887,11 +887,11 @@ class EditorApp extends LitElement {
 
   async onClickFork (e) {
     var urlp = new URL(this.url)
-    var newDrive = await beaker.hyperdrive.forkDrive(this.url)
+    var newDrive = await dbrowser.dwebfs.forkDrive(this.url)
     var newDriveUrlp = new URL(newDrive.url)
     urlp.hostname = newDriveUrlp.hostname
     
-    beaker.browser.gotoUrl(urlp.toString())
+    dbrowser.browser.gotoUrl(urlp.toString())
     this.load(urlp.toString())
   }
 }

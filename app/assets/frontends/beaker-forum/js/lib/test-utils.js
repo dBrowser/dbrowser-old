@@ -18,7 +18,7 @@ export async function generateDrives (num = 10) {
 
   for (let i = 0; i < num; i++) {
     let profile = FAKE_PROFILES[(i + debugDrives.length) % FAKE_PROFILES.length]
-    let drive = hyperdrive.create(Object.assign(profile, {type: 'user', prompt: false}))
+    let drive = dwebfs.create(Object.assign(profile, {type: 'user', prompt: false}))
     debugDrives.push(drive.url)
     await uwg.users.add(drive.url, slugify(profile.title))
   }
@@ -29,12 +29,12 @@ export async function generatePosts (numPosts = 10) {
   var fake_post_words = FAKE_POST.split(' ')
   for (let i = 0; i < numPosts; i++) {
     for (let driveUrl of driveUrls) {
-      let drive = hyperdrive.load(driveUrl)
+      let drive = dwebfs.load(driveUrl)
       let numWords = Math.min(Math.floor(Math.random() * fake_post_words.length), 30) + 1
       let startWord = Math.floor(Math.random() * numWords)
       let title = fake_post_words.slice(startWord, numWords).join(' ')
       await uwg.posts.addLink({
-        href: 'https://beakerbrowser.com',
+        href: 'https://dbrowser.com',
         title
       }, drive)
     }
@@ -46,7 +46,7 @@ export async function generateComments (numComments = 10) {
   var fake_post_words = FAKE_POST.split(' ')
   for (let i = 0; i < numComments; i++) {
     for (let driveUrl of driveUrls) {
-      let drive = hyperdrive.load(driveUrl)
+      let drive = dwebfs.load(driveUrl)
       let numWords = Math.min(Math.floor(Math.random() * fake_post_words.length)) + 1
       let startWord = Math.floor(Math.random() * numWords)
       let content = fake_post_words.slice(startWord, numWords).join(' ')

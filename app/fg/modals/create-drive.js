@@ -122,10 +122,10 @@ class CreateDriveModal extends LitElement {
 
   render () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <h1 class="title">
-          Create New Hyperdrive
+          Create New DWebFs
         </h1>
         <form @submit=${this.onSubmit}>
           <div>
@@ -147,8 +147,8 @@ class CreateDriveModal extends LitElement {
 
           <div class="tip">
             <span class="fas fa-fw fa-info"></span>
-            <a data-href="https://beaker.dev/docs/templates/" @click=${this.onClickLink}>
-              Find templates for Hyperdrives at Beaker.dev
+            <a data-href="https://dbrowser.dev/docs/templates/" @click=${this.onClickLink}>
+              Find templates for Hyperdrives at dBrowser.dev
             </a>
           </div>
         </form>
@@ -184,14 +184,14 @@ class CreateDriveModal extends LitElement {
     Array.from(this.shadowRoot.querySelectorAll('button'), b => b.setAttribute('disabled', 'disabled'))
 
     try {
-      var url = await bg.hyperdrive.createDrive({
+      var url = await bg.dwebfs.createDrive({
         title: this.title,
         description: this.description,
         author: this.author,
         prompt: false
       })
       if (this.fromFolderPath) {
-        await bg.hyperdrive.importFromFilesystem({src: this.fromFolderPath, dst: url})
+        await bg.dwebfs.importFromFilesystem({src: this.fromFolderPath, dst: url})
         await bg.folderSync.set(url, {localPath: this.fromFolderPath})
       }
       this.cbs.resolve({url})
@@ -204,7 +204,7 @@ class CreateDriveModal extends LitElement {
     let btn = e.currentTarget
     e.preventDefault()
 
-    var folder = await bg.beakerBrowser.showOpenDialog({
+    var folder = await bg.dBrowserX.showOpenDialog({
       title: 'Select folder',
       buttonLabel: 'Use folder',
       properties: ['openDirectory']
@@ -220,7 +220,7 @@ class CreateDriveModal extends LitElement {
 
   onClickLink (e) {
     e.preventDefault()
-    bg.beakerBrowser.openUrl(e.currentTarget.dataset.href, {setActive: true})
+    bg.dBrowserX.openUrl(e.currentTarget.dataset.href, {setActive: true})
   }
 }
 

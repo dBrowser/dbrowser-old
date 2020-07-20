@@ -2,20 +2,20 @@
 
 import { EventTargetFromStream } from './event-target'
 
-import errors from 'beaker-error-constants'
+import errors from 'dbrowser-error-constants'
 import experimentalGlobalFetchManifest from '../manifests/external/experimental/global-fetch'
 import experimentalCapturePageManifest from '../manifests/external/experimental/capture-page'
-import experimentalDatPeersManifest from '../manifests/external/experimental/dat-peers'
+import experimentalDatPeersManifest from '../manifests/external/experimental/dweb-peers'
 
 export const setup = function (rpc) {
   const experimental = {}
   const opts = {timeout: false, errors}
 
-  // hyperdrive or internal only
-  if (['beaker:', 'hyper:'].includes(window.location.protocol)) {
+  // dwebfs or internal only
+  if (['dbrowser:', 'hyper:'].includes(window.location.protocol)) {
     const globalFetchRPC = rpc.importAPI('experimental-global-fetch', experimentalGlobalFetchManifest, opts)
     const capturePageRPC = rpc.importAPI('experimental-capture-page', experimentalCapturePageManifest, opts)
-    const datPeersRPC = rpc.importAPI('experimental-dat-peers', experimentalDatPeersManifest, opts)
+    const datPeersRPC = rpc.importAPI('experimental-dweb-peers', experimentalDatPeersManifest, opts)
 
     // experimental.globalFetch
     experimental.globalFetch = async function globalFetch (input, init) {

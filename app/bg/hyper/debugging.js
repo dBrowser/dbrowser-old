@@ -30,7 +30,7 @@ export const datDnsCachePage = function () {
   var cache = hyperDns.listCache()
   return `<html>
     <body>
-      <h1>Dat DNS cache</h1>
+      <h1>DWeb DNS cache</h1>
       <p><button>Clear cache</button></p>
       <table style="font-family: monospace">
         ${Object.keys(cache).map(name => {
@@ -38,7 +38,7 @@ export const datDnsCachePage = function () {
     return `<tr><td><strong>${name}</strong></td><td>${key}</td></tr>`
   }).join('')}
       </table>
-      <script src="beaker://dat-dns-cache/main.js"></script>
+      <script src="dbrowser://dweb-dns-cache/main.js"></script>
     </body>
   </html>`
 }
@@ -50,7 +50,7 @@ export const datDnsCacheJS = function () {
   return `
     document.querySelector('button').addEventListener('click', clear)
     async function clear () {
-      await beaker.drives.clearDnsCache()
+      await dbrowser.drives.clearDnsCache()
       location.reload()
     }
   `

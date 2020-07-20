@@ -32,10 +32,10 @@ export class CommentsView extends LitElement {
             <a class="selected" href="/comments" title="Comments">Comments</a>
             <a href="/users" title="Users">Users</a>
           </nav>
-          <beaker-comments-feed loadable .user=${this.user}></beaker-comments-feed>
+          <dbrowser-comments-feed loadable .user=${this.user}></dbrowser-comments-feed>
         </main>
         <nav>
-          <beaker-about loadable></beaker-about>
+          <dbrowser-about loadable></dbrowser-about>
         </nav>
       </div>
     `
@@ -46,4 +46,4 @@ export class CommentsView extends LitElement {
 
 }
 
-customElements.define('beaker-comments-view', CommentsView)
+customElements.define('dbrowser-comments-view', CommentsView)

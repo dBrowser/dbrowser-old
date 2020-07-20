@@ -43,7 +43,7 @@ export class ProfileView extends LitElement {
     return html`
       <div class="layout three-col">
         <nav>
-          <beaker-profile-aside loadable .user=${this.user} id=${this.profileId} ?admin-ctrls=${this.showAdminCtrls}></beaker-profile-aside>
+          <dbrowser-profile-aside loadable .user=${this.user} id=${this.profileId} ?admin-ctrls=${this.showAdminCtrls}></dbrowser-profile-aside>
         </nav>
         <main>
           <nav class="pills">
@@ -53,7 +53,7 @@ export class ProfileView extends LitElement {
           ${this.renderSubview()}
         </main>
         <nav>
-          <beaker-about loadable></beaker-about>
+          <dbrowser-about loadable></dbrowser-about>
         </nav>
       </div>
     `
@@ -61,10 +61,10 @@ export class ProfileView extends LitElement {
 
   renderSubview () {
     if (this.subview === 'posts') {
-      return html`<beaker-posts-feed loadable .user=${this.user} author=${this.profileId}></beaker-posts-feed>`
+      return html`<dbrowser-posts-feed loadable .user=${this.user} author=${this.profileId}></dbrowser-posts-feed>`
     }
     if (this.subview === 'comments') {
-      return html`<beaker-comments-feed loadable .user=${this.user} author=${this.profileId}></beaker-comments-feed>`
+      return html`<dbrowser-comments-feed loadable .user=${this.user} author=${this.profileId}></dbrowser-comments-feed>`
     }
   }
 
@@ -73,4 +73,4 @@ export class ProfileView extends LitElement {
 
 }
 
-customElements.define('beaker-profile-view', ProfileView)
+customElements.define('dbrowser-profile-view', ProfileView)

@@ -16,7 +16,7 @@ var tray
 
 export function setup () {
   tray = new Tray(path.join(__dirname, getIcon()))
-  tray.setToolTip('Beaker Browser')
+  tray.setToolTip('dBrowser')
   tray.on('click', e => tray.popupContextMenu())
   settingsDb.on('set:run_background', buildMenu)
   nativeTheme.on('updated', updateIcon)

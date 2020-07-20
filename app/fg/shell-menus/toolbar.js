@@ -31,7 +31,7 @@ class ToolbarMenu extends LitElement {
     this.menu = params && params.menu ? params.menu : undefined
     if (!isUpdate) {
       let [browserInfo, menuItems] = await Promise.all([
-        bg.beakerBrowser.getInfo(),
+        bg.dBrowserX.getInfo(),
         bg.shellMenus.getWindowMenu()
       ])
       this.isDarwin = browserInfo.platform === 'darwin'
@@ -85,7 +85,7 @@ class ToolbarMenu extends LitElement {
     var items = this.menuItems[menu]
     if (!items) return html``
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <div class="section">
           ${repeat(items, (item, i) => item.id || i, item => item.separator
@@ -112,7 +112,7 @@ class ToolbarMenu extends LitElement {
 
   render_bookmarks () {
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper wide">
         <div class="section scrollable">
           ${repeat(this.bookmarks, b => b.href, b => html`

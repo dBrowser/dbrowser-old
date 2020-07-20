@@ -3,7 +3,7 @@ import emitStream from 'emit-stream'
 import * as logLib from '../logger'
 const logger = logLib.child({category: 'hyper', subcategory: 'watchlist'})
 
-// dat modules
+// dweb modules
 import * as drives from './drives'
 
 import * as hyperDns from './dns'

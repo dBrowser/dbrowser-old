@@ -5,7 +5,7 @@ import * as toast from '../toast'
 
 const DOMAIN_NAME_HELP = yo`<span>
   You can set a human-readable domain name using DNS.
-  <a class="link" href="https://beakerbrowser.com/docs/guides/use-a-domain-name-with-dat" target="_blank">Follow this guide to setup your DNS record</a>,
+  <a class="link" href="https://dbrowser.com/docs/guides/use-a-domain-name-with-dweb" target="_blank">Follow this guide to setup your DNS record</a>,
   then confirm the domain name here.
 </span>`
 
@@ -29,7 +29,7 @@ const PREVIEW_MODE_HELP = yo`<span>
 </span>`
 
 const DONATE_LINK_HELP = yo`<span>
-  Enter a link to your donation page and Beaker will show a <span class="fa fa-donate"></span> icon in your site's URL bar.
+  Enter a link to your donation page and dBrowser will show a <span class="fa fa-donate"></span> icon in your site's URL bar.
 </span>`
 
 // globals
@@ -52,7 +52,7 @@ export function render (workingCheckout, isReadonly, archiveInfo, workingDatJson
             ${inputControl(workingDatJson, {isReadonly, label: 'Title', name: 'title'})}
             ${textareaControl(workingDatJson, {isReadonly, label: 'Description', name: 'description'})}
             ${thumbControl(archiveInfo.url, {isReadonly})}
-            ${linkControl(workingDatJson, {isReadonly, label: 'Donation Link', name: 'payment', placeholder: 'e.g. http://opencollective.com/beaker', help: DONATE_LINK_HELP})}
+            ${linkControl(workingDatJson, {isReadonly, label: 'Donation Link', name: 'payment', placeholder: 'e.g. http://opencollective.com/dbrowser', help: DONATE_LINK_HELP})}
           </div>
         `)}
         ${section('publish', 'Publishing', yo`
@@ -71,7 +71,7 @@ export function render (workingCheckout, isReadonly, archiveInfo, workingDatJson
             ${permissionControl(workingDatJson, {
               isReadonly,
               label: 'Follows API',
-              documentation: 'dat://unwalled.garden/docs/api/follows',
+              documentation: 'dweb://unwalled.garden/docs/api/follows',
               perm: 'unwalled.garden/api/follows',
               caps: [
                 {id: 'read', description: 'Read the user\'s followers'},
@@ -81,7 +81,7 @@ export function render (workingCheckout, isReadonly, archiveInfo, workingDatJson
             ${permissionControl(workingDatJson, {
               isReadonly,
               label: 'Posts API',
-              documentation: 'dat://unwalled.garden/docs/api/posts',
+              documentation: 'dweb://unwalled.garden/docs/api/posts',
               perm: 'unwalled.garden/api/posts',
               caps: [
                 {id: 'read', description: 'Read the user\'s feed'},
@@ -91,7 +91,7 @@ export function render (workingCheckout, isReadonly, archiveInfo, workingDatJson
             ${permissionControl(workingDatJson, {
               isReadonly,
               label: 'Bookmarks API',
-              documentation: 'dat://unwalled.garden/docs/api/bookmarks',
+              documentation: 'dweb://unwalled.garden/docs/api/bookmarks',
               perm: 'unwalled.garden/api/bookmarks',
               caps: [
                 {id: 'read', description: 'Read the user\'s bookmarks'},
@@ -101,7 +101,7 @@ export function render (workingCheckout, isReadonly, archiveInfo, workingDatJson
             ${permissionControl(workingDatJson, {
               isReadonly,
               label: 'Comments API',
-              documentation: 'dat://unwalled.garden/docs/api/comments',
+              documentation: 'dweb://unwalled.garden/docs/api/comments',
               perm: 'unwalled.garden/api/comments',
               caps: [
                 {id: 'read', description: 'Read the user\'s comments'},
@@ -111,7 +111,7 @@ export function render (workingCheckout, isReadonly, archiveInfo, workingDatJson
             ${permissionControl(workingDatJson, {
               isReadonly,
               label: 'Reactions API',
-              documentation: 'dat://unwalled.garden/docs/api/reactions',
+              documentation: 'dweb://unwalled.garden/docs/api/reactions',
               perm: 'unwalled.garden/api/reactions',
               caps: [
                 {id: 'read', description: 'Read the user\'s reactions'},
@@ -121,7 +121,7 @@ export function render (workingCheckout, isReadonly, archiveInfo, workingDatJson
             ${permissionControl(workingDatJson, {
               isReadonly,
               label: 'Votes API',
-              documentation: 'dat://unwalled.garden/docs/api/votes',
+              documentation: 'dweb://unwalled.garden/docs/api/votes',
               perm: 'unwalled.garden/api/votes',
               caps: [
                 {id: 'read', description: 'Read the user\'s votes'},
@@ -252,10 +252,10 @@ function domainNameControl (workingCheckout, archiveInfo, manifest, opts) {
   const isNotCommitted = manifest.domain && !archiveInfo.manifest.domain
 
   async function doSave (value) {
-    // update dat.json
-    var m = JSON.parse(await workingCheckout.readFile('/dat.json'))
+    // update dweb.json
+    var m = JSON.parse(await workingCheckout.readFile('/dweb.json'))
     m.domain = value
-    await workingCheckout.writeFile('/dat.json', JSON.stringify(m, null, 2))
+    await workingCheckout.writeFile('/dweb.json', JSON.stringify(m, null, 2))
 
     // trigger confirmation
     if (value) {
@@ -301,7 +301,7 @@ function domainNameControl (workingCheckout, archiveInfo, manifest, opts) {
           <div class="dns-control">
             <div class="dns-control-msg readonly">
               ${archiveInfo.domain ? yo`
-                <a href="dat://${archiveInfo.domain}" class="link" target="_blank">${archiveInfo.domain}</a>
+                <a href="dweb://${archiveInfo.domain}" class="link" target="_blank">${archiveInfo.domain}</a>
               ` : 'No domain name confirmed'}
             </div>
           </div>
@@ -311,9 +311,9 @@ function domainNameControl (workingCheckout, archiveInfo, manifest, opts) {
             <div class="dns-control">
               <div class="dns-control-msg">
                 ${isWrong ? yo`<span class="fas fa-fw fa-exclamation-triangle"></span>` : ''}
-                <a href="dat://${manifest.domain}" class="link" target="_blank">${manifest.domain}</a>
+                <a href="dweb://${manifest.domain}" class="link" target="_blank">${manifest.domain}</a>
                 ${isWrong ? 'is not confirmed.' : ''}
-                ${isNotCommitted ? '(Make sure to commit the updated dat.json.)' : ''}
+                ${isNotCommitted ? '(Make sure to commit the updated dweb.json.)' : ''}
               </div>
               <div>
                 ${isWrong ? yo`<button class="btn" onclick=${onCheckAgain}>Check again</button>` : ''}
@@ -326,7 +326,7 @@ function domainNameControl (workingCheckout, archiveInfo, manifest, opts) {
             ? yo`
               <div class="dns-control">
                 <div class="dns-control-msg">
-                  Use <a href="dat://${possibleDomain}" class="link" target="_blank">${possibleDomain}</a>?
+                  Use <a href="dweb://${possibleDomain}" class="link" target="_blank">${possibleDomain}</a>?
                 </div>
                 <div>
                   <button class="btn success" onclick=${onUsePossible}><span class="fas fa-check"></span> Yes</button>
@@ -521,7 +521,7 @@ async function onSubmitSettings (e, workingCheckout, workingDatJson) {
     }
 
     // write manifest
-    await workingCheckout.writeFile('/dat.json', JSON.stringify(workingDatJson, null, 2))
+    await workingCheckout.writeFile('/dweb.json', JSON.stringify(workingDatJson, null, 2))
 
     // write thumb
     if (changedValues.thumb) {
@@ -585,7 +585,7 @@ function onCopy (e, str, successMessage = 'Copied to clipboard') {
 function onOpenFolder (e, path) {
   e.preventDefault()
   e.stopPropagation()
-  beaker.browser.openFolder(path)
+  dbrowser.browser.openFolder(path)
 }
 
 // helpers

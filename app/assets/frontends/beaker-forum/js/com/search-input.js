@@ -60,4 +60,4 @@ export class SearchInput extends LitElement {
   }
 }
 
-customElements.define('beaker-search-input', SearchInput)
+customElements.define('dbrowser-search-input', SearchInput)

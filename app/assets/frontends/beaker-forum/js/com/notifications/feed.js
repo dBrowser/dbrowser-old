@@ -153,11 +153,11 @@ export class NotificationsFeed extends LitElement {
               </div>
             ` : ''}
           ${this.page > 0 || this.notifications.length === PAGE_SIZE ? html`
-            <beaker-paginator
+            <dbrowser-paginator
               page=${this.page}
               label="Showing notifications ${(this.page * PAGE_SIZE) + 1} - ${(this.page + 1) * PAGE_SIZE}"
               @change-page=${this.onChangePage}
-            ></beaker-paginator>
+            ></dbrowser-paginator>
           ` : ''}
         `}
       </div>
@@ -191,4 +191,4 @@ export class NotificationsFeed extends LitElement {
   }
 }
 
-customElements.define('beaker-notifications-feed', NotificationsFeed)
+customElements.define('dbrowser-notifications-feed', NotificationsFeed)

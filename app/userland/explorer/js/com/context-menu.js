@@ -40,7 +40,7 @@ create({
   parent: document.body,
 
   // url to fontawesome css
-  fontAwesomeCSSUrl: 'beaker://assets/font-awesome.css',
+  fontAwesomeCSSUrl: 'dbrowser://assets/font-awesome.css',
 
   // menu items
   items: [
@@ -75,7 +75,7 @@ export function create (opts) {
 }
 
 export function destroy (value) {
-  const el = document.querySelector('beaker-context-menu')
+  const el = document.querySelector('dbrowser-context-menu')
   if (el) {
     el.parentNode.removeChild(el)
     document.removeEventListener('keyup', onKeyUp)
@@ -97,7 +97,7 @@ function onKeyUp (e) {
 }
 
 function onClickAnywhere (e) {
-  if (!findParent(e.target, el => el.tagName === 'BEAKER-CONTEXT-MENU')) {
+  if (!findParent(e.target, el => el.tagName === 'DBROWSER-CONTEXT-MENU')) {
     // click is outside the context-menu, destroy
     destroy()
   }
@@ -231,4 +231,4 @@ a.dropdown-item {
 }
 `
 
-customElements.define('beaker-context-menu', BeakerContextMenu)
+customElements.define('dbrowser-context-menu', BeakerContextMenu)

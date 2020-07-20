@@ -2,7 +2,7 @@ export default `
 
 ALTER TABLE archives_meta ADD COLUMN type TEXT;
 
--- crawled dats
+-- crawled dwebs
 CREATE TABLE crawl_dats (
   crawlSourceId INTEGER NOT NULL,
   crawledAt INTEGER,

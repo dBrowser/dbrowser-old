@@ -213,8 +213,8 @@ export class Post extends LitElement {
 
   onClickComments (e) {
     e.preventDefault()
-    this.parentNode.querySelector('beaker-comments-thread').scrollIntoView()
+    this.parentNode.querySelector('dbrowser-comments-thread').scrollIntoView()
   }
 }
 
-customElements.define('beaker-post', Post)
+customElements.define('dbrowser-post', Post)

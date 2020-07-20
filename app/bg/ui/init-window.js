@@ -35,7 +35,7 @@ export function open () {
     icon: ICON_PATH,
     show: true
   })
-  initWindow.loadURL(`beaker://init/`)
+  initWindow.loadURL(`dbrowser://init/`)
 }
 
 export function close () {

@@ -1,14 +1,14 @@
 import { BrowserView, dialog } from 'electron'
-import pda from 'pauls-dat-api2'
+import pda from 'pauls-dweb-api2'
 import * as tabManager from '../../ui/tab-manager'
 import * as modals from '../../ui/subwindows/modals'
 import * as prompts from '../../ui/subwindows/prompts'
 import * as drives from '../../hyper/drives'
-import { lookupDrive } from './hyperdrive'
+import { lookupDrive } from './dwebfs'
 import { parseDriveUrl } from '../../../lib/urls'
 import { joinPath } from '../../../lib/strings'
 import assert from 'assert'
-import { UserDeniedError, ArchiveNotWritableError } from 'beaker-error-constants'
+import { UserDeniedError, ArchiveNotWritableError } from 'dbrowser-error-constants'
 import _pick from 'lodash.pick'
 
 // typedefs
@@ -152,7 +152,7 @@ export default {
   },
 
   /**
-   * Can only be used by beaker:// sites
+   * Can only be used by dbrowser:// sites
    * 
    * @returns {Promise<void>}
    */
@@ -229,7 +229,7 @@ export default {
 }
 
 async function isBeakerApp (sender) {
-  if (/^(beaker:|https?:\/\/(.*\.)?hyperdrive\.network(:|\/))/.test(sender.getURL())) {
+  if (/^(dbrowser:|https?:\/\/(.*\.)?dwebfs\.network(:|\/))/.test(sender.getURL())) {
     return true
   }
   return false

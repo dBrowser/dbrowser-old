@@ -7,8 +7,8 @@ export class DriveFiles extends HTMLElement {
   }
 
   async load () {
-    this.info = await hyperdrive.self.getInfo()
-    this.entries = await hyperdrive.self.readdir(location.pathname, {includeStats: true})
+    this.info = await dwebfs.self.getInfo()
+    this.entries = await dwebfs.self.readdir(location.pathname, {includeStats: true})
     this.entries.sort((a, b) => a.name.localeCompare(b.name))
     this.render()
   }

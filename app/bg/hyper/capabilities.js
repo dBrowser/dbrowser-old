@@ -1,6 +1,6 @@
 import * as base32 from 'base32.js'
 import * as crypto from 'crypto'
-import { PermissionsError } from 'beaker-error-constants'
+import { PermissionsError } from 'dbrowser-error-constants'
 import { parseDriveUrl } from '../../lib/urls'
 
 // typedefs

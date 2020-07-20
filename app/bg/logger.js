@@ -122,7 +122,7 @@ export const WEBAPI = {
   async listDaemonLog () {
     var file = await new Promise((resolve, reject) => {
       pump(
-        fs.createReadStream(join(os.homedir(), '.hyperdrive/log.json'), {start: 0, end: 1e6, encoding: 'utf8'}),
+        fs.createReadStream(join(os.homedir(), '.dwebfs/log.json'), {start: 0, end: 1e6, encoding: 'utf8'}),
         concat(resolve),
         reject
       )

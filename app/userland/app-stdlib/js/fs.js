@@ -41,7 +41,7 @@ import { urlToKey, joinPath, slugify } from './strings.js'
 // =
 
 /**
- * @param {Hyperdrive} fs
+ * @param {DWebFs} fs
  * @param {FSQueryOpts} query
  * @returns {Promise<FSQueryResult[]>}
  */
@@ -62,7 +62,7 @@ export async function queryRead (fs, query) {
 }
 
 /**
- * @param {Hyperdrive} fs
+ * @param {DWebFs} fs
  * @param {FSQueryOpts} query
  * @returns {Promise<boolean>}
  */
@@ -72,7 +72,7 @@ export async function queryHas (fs, query) {
 }
 
 /**
- * @param {Hyperdrive} fs
+ * @param {DWebFs} fs
  * @param {string} path
  */
 export async function ensureDir (fs, path) {
@@ -89,7 +89,7 @@ export async function ensureDir (fs, path) {
 }
 
 /**
- * @param {Hyperdrive} fs
+ * @param {DWebFs} fs
  * @param {string} path
  */
 export async function ensureParentDir (fs, path) {
@@ -97,7 +97,7 @@ export async function ensureParentDir (fs, path) {
 }
 
 /**
- * @param {Hyperdrive} fs
+ * @param {DWebFs} fs
  * @param {string} path 
  * @param {string} url 
  * @return {Promise<void>}
@@ -124,7 +124,7 @@ export async function ensureMount (fs, path, url) {
 }
 
 /**
- * @param {Hyperdrive} fs
+ * @param {DWebFs} fs
  * @param {string} path 
  * @return {Promise<void>}
  */

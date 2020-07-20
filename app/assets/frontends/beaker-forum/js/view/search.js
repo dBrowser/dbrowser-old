@@ -47,10 +47,10 @@ export class SearchView extends LitElement {
             <span class="fas fa-fw fa-search"></span>
             ${title}
           </h3>
-          <beaker-search-results loadable .user=${this.user} drive-type=${this.driveType || ''} query=${this.query || ''}></beaker-search-results>
+          <dbrowser-search-results loadable .user=${this.user} drive-type=${this.driveType || ''} query=${this.query || ''}></dbrowser-search-results>
         </main>
         <nav>
-          <beaker-about loadable></beaker-about>
+          <dbrowser-about loadable></dbrowser-about>
         </nav>
       </div>
     `
@@ -61,4 +61,4 @@ export class SearchView extends LitElement {
 
 }
 
-customElements.define('beaker-search-view', SearchView)
+customElements.define('dbrowser-search-view', SearchView)

@@ -1,5 +1,5 @@
 import moment from 'moment'
-import {TimeoutError} from 'beaker-error-constants'
+import {TimeoutError} from 'dbrowser-error-constants'
 
 moment.updateLocale('en', {
   relativeTime: {s: 'seconds'}

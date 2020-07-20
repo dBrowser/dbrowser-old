@@ -94,11 +94,11 @@ export class CommentsFeed extends LitElement {
               </div>
             ` : ''}
           ${this.page > 0 || this.comments.length === PAGE_SIZE ? html`
-            <beaker-paginator
+            <dbrowser-paginator
               page=${this.page}
               label="Showing comments ${(this.page * PAGE_SIZE) + 1} - ${(this.page + 1) * PAGE_SIZE}"
               @change-page=${this.onChangePage}
-            ></beaker-paginator>
+            ></dbrowser-paginator>
           ` : ''}
         `}
       </div>
@@ -154,4 +154,4 @@ export class CommentsFeed extends LitElement {
   }
 }
 
-customElements.define('beaker-comments-feed', CommentsFeed)
+customElements.define('dbrowser-comments-feed', CommentsFeed)

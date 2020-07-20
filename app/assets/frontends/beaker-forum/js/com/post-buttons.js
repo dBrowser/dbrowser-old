@@ -27,4 +27,4 @@ export class PostButtons extends LitElement {
   }
 }
 
-customElements.define('beaker-post-buttons', PostButtons)
+customElements.define('dbrowser-post-buttons', PostButtons)

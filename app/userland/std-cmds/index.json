@@ -57,13 +57,13 @@
     },
     {
       "name": "mount",
-      "help": "Mount a hyperdrive as a subfolder",
+      "help": "Mount a dwebfs as a subfolder",
       "usage": "mount {mount-url} {dst}",
       "autocomplete": "files"
     },
     {
       "name": "unmount",
-      "help": "Unmount a mounted hyperdrive",
+      "help": "Unmount a mounted dwebfs",
       "usage": "unmount {dst}",
       "autocomplete": "files"
     },
@@ -280,7 +280,7 @@
     },
     {
       "name": "system",
-      "help": "Beaker system info commands",
+      "help": "dBrowser system info commands",
       "subcommands": [
         {
           "name": "fs_audit_stream",

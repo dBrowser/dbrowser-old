@@ -31,14 +31,14 @@ export class About extends LitElement {
   }
 
   async load () {
-    var drive = hyperdrive.self
+    var drive = dwebfs.self
     this.info = await drive.getInfo()
     this.requestUpdate()
-    this.groupware = await drive.readFile('/beaker-forum/groupware.json').then(JSON.parse).catch(e => undefined)
+    this.groupware = await drive.readFile('/dbrowser-forum/groupware.json').then(JSON.parse).catch(e => undefined)
     this.requestUpdate()
     this.userCount = await uwg.users.count()
     this.requestUpdate()
-    this.sidebarMd = await drive.readFile('/beaker-forum/sidebar.md').catch(e => undefined)
+    this.sidebarMd = await drive.readFile('/dbrowser-forum/sidebar.md').catch(e => undefined)
     this.requestUpdate()
   }
 
@@ -99,4 +99,4 @@ export class About extends LitElement {
   }
 }
 
-customElements.define('beaker-about', About)
+customElements.define('dbrowser-about', About)

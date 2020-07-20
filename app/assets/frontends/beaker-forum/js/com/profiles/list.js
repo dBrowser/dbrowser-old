@@ -47,10 +47,10 @@ export class ProfileList extends LitElement {
     return html`
       <div class="profile">
         <a class="avatar" href="/users/${profile.id}">
-          <beaker-img-fallbacks>
+          <dbrowser-img-fallbacks>
             <img src="/users/${profile.id}/thumb" slot="img1">
             <img src="/.ui/img/default-user-thumb.jpg" slot="img2">
-          </beaker-img-fallbacks>
+          </dbrowser-img-fallbacks>
         </a>
         <div class="main">
           <h1 class="title">
@@ -69,4 +69,4 @@ export class ProfileList extends LitElement {
 
 }
 
-customElements.define('beaker-profile-list', ProfileList)
+customElements.define('dbrowser-profile-list', ProfileList)

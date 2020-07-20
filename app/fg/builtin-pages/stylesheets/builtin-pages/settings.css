@@ -269,70 +269,70 @@
   text-decoration: underline;
   cursor: pointer;
 }
-.dat-cache {
+.dweb-cache {
   margin: 0 -15px;
 }
-.dat-cache.loading {
+.dweb-cache.loading {
   margin: 0;
 }
-.dat-cache .dat-cache-actions {
+.dweb-cache .dweb-cache-actions {
   padding: 0 10px 10px;
 }
-.dat-cache .heading {
+.dweb-cache .heading {
   align-items: center;
   padding: 6px 15px;
   color: #333;
   font-size: 11px;
 }
-.dat-cache .heading .title {
+.dweb-cache .heading .title {
   flex: 1;
 }
-.dat-cache .heading .peers,
-.dat-cache .heading .size,
-.dat-cache .heading .mtime {
+.dweb-cache .heading .peers,
+.dweb-cache .heading .size,
+.dweb-cache .heading .mtime {
   width: 100px;
 }
-.dat-cache .heading .buttons {
+.dweb-cache .heading .buttons {
   width: 110px;
 }
-.dat-cache .heading a {
+.dweb-cache .heading a {
   color: #333 !important;
   cursor: pointer;
 }
-.dat-cache .ll-row.archive {
+.dweb-cache .ll-row.archive {
   border-right: 0;
   border-left: 0;
 }
-.dat-cache .ll-row.archive .title {
+.dweb-cache .ll-row.archive .title {
   flex: 1;
 }
-.dat-cache .ll-row.archive .peers,
-.dat-cache .ll-row.archive .size,
-.dat-cache .ll-row.archive .mtime {
+.dweb-cache .ll-row.archive .peers,
+.dweb-cache .ll-row.archive .size,
+.dweb-cache .ll-row.archive .mtime {
   color: rgba(0, 0, 0, 0.5);
   flex: 0 0 100px;
   white-space: nowrap;
   overflow: hidden;
 }
-.dat-cache .ll-row.archive .buttons {
+.dweb-cache .ll-row.archive .buttons {
   width: 110px;
   overflow: visible;
   opacity: 1;
 }
-.dat-cache .ll-row.archive .buttons .btn {
+.dweb-cache .ll-row.archive .buttons .btn {
   margin-left: 5px;
 }
-.dat-cache .ll-row.archive .buttons .btn.copy-url,
-.dat-cache .ll-row.archive .buttons .btn.remove-workspace,
-.dat-cache .ll-row.archive .buttons .btn.remove-archive {
+.dweb-cache .ll-row.archive .buttons .btn.copy-url,
+.dweb-cache .ll-row.archive .buttons .btn.remove-workspace,
+.dweb-cache .ll-row.archive .buttons .btn.remove-archive {
   opacity: 0;
   border: 0;
   transition: 0.2s ease opacity;
   margin-left: -3px;
   color: rgba(0, 0, 0, 0.65);
 }
-.dat-cache .ll-row.archive .buttons .btn.remove-workspace,
-.dat-cache .ll-row.archive .buttons .btn.remove-archive {
+.dweb-cache .ll-row.archive .buttons .btn.remove-workspace,
+.dweb-cache .ll-row.archive .buttons .btn.remove-archive {
   color: #cc2f26;
 }
 .logger .controls {
@@ -454,10 +454,10 @@
 .builtin-wrapper.settings-wrapper .section.default-browser .toggle .text {
   width: 45px;
 }
-.builtin-wrapper.settings-wrapper .section.default-to-dat .toggle {
+.builtin-wrapper.settings-wrapper .section.default-to-dweb .toggle {
   justify-content: flex-end;
 }
-.builtin-wrapper.settings-wrapper .section.default-to-dat .toggle .text {
+.builtin-wrapper.settings-wrapper .section.default-to-dweb .toggle .text {
   margin-right: 10px;
 }
 .builtin-wrapper.settings-wrapper .section.analytics .toggle {
@@ -521,18 +521,18 @@
   font-weight: 400;
   margin-bottom: 0;
 }
-.builtin-wrapper.settings-wrapper .dat-bandwidth .inputs > div {
+.builtin-wrapper.settings-wrapper .dweb-bandwidth .inputs > div {
   margin-right: 5px;
 }
-.builtin-wrapper.settings-wrapper .dat-bandwidth .inputs label {
+.builtin-wrapper.settings-wrapper .dweb-bandwidth .inputs label {
   display: block;
 }
-.builtin-wrapper.settings-wrapper .default-dat-ignore textarea {
+.builtin-wrapper.settings-wrapper .default-dweb-ignore textarea {
   width: 500px;
   height: 140px;
   padding: 4px 7px;
 }
-.builtin-wrapper.settings-wrapper .dat-cache .title {
+.builtin-wrapper.settings-wrapper .dweb-cache .title {
   max-width: none;
 }
 .builtin-wrapper.settings-wrapper.help a {

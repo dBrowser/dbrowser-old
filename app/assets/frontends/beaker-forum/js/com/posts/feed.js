@@ -53,7 +53,7 @@ export class PostsFeed extends LitElement {
   }
 
   requestFeedPostsUpdate () {
-    Array.from(this.shadowRoot.querySelectorAll('beaker-post'), el => el.requestUpdate())
+    Array.from(this.shadowRoot.querySelectorAll('dbrowser-post'), el => el.requestUpdate())
   }
 
   async refreshFeed () {
@@ -83,12 +83,12 @@ export class PostsFeed extends LitElement {
           </div>
         ` : html`
           ${repeat(this.posts, post => html`
-            <beaker-post
+            <dbrowser-post
               class="${post.isRead ? 'read' : 'unread'}"
               .post=${post}
               user-url="${this.user ? this.user.url : ''}"
               @deleted=${this.onPostDeleted}
-            ></beaker-post>
+            ></dbrowser-post>
           `)}
           ${this.posts.length === 0
             ? html`
@@ -102,11 +102,11 @@ export class PostsFeed extends LitElement {
               </div>
             ` : ''}
           ${this.page > 0 || this.posts.length === PAGE_SIZE ? html`
-            <beaker-paginator
+            <dbrowser-paginator
               page=${this.page}
               label="Showing posts ${(this.page * PAGE_SIZE) + 1} - ${(this.page + 1) * PAGE_SIZE}"
               @change-page=${this.onChangePage}
-            ></beaker-paginator>
+            ></dbrowser-paginator>
           ` : ''}
         `}
       </div>
@@ -128,4 +128,4 @@ export class PostsFeed extends LitElement {
   }
 }
 
-customElements.define('beaker-posts-feed', PostsFeed)
+customElements.define('dbrowser-posts-feed', PostsFeed)

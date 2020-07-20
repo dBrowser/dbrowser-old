@@ -49,7 +49,7 @@ class ShellWindowUI extends LitElement {
 
   async setup () {
     // fetch platform information
-    var browserInfo = await bg.beakerBrowser.getInfo()
+    var browserInfo = await bg.dBrowserX.getInfo()
     window.platform = browserInfo.platform
     if (browserInfo.platform === 'darwin') {
       document.body.classList.add('darwin')
@@ -87,7 +87,7 @@ class ShellWindowUI extends LitElement {
     })
 
     // listen to state updates on the auto-updater
-    var browserEvents = fromEventStream(bg.beakerBrowser.createEventsStream())
+    var browserEvents = fromEventStream(bg.dBrowserX.createEventsStream())
     browserEvents.addEventListener('updater-state-changed', this.onUpdaterStateChange.bind(this))
 
     // listen to state updates on the watchlist
@@ -97,7 +97,7 @@ class ShellWindowUI extends LitElement {
     })
 
     const getDaemonStatus = async () => {
-      var status = await bg.beakerBrowser.getDaemonStatus()
+      var status = await bg.dBrowserX.getDaemonStatus()
       // HACK: don't indicate 'not holepunchable' if the daemon isnt active to tell us
       var isHolepunchable = status.holepunchable || !status.active
       if (this.isHolepunchable !== isHolepunchable) {
@@ -110,7 +110,7 @@ class ShellWindowUI extends LitElement {
     this.isUpdateAvailable = browserInfo.updater.state === 'downloaded'
     ;[this.tabs, this.userProfileUrl] = await Promise.all([
       bg.views.getState(),
-      bg.beakerBrowser.getProfile().then(p => p ? `hyper://${p.key}/` : undefined)
+      bg.dBrowserX.getProfile().then(p => p ? `hyper://${p.key}/` : undefined)
     ])
     this.stateHasChanged()
     getDaemonStatus()
@@ -122,7 +122,7 @@ class ShellWindowUI extends LitElement {
     // -prf
     setInterval(async () => {
       getDaemonStatus()
-      var userProfileUrl = await bg.beakerBrowser.getProfile().then(p => p ? `hyper://${p.key}/` : undefined)
+      var userProfileUrl = await bg.dBrowserX.getProfile().then(p => p ? `hyper://${p.key}/` : undefined)
       if (this.userProfileUrl !== userProfileUrl) {
         this.userProfileUrl = userProfileUrl
         this.stateHasChanged()

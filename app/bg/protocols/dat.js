@@ -1,13 +1,13 @@
 import { join as joinPath } from 'path'
-import { getStoragePathFor, downloadDat } from '../dat/index'
+import { getStoragePathFor, downloadDat } from '../dweb/index'
 import { URL } from 'url'
 import { promisify } from 'util'
-import datDns from '../dat/dns'
-import datServeResolvePath from '@beaker/dat-serve-resolve-path'
+import datDns from '../dweb/dns'
+import datServeResolvePath from '@dbrowser/dweb-serve-resolve-path'
 import ScopedFS from 'scoped-fs'
 import * as mime from '../lib/mime'
 import * as logLib from '../logger'
-const logger = logLib.child({category: 'dat', subcategory: 'protocol'})
+const logger = logLib.child({category: 'dweb', subcategory: 'protocol'})
 
 // globals
 // =
@@ -43,7 +43,7 @@ function intoStream (text) {
 // =
 
 export function register (protocol) {
-  protocol.registerStreamProtocol('dat', electronHandler)
+  protocol.registerStreamProtocol('dweb', electronHandler)
 }
 
 export const electronHandler = async function (request, respond) {
@@ -57,9 +57,9 @@ export const electronHandler = async function (request, respond) {
 
     var manifest = {}
     try {
-      manifest = JSON.parse(await fs.readFile('/dat.json'))
+      manifest = JSON.parse(await fs.readFile('/dweb.json'))
     } catch (e) {
-      logger.warn('Failed to fetch dat:// manifest', {key, error: e})
+      logger.warn('Failed to fetch dweb:// manifest', {key, error: e})
     }
 
     var entry = await datServeResolvePath(fs, manifest, request.url, request.headers.Accept)
@@ -92,11 +92,11 @@ export const electronHandler = async function (request, respond) {
 </html>
 `)})
   } catch (e) {
-    logger.error('Failed to access dat', {error: e, url: request.url})
+    logger.error('Failed to access dweb', {error: e, url: request.url})
     respond({
       statusCode: 400,
       headers: {'Content-Type': 'text/html'},
-      data: intoStream(`<h1>Failed to load Dat</h1><pre>${e.toString()}</pre>`)
+      data: intoStream(`<h1>Failed to load DWeb</h1><pre>${e.toString()}</pre>`)
     })
   }
 }

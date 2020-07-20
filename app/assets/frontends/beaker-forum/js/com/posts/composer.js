@@ -36,9 +36,9 @@ export class PostComposer extends LitElement {
       } else if (params.get('file')) {
         let url = params.get('file')
         let urlp = new URL(url)
-        let drive = hyperdrive.load(urlp.hostname)
+        let drive = dwebfs.load(urlp.hostname)
         let base64buf = await drive.readFile(urlp.pathname, 'base64')
-        this.file = {source: 'hyperdrive', name: urlp.pathname.split('/').pop(), base64buf}
+        this.file = {source: 'dwebfs', name: urlp.pathname.split('/').pop(), base64buf}
       }
       this.queueValidation()
     }
@@ -116,7 +116,7 @@ export class PostComposer extends LitElement {
     if (urlp.protocol === 'hyper:') {
       if (urlp.pathname === '/') {
         try {
-          let info = await hyperdrive.load(urlp.hostname).getInfo({timeout: 10e3})
+          let info = await dwebfs.load(urlp.hostname).getInfo({timeout: 10e3})
           this.linkMetadata = {
             success: true,
             driveType: info.type
@@ -194,7 +194,7 @@ export class PostComposer extends LitElement {
           ${selection}
           <div>
             Select a ${this.file ? 'different' : ''} file from
-            <a href="#" @click=${this.onClickSelectHyperdriveFile}>your hyperdrive</a>
+            <a href="#" @click=${this.onClickSelectHyperdriveFile}>your dwebfs</a>
             or
             <a href="#" @click=${this.onClickSelectOSFile}>your OS filesystem</a>
           </div>
@@ -257,8 +257,8 @@ export class PostComposer extends LitElement {
       allowMultiple: false,
       disallowCreate: true
     })
-    var base64buf = await hyperdrive.load(sels[0].origin).readFile(sels[0].path, 'base64')
-    this.file = {source: 'hyperdrive', name: sels[0].path.split('/').pop(), base64buf}
+    var base64buf = await dwebfs.load(sels[0].origin).readFile(sels[0].path, 'base64')
+    this.file = {source: 'dwebfs', name: sels[0].path.split('/').pop(), base64buf}
     this.runValidation()
   }
 
@@ -325,7 +325,7 @@ export class PostComposer extends LitElement {
 }
 PostComposer.styles = composerCSS
 
-customElements.define('beaker-post-composer', PostComposer)
+customElements.define('dbrowser-post-composer', PostComposer)
 
 function isValidUrl (v) {
   try {

@@ -1,4 +1,4 @@
-/* globals DatArchive beaker */
+/* globals DatArchive dbrowser */
 
 import yo from 'yo-yo'
 import {shortenHash} from '../../../lib/strings'
@@ -55,17 +55,17 @@ async function setup () {
     var archive = new DatArchive(archiveKey)
     peers = (await archive.getInfo()).peerInfo
     updatePeers()
-    beaker.archives.addEventListener('network-changed', ({details}) => {
-      if (details.url.slice('dat://'.length) === archiveKey) {
+    dbrowser.archives.addEventListener('network-changed', ({details}) => {
+      if (details.url.slice('dweb://'.length) === archiveKey) {
         peers = details.peers
         updatePeers()
       }
     })
   }
 
-  var debugEvents = beaker.archives.createDebugStream()
+  var debugEvents = dbrowser.archives.createDebugStream()
   debugEvents.addEventListener(archiveKey || 'all', onLog)
-  logEntries = (await beaker.archives.getDebugLog(archiveKey)).split('\n').map(parseJSON).filter(Boolean)
+  logEntries = (await dbrowser.archives.getDebugLog(archiveKey)).split('\n').map(parseJSON).filter(Boolean)
   logEntries.forEach(tabulateStat)
   render()
 }
@@ -92,8 +92,8 @@ async function parseURL () {
     if (path.startsWith('/')) {
       path = path.slice(1)
     }
-    if (path.startsWith('dat://')) {
-      path = path.slice('dat://'.length)
+    if (path.startsWith('dweb://')) {
+      path = path.slice('dweb://'.length)
     }
     var parts = /^([^/]+)/.exec(path)
     var key = parts[1]
@@ -103,7 +103,7 @@ async function parseURL () {
     return key
   } catch (e) {
     console.error('Failed to parse URL', e)
-    throw new Error('Invalid dat URL')
+    throw new Error('Invalid dweb URL')
   }
 }
 
@@ -326,7 +326,7 @@ function renderUsage (err) {
   yo.update(document.querySelector('main'), yo`
     <main>
       <h1>${err}</h1>
-      <h2>A valid dat URL is required in the URL path.</h2>
+      <h2>A valid dweb URL is required in the URL path.</h2>
     </main>
   `)
 }

@@ -35,7 +35,7 @@ const BIN_EXTS = [
   'cpio',
   'cr2',
   'cur',
-  'dat',
+  'dweb',
   'dcm',
   'deb',
   'dex',

@@ -26,14 +26,14 @@ class GeneralSettingsView extends LitElement {
 
   async load () {
     // wire up events
-    this.browserEvents = beaker.browser.createEventsStream()
+    this.browserEvents = dbrowser.browser.createEventsStream()
     this.browserEvents.addEventListener('updater-state-changed', this.onUpdaterStateChanged.bind(this))
     this.browserEvents.addEventListener('updater-error', this.onUpdaterError.bind(this))
 
     // fetch data
-    this.browserInfo = await beaker.browser.getInfo()
-    this.settings = await beaker.browser.getSettings()
-    this.defaultProtocolSettings = await beaker.browser.getDefaultProtocolSettings()
+    this.browserInfo = await dbrowser.browser.getInfo()
+    this.settings = await dbrowser.browser.getSettings()
+    this.defaultProtocolSettings = await dbrowser.browser.getDefaultProtocolSettings()
     console.log('loaded', {
       browserInfo: this.browserInfo,
       settings: this.settings,
@@ -52,7 +52,7 @@ class GeneralSettingsView extends LitElement {
   render () {
     if (!this.browserInfo) return html``
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       ${this.renderDaemonStatus()}
       ${this.renderAutoUpdater()}
       ${this.renderOnStartupSettings()}
@@ -68,9 +68,9 @@ class GeneralSettingsView extends LitElement {
     if (this.browserInfo && !this.browserInfo.isDaemonActive) {
       return html`
         <div class="section warning">
-          <h2><span class="fas fa-exclamation-triangle"></span> The Hyperdrive Daemon is Not Active</h2>
+          <h2><span class="fas fa-exclamation-triangle"></span> The DWebFs Daemon is Not Active</h2>
           <p>
-            The "daemon" runs Beaker's Hyperdrive networking.
+            The "daemon" runs dBrowser's DWebFs networking.
           </p>
           <p>
             <button @click=${this.onClickRestartDaemon}>Restart the Daemon</button>
@@ -87,12 +87,12 @@ class GeneralSettingsView extends LitElement {
           <h2 id="auto-updater">Auto Updater</h2>
   
           <p class="message info">
-            Sorry! Beaker auto-updates are only supported on the production build for macOS and Windows.
+            Sorry! dBrowser auto-updates are only supported on the production build for macOS and Windows.
           </p>
   
           <p>
-            To get the most recent version of Beaker, you'll need to <a href="https://github.com/beakerbrowser/beaker">
-            build Beaker from source</a>.
+            To get the most recent version of dBrowser, you'll need to <a href="https://github.com/dbrowser/dbrowser">
+            build dBrowser from source</a>.
           </p>
         </div>
       `
@@ -120,7 +120,7 @@ class GeneralSettingsView extends LitElement {
   
               <span class="up-to-date">
                 <span class="fa fa-check"></span>
-                Beaker v${this.browserInfo.version} is up-to-date
+                dBrowser v${this.browserInfo.version} is up-to-date
               </span>
             </p>
   
@@ -176,7 +176,7 @@ class GeneralSettingsView extends LitElement {
               <button class="btn" disabled>Updating</button>
               <span class="version-info">
                 <span class="spinner"></span>
-                Downloading the latest version of Beaker...
+                Downloading the latest version of dBrowser...
               </span>
             </p>
             <p>
@@ -195,7 +195,7 @@ class GeneralSettingsView extends LitElement {
               <button class="btn" @click=${this.onClickRestart}>Restart now</button>
               <span class="version-info">
                 <i class="fa fa-arrow-circle-o-up"></i>
-                <strong>New version available.</strong> Restart Beaker to install.
+                <strong>New version available.</strong> Restart dBrowser to install.
               </span>
             </p>
             <p>
@@ -217,7 +217,7 @@ class GeneralSettingsView extends LitElement {
       <div class="section on-startup">
         <h2 id="on-startup">Startup Settings</h2>
   
-        <p>When Beaker starts</p>
+        <p>When dBrowser starts</p>
   
         <div class="radio-item">
           <input type="radio" id="customStartPage1" name="custom-start-page"
@@ -247,7 +247,7 @@ class GeneralSettingsView extends LitElement {
         <h2 id="on-startup">Background</h2>
   
         <p>
-          Running in the background helps keep your data online even if you're not using Beaker.
+          Running in the background helps keep your data online even if you're not using dBrowser.
         </p>
   
         <div class="radio-item">
@@ -255,7 +255,7 @@ class GeneralSettingsView extends LitElement {
                  ?checked=${this.settings.run_background == 1}
                  @change=${this.onRunBackgroundToggle} />
           <label for="runBackground">
-            Let Beaker run in the background
+            Let dBrowser run in the background
           </label>
         </div>
       </div>
@@ -273,7 +273,7 @@ class GeneralSettingsView extends LitElement {
           <input name="new-tab"
                  id="newTab"
                  type="text"
-                 value=${this.settings.new_tab || 'beaker://desktop/'}
+                 value=${this.settings.new_tab || 'dbrowser://desktop/'}
                  @input=${this.onNewTabChange}
                  style="width: 300px" />
           <button @click=${this.onClickBrowseNewTab}>Browse...</button>
@@ -323,9 +323,9 @@ class GeneralSettingsView extends LitElement {
       this.defaultProtocolSettings[protocol] = !this.defaultProtocolSettings[protocol]
 
       if (this.defaultProtocolSettings[protocol]) {
-        beaker.browser.setAsDefaultProtocolClient(protocol)
+        dbrowser.browser.setAsDefaultProtocolClient(protocol)
       } else {
-        beaker.browser.removeAsDefaultProtocolClient(protocol)
+        dbrowser.browser.removeAsDefaultProtocolClient(protocol)
       }
       toast.create('Setting updated')
       this.requestUpdate()
@@ -335,7 +335,7 @@ class GeneralSettingsView extends LitElement {
       <div class="section default-browser">
         <h2 id="protocol" class="subtitle-heading">Default Browser Settings</h2>
   
-        <p>Set Beaker as the default browser for:</p>
+        <p>Set dBrowser as the default browser for:</p>
   
         ${Object.keys(this.defaultProtocolSettings).map(proto => html`
           <div class="radio-item">
@@ -354,14 +354,14 @@ class GeneralSettingsView extends LitElement {
     const toggle = () => {
       // update and optimistically render
       this.settings.analytics_enabled = (this.settings.analytics_enabled == 1) ? 0 : 1
-      beaker.browser.setSetting('analytics_enabled', this.settings.analytics_enabled)
+      dbrowser.browser.setSetting('analytics_enabled', this.settings.analytics_enabled)
       this.requestUpdate()
       toast.create('Setting updated')
     }
 
     return html`
       <div class="section analytics">
-        <h2 class="subtitle-heading">Beaker Analytics</h2>
+        <h2 class="subtitle-heading">dBrowser Analytics</h2>
   
         <div class="radio-item">
           <input id="enable-analytics" ?checked=${this.settings.analytics_enabled == 1} type="checkbox" @change=${toggle} />
@@ -377,7 +377,7 @@ class GeneralSettingsView extends LitElement {
   
           <ul>
             <li>An anonymous ID</li>
-            <li>Your Beaker version, e.g. ${this.browserInfo.version}</li>
+            <li>Your dBrowser version, e.g. ${this.browserInfo.version}</li>
             <li>Your operating system, e.g. Windows 10</li>
           </ul>
         </div>
@@ -398,79 +398,79 @@ class GeneralSettingsView extends LitElement {
   async onUpdaterError (err) {
     console.debug('onUpdaterError', err)
     if (!this.browserInfo) { return }
-    this.browserInfo = await beaker.browser.getInfo()
+    this.browserInfo = await dbrowser.browser.getInfo()
     this.requestUpdate()
   }
 
   onClickCheckUpdates () {
     // trigger check
-    beaker.browser.checkForUpdates()
+    dbrowser.browser.checkForUpdates()
   }
 
   onClickCheckPrereleases (e) {
     e.preventDefault()
-    beaker.browser.checkForUpdates({prerelease: true})
+    dbrowser.browser.checkForUpdates({prerelease: true})
   }
 
   onClickRestart () {
-    beaker.browser.restartBrowser()
+    dbrowser.browser.restartBrowser()
   }
 
   onToggleAutoUpdate () {
     this.settings.auto_update_enabled = this.isAutoUpdateEnabled ? 0 : 1
     this.requestUpdate()
-    beaker.browser.setSetting('auto_update_enabled', this.settings.auto_update_enabled)
+    dbrowser.browser.setSetting('auto_update_enabled', this.settings.auto_update_enabled)
     toast.create('Setting updated')
   }
 
   onCustomStartPageChange (e) {
     this.settings.custom_start_page = e.target.value
-    beaker.browser.setSetting('custom_start_page', this.settings.custom_start_page)
+    dbrowser.browser.setSetting('custom_start_page', this.settings.custom_start_page)
     toast.create('Setting updated')
   }
 
   onRunBackgroundToggle (e) {
     this.settings.run_background = this.settings.run_background == 1 ? 0 : 1
-    beaker.browser.setSetting('run_background', this.settings.run_background)
+    dbrowser.browser.setSetting('run_background', this.settings.run_background)
     toast.create('Setting updated')
   }
 
   onNewTabChange (e) {
     this.settings.new_tab = e.target.value
-    beaker.browser.setSetting('new_tab', this.settings.new_tab)
+    dbrowser.browser.setSetting('new_tab', this.settings.new_tab)
     toast.create('Setting updated')
   }
 
   async onClickBrowseNewTab (e) {
-    var sel = await beaker.shell.selectFileDialog({
+    var sel = await dbrowser.shell.selectFileDialog({
       allowMultiple: false
     })
     if (sel) {
       this.settings.new_tab = sel[0].url
-      beaker.browser.setSetting('new_tab', this.settings.new_tab)
+      dbrowser.browser.setSetting('new_tab', this.settings.new_tab)
       toast.create('Setting updated')
       this.requestUpdate()
     }
   }
 
   onClickDefaultNewTab (e) {
-    this.settings.new_tab = 'beaker://desktop/'
-    beaker.browser.setSetting('new_tab', this.settings.new_tab)
+    this.settings.new_tab = 'dbrowser://desktop/'
+    dbrowser.browser.setSetting('new_tab', this.settings.new_tab)
     toast.create('Setting updated')
     this.requestUpdate()
   }
 
   onChangeDefaultZoom (e) {
     this.settings.default_zoom = +(e.currentTarget.value)
-    beaker.browser.setSetting('default_zoom', this.settings.default_zoom)
+    dbrowser.browser.setSetting('default_zoom', this.settings.default_zoom)
     toast.create('Setting updated')
   }
 
   async onClickRestartDaemon (e) {
     let el = e.currentTarget
     el.innerHTML = '<span class="spinner"></span>'
-    await beaker.browser.reconnectHyperdriveDaemon()
-    this.browserInfo = await beaker.browser.getInfo()
+    await dbrowser.browser.reconnectHyperdriveDaemon()
+    this.browserInfo = await dbrowser.browser.getInfo()
     this.requestUpdate()
   }
 }

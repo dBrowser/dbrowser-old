@@ -39,7 +39,7 @@ class ModalsWrapper extends LitElement {
   }
 
   async fetchBrowserInfo () {
-    var {platform} = await bg.beakerBrowser.getInfo()
+    var {platform} = await bg.dBrowserX.getInfo()
     window.platform = platform
     if (platform === 'darwin') {
       document.body.classList.add('darwin')

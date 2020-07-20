@@ -78,7 +78,7 @@ class MenusWrapper extends LitElement {
     })
 
     // fetch platform information
-    var browserInfo = await bg.beakerBrowser.getInfo()
+    var browserInfo = await bg.dBrowserX.getInfo()
     window.platform = browserInfo.platform
     if (browserInfo.platform === 'darwin') {
       document.body.classList.add('darwin')

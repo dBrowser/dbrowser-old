@@ -1,6 +1,6 @@
 export default `
 
--- add a database to track user-defined templates for new dat sites
+-- add a database to track user-defined templates for new dweb sites
 CREATE TABLE templates (
   profileId INTEGER,
   url TEXT NOT NULL,

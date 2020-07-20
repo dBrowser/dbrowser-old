@@ -15,13 +15,13 @@ export function examineLocationInput (v) {
     isDatHashRegex.test(v) ||
     v.startsWith('localhost') ||
     v.includes('://') ||
-    v.startsWith('beaker:') ||
+    v.startsWith('dbrowser:') ||
     v.startsWith('data:') ||
     v.startsWith('intent:')
   ))
   var vWithProtocol = v
   var isGuessingTheScheme = false
-  if (isProbablyUrl && !isPath.test(v) && !v.includes('://') && !(v.startsWith('beaker:') || v.startsWith('data:') || v.startsWith('intent:'))) {
+  if (isProbablyUrl && !isPath.test(v) && !v.includes('://') && !(v.startsWith('dbrowser:') || v.startsWith('data:') || v.startsWith('intent:'))) {
     if (isDatHashRegex.test(v)) {
       vWithProtocol = 'hyper://' + v
     } else if (v.startsWith('localhost') || isIPAddressRegex.test(v)) {

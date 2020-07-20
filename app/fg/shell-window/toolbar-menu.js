@@ -116,7 +116,7 @@ class ShellWindowToolbarMenu extends LitElement {
     }
 
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       ${WINDOW_MENU_ENABLED ? html`
         ${this.renderMenuButton('file', 'File')}
         ${this.renderMenuButton('drive', 'Drive')}
@@ -129,9 +129,9 @@ class ShellWindowToolbarMenu extends LitElement {
       ${sidebarBtn('files-explorer-app', html`<span class="far fa-folder"></span> Explore Files`)}
       ${sidebarBtn('web-term', html`<span class="fas fa-terminal"></span> Terminal`)}
       <span class="spacer"></span>
-      <a data-href="https://userlist.beakerbrowser.com/" title="Beaker User Directory" @mousedown=${this.onMousedownLink}>User Directory</a>
-      <a data-href="https://beaker.dev/" title="Developer Portal" @mousedown=${this.onMousedownLink}>Dev Portal</a>
-      <a data-href="https://docs.beakerbrowser.com/" title="Help" @mousedown=${this.onMousedownLink}>Help</a>
+      <a data-href="https://userlist.dbrowser.com/" title="dBrowser User Directory" @mousedown=${this.onMousedownLink}>User Directory</a>
+      <a data-href="https://dbrowser.dev/" title="Developer Portal" @mousedown=${this.onMousedownLink}>Dev Portal</a>
+      <a data-href="https://docs.dbrowser.com/" title="Help" @mousedown=${this.onMousedownLink}>Help</a>
       ${this.activeTab && this.activeTab.isLoading ? html`<div class="loading-bar"></div>` : ''}
     `
   }
@@ -154,7 +154,7 @@ class ShellWindowToolbarMenu extends LitElement {
 
   onClickFilesExplorer (e) {
     if (!this.activeTab) return
-    bg.views.loadURL('active', `beaker://explorer/${this.activeTab.url.slice('hyper://'.length)}`)
+    bg.views.loadURL('active', `dbrowser://explorer/${this.activeTab.url.slice('hyper://'.length)}`)
   }
 
   onMousedownLink (e) {

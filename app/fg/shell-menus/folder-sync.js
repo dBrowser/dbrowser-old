@@ -49,7 +49,7 @@ class FolderSyncMenu extends LitElement {
       canSync = numChanges > 0
     }
     return html`
-      <link rel="stylesheet" href="beaker://assets/font-awesome.css">
+      <link rel="stylesheet" href="dbrowser://assets/font-awesome.css">
       <div class="wrapper">
         <div>Syncing with:</div>
         <div class="folder-path">

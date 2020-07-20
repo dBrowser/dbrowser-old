@@ -28,10 +28,10 @@ export class ComposeView extends LitElement {
     return html`
       <div class="layout right-col">
         <main>
-          <beaker-post-composer loadable></beaker-post-composer>
+          <dbrowser-post-composer loadable></dbrowser-post-composer>
         </main>
         <nav>
-          <beaker-about loadable></beaker-about>
+          <dbrowser-about loadable></dbrowser-about>
         </nav>
       </div>
     `
@@ -42,4 +42,4 @@ export class ComposeView extends LitElement {
 
 }
 
-customElements.define('beaker-compose-view', ComposeView)
+customElements.define('dbrowser-compose-view', ComposeView)

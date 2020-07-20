@@ -1,5 +1,5 @@
 import { fromEventStream } from './event-target'
-import errors from 'beaker-error-constants'
+import errors from 'dbrowser-error-constants'
 import capabilitiesManifest from '../manifests/external/capabilities'
 import contactsManifest from '../manifests/external/contacts'
 import markdownManifest from '../manifests/external/markdown'
@@ -14,7 +14,7 @@ export const setup = function (rpc) {
   var markdown = rpc.importAPI('markdown', markdownManifest, RPC_OPTS)
   var shell = rpc.importAPI('shell', shellManifest, RPC_OPTS)
 
-  if (window.location.protocol !== 'beaker:') {
+  if (window.location.protocol !== 'dbrowser:') {
     delete shell.executeSidebarCommand
     delete shell.importFilesAndFolders
     delete shell.importFilesDialog

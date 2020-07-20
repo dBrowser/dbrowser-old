@@ -34,11 +34,11 @@ import { isFilenameBinary } from './is-ext-binary.js'
 
 var user = undefined
 var userDrive = undefined
-var groupDrive = hyperdrive.self
+var groupDrive = dwebfs.self
 var profileCache = {}
 export const profiles = {
   async setUser (url) {
-    userDrive = hyperdrive.load(url)
+    userDrive = dwebfs.load(url)
     user = await profiles.get(url)
     user.isUser = true
     return user
@@ -61,7 +61,7 @@ export const profiles = {
     }
 
     profileCache[key] = (async function () {
-      var drive = hyperdrive.load(key)
+      var drive = dwebfs.load(key)
       var profile = await drive.getInfo()
       profile.isUser = false
       profile.id = await groupDrive.query({path: '/users/*', mount: profile.url})
@@ -240,7 +240,7 @@ export const posts = {
     {author, driveType, sort, reverse, offset, limit} = {author: undefined, driveType: undefined, sort: undefined, reverse: undefined, offset: undefined, limit: undefined},
     {includeProfiles, includeContent} = {includeProfiles: false, includeContent: true}
   ) {
-    var drive = hyperdrive.load(author || location)
+    var drive = dwebfs.load(author || location)
     var queryFn = includeContent ? queryRead : (q, drive) => drive.query(q)
     var posts = await queryFn({
       path: getPostsPaths(author),
@@ -278,7 +278,7 @@ export const posts = {
    * @returns {Promise<Post>}
    */
   async get (author, path) {
-    let drive = hyperdrive.load(author)
+    let drive = dwebfs.load(author)
     let url = drive.url + path
     return {
       type: 'file',
@@ -307,7 +307,7 @@ export const posts = {
 
     href = normalizeUrl(href)
     drive = drive || userDrive
-    var path = `/beaker-forum/posts/${Date.now()}.goto`
+    var path = `/dbrowser-forum/posts/${Date.now()}.goto`
     await ensureParentDir(path, drive)
     await drive.writeFile(path, '', {metadata: {href, title, 'drive-type': driveType}})
     return path
@@ -324,7 +324,7 @@ export const posts = {
     if (!isNonemptyString(content)) throw new Error('Content is required')
     if (!isNonemptyString(title)) throw new Error('Title is required')
     drive = drive || userDrive
-    var path = `/beaker-forum/posts/${Date.now()}.md`
+    var path = `/dbrowser-forum/posts/${Date.now()}.md`
     await ensureParentDir(path, drive)
     await drive.writeFile(path, content, {metadata: {title}})
     return path
@@ -344,7 +344,7 @@ export const posts = {
     if (!isNonemptyString(title)) throw new Error('Title is required')
 
     drive = drive || userDrive
-    var path = `/beaker-forum/posts/${Date.now()}.${ext}`
+    var path = `/dbrowser-forum/posts/${Date.now()}.${ext}`
     await ensureParentDir(path, drive)
     await drive.writeFile(path, base64buf, {encoding: 'base64', metadata: {title}})
     return path
@@ -357,7 +357,7 @@ export const posts = {
   async changeTitle (post, newTitle) {
     if (!isNonemptyString(newTitle)) throw new Error('Title is required')
     var filename = post.path.split('/').pop()
-    var path = `/beaker-forum/posts/${filename}`
+    var path = `/dbrowser-forum/posts/${filename}`
     var metadata = Object.assign({}, post.stat.metadata, {title: newTitle})
     await userDrive.writeFile(path, post.content || '', {metadata})
   },
@@ -368,7 +368,7 @@ export const posts = {
    */
   async remove (post) {
     var filename = post.path.split('/').pop()
-    var path = `/beaker-forum/posts/${filename}`
+    var path = `/dbrowser-forum/posts/${filename}`
     await userDrive.unlink(path)
   }
 }
@@ -392,7 +392,7 @@ export const comments = {
     {author, href, sort, reverse, offset, limit} = {author: undefined, href: undefined, sort: undefined, reverse: undefined, offset: undefined, limit: undefined},
     {includeProfiles, includeContent} = {includeProfiles: false, includeContent: true}
   ) {
-    var drive = hyperdrive.load(author || location)
+    var drive = dwebfs.load(author || location)
     href = href ? normalizeUrl(href) : undefined
     var queryFn = includeContent ? queryRead : (q, drive) => drive.query(q)
     var comments = await queryFn({
@@ -422,7 +422,7 @@ export const comments = {
    */
   async count ({author, href, sort, reverse} = {author: undefined, href: undefined, sort: undefined, reverse: undefined}) {
     href = href ? normalizeUrl(href) : undefined
-    let drive = hyperdrive.load(author || location)
+    let drive = dwebfs.load(author || location)
     // commented out in favor of the cache
     // var comments = await drive.query({
     //   path: getCommentsPaths(author),
@@ -451,7 +451,7 @@ export const comments = {
    */
   async thread (href, {author, parent, depth} = {author: undefined, parent: undefined, depth: undefined}) {
     href = normalizeUrl(href)
-    var drive = hyperdrive.load(author || location)
+    var drive = dwebfs.load(author || location)
     var comments = await queryRead({
       path: getCommentsPaths(author),
       metadata: href ? {href} : undefined
@@ -516,7 +516,7 @@ export const comments = {
    * @returns {Promise<Comment>}
    */
   async get (author, path) {
-    let drive = hyperdrive.load(author)
+    let drive = dwebfs.load(author)
     let url = drive.url + path
     return {
       type: 'file',
@@ -543,7 +543,7 @@ export const comments = {
     
     href = normalizeUrl(href)
 
-    var path = `/beaker-forum/comments/${Date.now()}.md`
+    var path = `/dbrowser-forum/comments/${Date.now()}.md`
     drive = drive || userDrive
     await ensureParentDir(path, drive)
     await drive.writeFile(path, content, {metadata: {href, parent}})
@@ -558,7 +558,7 @@ export const comments = {
    */
   async update (comment, {content}) {
     if (!isNonemptyString(content)) throw new Error('Content is required')
-    var commentPath = `/beaker-forum/comments/${comment.path.split('/').pop()}`
+    var commentPath = `/dbrowser-forum/comments/${comment.path.split('/').pop()}`
     
     var stat
     try {
@@ -576,7 +576,7 @@ export const comments = {
    * @returns {Promise<void>}
    */
   async remove (comment) {
-    var commentPath = `/beaker-forum/comments/${comment.path.split('/').pop()}`
+    var commentPath = `/dbrowser-forum/comments/${comment.path.split('/').pop()}`
     await userDrive.unlink(commentPath)
   }
 }
@@ -593,7 +593,7 @@ export const votes = {
    */
   async list ({author, href, sort, reverse} = {author: undefined, href: undefined, sort: undefined, reverse: undefined}) {
     href = href ? normalizeUrl(href) : undefined
-    var drive = hyperdrive.load(author || location)
+    var drive = dwebfs.load(author || location)
     var res = await drive.query({
       path: getVotesPaths(author),
       metadata: href ? {href} : undefined,
@@ -615,7 +615,7 @@ export const votes = {
    */
   async tabulate (href, {author} = {author: undefined}, {includeProfiles, noCache} = {includeProfiles: false, noCache: false}) {
     href = normalizeUrl(href)
-    var drive = hyperdrive.load(author || location)
+    var drive = dwebfs.load(author || location)
     // commented out in favor of the cache
     // var votes = await drive.query({
     //   path: getVotesPaths(author),
@@ -657,7 +657,7 @@ export const votes = {
    */
   async get (author, href) {
     href = normalizeUrl(href)
-    var drive = hyperdrive.load(author || location)
+    var drive = dwebfs.load(author || location)
     var votes = await drive.query({
       path: getVotesPaths(author),
       metadata: {href}
@@ -683,7 +683,7 @@ export const votes = {
 
     if (!vote) return
 
-    var path = `/beaker-forum/votes/${Date.now()}.goto`
+    var path = `/dbrowser-forum/votes/${Date.now()}.goto`
     await ensureParentDir(path, drive)
     await drive.writeFile(path, '', {metadata: {href, vote}})
     return path
@@ -733,9 +733,9 @@ async function toKey (key) {
  */
 function getPostsPaths (author) {
   if (author) {
-    return `/beaker-forum/posts/*`
+    return `/dbrowser-forum/posts/*`
   } else {
-    return `/users/*/beaker-forum/posts/*`
+    return `/users/*/dbrowser-forum/posts/*`
   }
 }
 
@@ -745,9 +745,9 @@ function getPostsPaths (author) {
  */
 function getCommentsPaths (author) {
   if (author) {
-    return `/beaker-forum/comments/*.md`
+    return `/dbrowser-forum/comments/*.md`
   } else {
-    return `/users/*/beaker-forum/comments/*.md`
+    return `/users/*/dbrowser-forum/comments/*.md`
   }
 }
 
@@ -757,8 +757,8 @@ function getCommentsPaths (author) {
  */
 function getVotesPaths (author) {
   if (author) {
-    return `/beaker-forum/votes/*.goto`
+    return `/dbrowser-forum/votes/*.goto`
   } else {
-    return `/users/*/beaker-forum/votes/*.goto`
+    return `/users/*/dbrowser-forum/votes/*.goto`
   }
 }

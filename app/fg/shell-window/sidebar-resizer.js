@@ -55,12 +55,12 @@ class ShellWindowSidebarResizer extends LitElement {
 
   onMouseDown (e) {
     this.isResizing = true
-    bg.beakerBrowser.setSidebarResizeModeEnabled(true)
+    bg.dBrowserX.setSidebarResizeModeEnabled(true)
   }
 
   onMouseMove (e) {
     if (this.isResizing && !e.buttons) {
-      bg.beakerBrowser.setSidebarResizeModeEnabled(false)
+      bg.dBrowserX.setSidebarResizeModeEnabled(false)
       this.isResizing = false
     }
   }

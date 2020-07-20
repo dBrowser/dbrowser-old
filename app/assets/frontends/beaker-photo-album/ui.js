@@ -1,4 +1,4 @@
-var self = hyperdrive.self
+var self = dwebfs.self
 
 function h (tag, attrs, ...children) {
   var el = document.createElement(tag)

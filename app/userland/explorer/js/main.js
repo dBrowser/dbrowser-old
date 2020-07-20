@@ -151,14 +151,14 @@ export class ExplorerApp extends LitElement {
   }
 
   async load () {
-    if (typeof beaker === 'undefined' || typeof beaker.hyperdrive === 'undefined' || !loc.getUrl()) {
+    if (typeof dbrowser === 'undefined' || typeof dbrowser.dwebfs === 'undefined' || !loc.getUrl()) {
       this.showHome = true
       this.requestUpdate()
       return
     }
 
     // read location information
-    var drive = beaker.hyperdrive.drive(loc.getOrigin())
+    var drive = dbrowser.dwebfs.drive(loc.getOrigin())
     try {
       this.driveInfo = await this.attempt(`Reading drive information (${loc.getOrigin()})`, () => drive.getInfo())
       this.driveTitle = getDriveTitle(this.driveInfo)
@@ -188,7 +188,7 @@ export class ExplorerApp extends LitElement {
       this.inlineMode = Boolean(getGlobalSavedConfig('inline-mode', false))
       this.sortMode = getGlobalSavedConfig('sort-mode', 'name')
       if (!this.watchStream) {
-        let currentDrive = beaker.hyperdrive.drive(this.currentDriveInfo.url)
+        let currentDrive = dbrowser.dwebfs.drive(this.currentDriveInfo.url)
         this.watchStream = currentDrive.watch(this.realPathname)
         var hackSetupTime = Date.now()
         this.watchStream.addEventListener('changed', e => {
@@ -244,7 +244,7 @@ export class ExplorerApp extends LitElement {
 
   async readPathAncestry () {
     var ancestry = []
-    var drive = beaker.hyperdrive.drive(loc.getOrigin())
+    var drive = dbrowser.dwebfs.drive(loc.getOrigin())
     var pathParts = loc.getPath().split('/').filter(Boolean)
     while (pathParts.length) {
       let name = pathParts[pathParts.length - 1]
@@ -262,7 +262,7 @@ export class ExplorerApp extends LitElement {
       if (stat.mount) {
         mount = await this.attempt(
           `Reading drive information (${stat.mount.key}) for parent mount at ${path}`,
-          () => beaker.hyperdrive.drive(stat.mount.key).getInfo()
+          () => dbrowser.dwebfs.drive(stat.mount.key).getInfo()
         )
       }
       ancestry.unshift({name, path, stat, mount})
@@ -291,7 +291,7 @@ export class ExplorerApp extends LitElement {
       if (item.stat.mount) {
         item.mount = await this.attempt(
           `Reading drive information (${item.stat.mount.key}) for mounted drive at ${item.path}`,
-          () => beaker.hyperdrive.drive(item.stat.mount.key).getInfo()
+          () => dbrowser.dwebfs.drive(item.stat.mount.key).getInfo()
         )
       }
       item.shareUrl = this.getShareUrl(item)
@@ -322,8 +322,8 @@ export class ExplorerApp extends LitElement {
       item.realUrl = item.url
       item.url = joinPath(loc.getOrigin(), item.path)
       item.shareUrl = this.getShareUrl(item)
-      item.drive = await beaker.hyperdrive.drive(item.drive).getInfo()
-      item.mount = item.mount ? beaker.hyperdrive.drive(item.mount).getInfo() : undefined
+      item.drive = await dbrowser.dwebfs.drive(item.drive).getInfo()
+      item.mount = item.mount ? dbrowser.dwebfs.drive(item.mount).getInfo() : undefined
       this.setItemIcons(item)
     })))
 
@@ -454,11 +454,11 @@ export class ExplorerApp extends LitElement {
         <section>
           <h1>Files Explorer</h1>
         </section>
-        ${typeof beaker === 'undefined' || typeof beaker.hyperdrive === 'undefined' ? html`
+        ${typeof dbrowser === 'undefined' || typeof dbrowser.dwebfs === 'undefined' ? html`
           <aside>
-            <h3>Your browser does not support Hyperdrive.</h3>
-            <p>Your browser needs to support Hyperdrive to use this site. Try <a href="https://beakerbrowser.com">Beaker Browser</a>!</p>
-            <p><button class="primary" @click=${e => {window.location = 'https://beakerbrowser.com/'}}><span class="fas fa-fw fa-download"></span> Download Beaker</button></p>
+            <h3>Your browser does not support DWebFs.</h3>
+            <p>Your browser needs to support DWebFs to use this site. Try <a href="https://dbrowser.com">dBrowser</a>!</p>
+            <p><button class="primary" @click=${e => {window.location = 'https://dbrowser.com/'}}><span class="fas fa-fw fa-download"></span> Download dBrowser</button></p>
           </aside>
         ` : html`
           <aside>
@@ -664,16 +664,16 @@ export class ExplorerApp extends LitElement {
     }
     if (this.attachedMode) {
       if (leaveExplorer) {
-        if (newWindow) beaker.browser.openUrl(url, {setActive: true})
-        else beaker.browser.gotoUrl(url)
+        if (newWindow) dbrowser.browser.openUrl(url, {setActive: true})
+        else dbrowser.browser.gotoUrl(url)
       } else {
         if (newWindow) {
-          beaker.browser.openUrl(url, {setActive: true})
+          dbrowser.browser.openUrl(url, {setActive: true})
           if (!url.startsWith(location.origin)) {
             url = joinPath(location.origin, url.slice('hyper://'.length))
           }
         } else {
-          beaker.browser.gotoUrl(url)
+          dbrowser.browser.gotoUrl(url)
         }
       }
     } else {
@@ -757,7 +757,7 @@ export class ExplorerApp extends LitElement {
     var filename = prompt('Enter the name of your new file')
     if (filename) {
       var pathname = joinPath(this.realPathname, filename)
-      var drive = beaker.hyperdrive.drive(this.currentDriveInfo.url)
+      var drive = dbrowser.dwebfs.drive(this.currentDriveInfo.url)
       if (await drive.stat(pathname).catch(e => false)) {
         toast.create('A file or folder already exists at that name')
         return
@@ -770,8 +770,8 @@ export class ExplorerApp extends LitElement {
         return
       }
       var url = joinPath(loc.getUrl(), filename)
-      await beaker.shell.executeSidebarCommand('show-panel', 'editor-app')
-      await beaker.shell.executeSidebarCommand('set-context', 'editor-app', url)
+      await dbrowser.shell.executeSidebarCommand('show-panel', 'editor-app')
+      await dbrowser.shell.executeSidebarCommand('set-context', 'editor-app', url)
     }
   }
 
@@ -780,7 +780,7 @@ export class ExplorerApp extends LitElement {
     var foldername = prompt('Enter the name of your new folder')
     if (foldername) {
       var pathname = joinPath(this.realPathname, foldername)
-      var drive = beaker.hyperdrive.drive(this.currentDriveInfo.url)
+      var drive = dbrowser.dwebfs.drive(this.currentDriveInfo.url)
       try {
         await drive.mkdir(pathname)
       } catch (e) {
@@ -792,9 +792,9 @@ export class ExplorerApp extends LitElement {
 
   async onNewMount (e) {
     if (!this.currentDriveInfo.writable) return
-    var drive = beaker.hyperdrive.drive(this.currentDriveInfo.url)
-    var targetUrl = await beaker.shell.selectDriveDialog({title: 'Select a drive'})
-    var target = beaker.hyperdrive.drive(targetUrl)
+    var drive = dbrowser.dwebfs.drive(this.currentDriveInfo.url)
+    var targetUrl = await dbrowser.shell.selectDriveDialog({title: 'Select a drive'})
+    var target = dbrowser.dwebfs.drive(targetUrl)
     var info = await target.getInfo()
     var name = await getAvailableName(drive, this.realPathname, info.title)
     name = prompt('Enter the mount name', name)
@@ -808,13 +808,13 @@ export class ExplorerApp extends LitElement {
   }
 
   async onForkDrive (e) {
-    var drive = await beaker.hyperdrive.forkDrive(this.currentDriveInfo.url)
+    var drive = await dbrowser.dwebfs.forkDrive(this.currentDriveInfo.url)
     toast.create('Drive created')
     loc.setUrl(drive.url)
   }
 
   async onDriveProperties (e) {
-    await beaker.shell.drivePropertiesDialog(this.currentDriveInfo.url)
+    await dbrowser.shell.drivePropertiesDialog(this.currentDriveInfo.url)
     this.load()
   }
 
@@ -822,7 +822,7 @@ export class ExplorerApp extends LitElement {
     if (!this.currentDriveInfo.writable) return
     toast.create('Importing...')
     try {
-      var {numImported} = await beaker.shell.importFilesDialog(loc.getUrl())
+      var {numImported} = await dbrowser.shell.importFilesDialog(loc.getUrl())
       if (numImported > 0) toast.create('Import complete', 'success')
       else toast.destroy()
     } catch (e) {
@@ -835,7 +835,7 @@ export class ExplorerApp extends LitElement {
     if (!this.currentDriveInfo.writable) return
     toast.create('Importing...')
     try {
-      var {numImported} = await beaker.shell.importFoldersDialog(loc.getUrl())
+      var {numImported} = await dbrowser.shell.importFoldersDialog(loc.getUrl())
       if (numImported > 0) toast.create('Import complete', 'success')
       else toast.destroy()
     } catch (e) {
@@ -848,7 +848,7 @@ export class ExplorerApp extends LitElement {
     var urls = (this.selection.length ? this.selection : this.items).map(item => item.url)
     toast.create('Exporting...')
     try {
-      var {numExported} = await beaker.shell.exportFilesDialog(urls)
+      var {numExported} = await dbrowser.shell.exportFilesDialog(urls)
       if (numExported > 0) toast.create('Export complete', 'success')
       else toast.destroy()
     } catch (e) {
@@ -864,7 +864,7 @@ export class ExplorerApp extends LitElement {
     if (newName) {
       var oldPath = this.selection[0] ? joinPath(this.realPathname, oldName) : this.realPathname
       var newPath = oldPath.split('/').slice(0, -1).concat([newName]).join('/')
-      var drive = beaker.hyperdrive.drive(this.currentDriveInfo.url)
+      var drive = dbrowser.dwebfs.drive(this.currentDriveInfo.url)
       try {
         await drive.rename(oldPath, newPath)
       } catch (e) {
@@ -882,7 +882,7 @@ export class ExplorerApp extends LitElement {
   async onDelete (e) {
     if (!this.currentDriveInfo.writable) return
 
-    var drive = beaker.hyperdrive.drive(this.currentDriveInfo.url)
+    var drive = dbrowser.dwebfs.drive(this.currentDriveInfo.url)
     const del = async (path, stat) => {
       if (stat.mount && stat.mount.key) {
         await drive.unmount(path)
@@ -924,7 +924,7 @@ export class ExplorerApp extends LitElement {
   async onUpdateFileMetadata (e) {
     if (!this.currentDriveInfo.writable) return
     var {newMetadata, deletedKeys} = e.detail
-    var drive = beaker.hyperdrive.drive(this.currentDriveInfo.url)
+    var drive = dbrowser.dwebfs.drive(this.currentDriveInfo.url)
     try {
       if (this.selection.length) {
         for (let sel of this.selection) {
@@ -948,7 +948,7 @@ export class ExplorerApp extends LitElement {
 
   async onShowMenu (e, useAppMenuAlways = false) {
     var items = constructContextMenuItems(this)
-    if (!useAppMenuAlways && typeof beaker !== 'undefined' && typeof beaker.browser !== 'undefined') {
+    if (!useAppMenuAlways && typeof dbrowser !== 'undefined' && typeof dbrowser.browser !== 'undefined') {
       let fns = {}
       for (let i = 0; i < items.length; i++) {
         let id = `item=${i}`
@@ -958,7 +958,7 @@ export class ExplorerApp extends LitElement {
         delete items[i].icon
         delete items[i].click
       }
-      var choice = await beaker.browser.showContextMenu(items)
+      var choice = await dbrowser.browser.showContextMenu(items)
       if (fns[choice]) fns[choice]()
     } else {
       return contextMenu.create({
@@ -988,13 +988,13 @@ export class ExplorerApp extends LitElement {
   }
 
   async doDiff (base) {
-    if (this.attachedMode) beaker.browser.gotoUrl(`beaker://diff/?base=${base}`)
-    else window.open(`beaker://diff/?base=${base}`)
+    if (this.attachedMode) dbrowser.browser.gotoUrl(`dbrowser://diff/?base=${base}`)
+    else window.open(`dbrowser://diff/?base=${base}`)
   }
 
   async onSelectDrive (e) {
     e.preventDefault()
-    var drive = await beaker.shell.selectDriveDialog()
+    var drive = await dbrowser.shell.selectDriveDialog()
     loc.setUrl(drive)
   }
 }

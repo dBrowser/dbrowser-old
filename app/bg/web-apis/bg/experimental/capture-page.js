@@ -1,11 +1,11 @@
-import * as beakerBrowser from '../../../browser'
+import * as dBrowserX from '../../../browser'
 import * as permissions from '../../../ui/permissions'
 import { URL } from 'url'
 
 // constants
 // =
 
-const API_DOCS_URL = 'https://beakerbrowser.com/docs/apis/experimental-capturepage.html'
+const API_DOCS_URL = 'https://dbrowser.com/docs/apis/experimental-capturepage.html'
 const API_PERM_ID = 'experimentalCapturePage'
 const LAB_API_ID = 'capturePage'
 
@@ -61,7 +61,7 @@ export default {
     })
 
     // run method
-    var img = await beakerBrowser.capturePage(url, opts)
+    var img = await dBrowserX.capturePage(url, opts)
     return img.toPNG()
   }
 }

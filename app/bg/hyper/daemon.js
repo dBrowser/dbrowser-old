@@ -1,11 +1,11 @@
 import { app } from 'electron'
-import HyperdriveDaemon from 'hyperdrive-daemon'
-import * as HyperdriveDaemonManager from 'hyperdrive-daemon/manager'
-import { createMetadata } from 'hyperdrive-daemon/lib/metadata'
-import constants from 'hyperdrive-daemon-client/lib/constants'
-import { HyperdriveClient } from 'hyperdrive-daemon-client'
-import datEncoding from 'dat-encoding'
-import * as pda from 'pauls-dat-api2'
+import HyperdriveDaemon from 'dwebfs-daemon'
+import * as HyperdriveDaemonManager from 'dwebfs-daemon/manager'
+import { createMetadata } from 'dwebfs-daemon/lib/metadata'
+import constants from 'dwebfs-daemon-client/lib/constants'
+import { HyperdriveClient } from 'dwebfs-daemon-client'
+import datEncoding from 'dweb-encoding'
+import * as pda from 'pauls-dweb-api2'
 import pm2 from 'pm2'
 import EventEmitter from 'events'
 import { getEnvVar } from '../lib/env'
@@ -65,7 +65,7 @@ const MAX_SESSION_AGE = 300e3 // 5min
 // globals
 // =
 
-var client // client object created by hyperdrive-daemon-client
+var client // client object created by dwebfs-daemon-client
 var isControllingDaemonProcess = false // did we start the process?
 var isSettingUp = true
 var isShuttingDown = false
@@ -107,7 +107,7 @@ export async function setup () {
     // watch for the daemon process to die/revive
     let interval = setInterval(() => {
       pm2.list((err, processes) => {
-        var processExists = !!processes.find(p => p.name === 'hyperdrive' && p.pm2_env.status === 'online')
+        var processExists = !!processes.find(p => p.name === 'dwebfs' && p.pm2_env.status === 'online')
         if (processExists && !isDaemonActive) {
           isDaemonActive = true
           isFirstConnect = false
@@ -122,10 +122,10 @@ export async function setup () {
     interval.unref()
 
     events.on('daemon-restored', async () => {
-      logger.info('Hyperdrive daemon has been restored')
+      logger.info('DWebFs daemon has been restored')
     })
     events.on('daemon-stopped', async () => {
-      logger.info('Hyperdrive daemon has been lost')
+      logger.info('DWebFs daemon has been lost')
       isControllingDaemonProcess = false
     })
 
@@ -341,7 +341,7 @@ async function reconnectDriveSession (driveObj) {
 }
 
 /**
- * Provides a pauls-dat-api2 object for the given drive
+ * Provides a pauls-dweb-api2 object for the given drive
  * @param {Object} drive
  * @returns {DaemonHyperdrivePDA}
  */

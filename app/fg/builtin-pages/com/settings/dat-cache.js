@@ -1,4 +1,4 @@
-/* globals beaker DatArchive confirm */
+/* globals dbrowser DatArchive confirm */
 
 import yo from 'yo-yo'
 import prettyBytes from 'pretty-bytes'
@@ -28,14 +28,14 @@ export default class DatCache {
     this.currentlyHighlightedKey = undefined
     this.isClearingCache = false
 
-    beaker.archives.addEventListener('network-changed', throttle(this.onNetworkChanged.bind(this), 1e3))
+    dbrowser.archives.addEventListener('network-changed', throttle(this.onNetworkChanged.bind(this), 1e3))
   }
 
   // loading
   // =
 
   async fetchArchives () {
-    this.archives = await beaker.archives.list({isSaved: false, isOwner: false})
+    this.archives = await dbrowser.archives.list({isSaved: false, isOwner: false})
     this.sortArchives()
 
     this.totalArchivesHosting = this.archives.length
@@ -54,12 +54,12 @@ export default class DatCache {
   render () {
     if (!this.archives) {
       this.fetchArchives() // trigger load
-      return yo`<div id=${'dat-cache-' + this.id} class="dat-cache loading">Loading...</div>`
+      return yo`<div id=${'dweb-cache-' + this.id} class="dweb-cache loading">Loading...</div>`
     }
 
     return yo`
-      <div id=${'dat-cache-' + this.id} class="dat-cache">
-        <div class="dat-cache-actions">
+      <div id=${'dweb-cache-' + this.id} class="dweb-cache">
+        <div class="dweb-cache-actions">
           ${this.isClearingCache
             ? yo`<button class="btn small disabled"><span class="spinner"></span> Clearing cache</span>`
             : yo`<button class="btn small" onclick=${() => this.onClearCache({isOwner: false})}>Clear cache</button>`}
@@ -80,7 +80,7 @@ export default class DatCache {
   // method to re-render in place
   // eg myFilesBrowser.rerender()
   rerender () {
-    let el = document.querySelector('#dat-cache-' + this.id)
+    let el = document.querySelector('#dweb-cache-' + this.id)
     if (el) yo.update(el, this.render())
   }
 
@@ -105,7 +105,7 @@ export default class DatCache {
 
     return yo`
       <div class="ll-row archive ${highlightedCls}" oncontextmenu=${e => this.onContextmenuArchive(e, archive)}>
-        <img class="favicon" src="beaker-favicon:32,${archive.url}" />
+        <img class="favicon" src="dbrowser-favicon:32,${archive.url}" />
 
         <a href=${archive.url} class="title" title=${archive.title}>
           ${archive.title || yo`<em>Untitled</em>`}
@@ -167,11 +167,11 @@ export default class DatCache {
   }
 
   onOpenViewSource (archive) {
-    window.open('beaker://editor/' + archive.url)
+    window.open('dbrowser://editor/' + archive.url)
   }
 
   onOpenInSwarmDebugger (archive) {
-    window.open('beaker://swarm-debugger/' + archive.url)
+    window.open('dbrowser://swarm-debugger/' + archive.url)
   }
 
   async onDeleteFiles (archive) {
@@ -179,7 +179,7 @@ export default class DatCache {
       if (!confirm('This will delete this archive. Are you sure?')) {
         return
       }
-      const res = await beaker.archives.delete(archive.key)
+      const res = await dbrowser.archives.delete(archive.key)
       toast.create(`Files deleted (${prettyBytes(res.bytes)} freed)`, '', 5e3)
       this.fetchArchives()
     } catch (e) {
@@ -206,9 +206,9 @@ export default class DatCache {
     this.rerender()
 
     try {
-      const results = await beaker.archives.clearGarbage({isOwner})
-      await beaker.archives.clearDnsCache()
-      console.debug('Dat cache cleared', results)
+      const results = await dbrowser.archives.clearGarbage({isOwner})
+      await dbrowser.archives.clearDnsCache()
+      console.debug('DWeb cache cleared', results)
       toast.create(`Cache cleared (${prettyBytes(results.totalBytes)} freed from ${results.totalArchives} archives)`, '', 5e3)
     } finally {
       this.isClearingCache = false

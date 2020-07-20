@@ -1,4 +1,4 @@
-import { PermissionsError } from 'beaker-error-constants'
+import { PermissionsError } from 'dbrowser-error-constants'
 import * as filesystem from '../../filesystem/index'
 
 // typedefs
@@ -17,7 +17,7 @@ export default {
    * @returns {BeakerFilesystemPublicAPIRootRecord}
    */
   get () {
-    if (!this.sender.getURL().startsWith('beaker:')) {
+    if (!this.sender.getURL().startsWith('dbrowser:')) {
       throw new PermissionsError()
     }
     return {

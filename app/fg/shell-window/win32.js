@@ -20,15 +20,15 @@ class ShellWindowWin32 extends LitElement {
   // =
 
   onClickMinimize () {
-    bg.beakerBrowser.minimizeWindow()
+    bg.dBrowserX.minimizeWindow()
   }
 
   onClickMaximize () {
-    bg.beakerBrowser.toggleWindowMaximized()
+    bg.dBrowserX.toggleWindowMaximized()
   }
 
   onClickClose () {
-    bg.beakerBrowser.closeWindow()
+    bg.dBrowserX.closeWindow()
   }
 }
 ShellWindowWin32.styles = css`

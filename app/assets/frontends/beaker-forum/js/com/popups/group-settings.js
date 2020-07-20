@@ -1,4 +1,4 @@
-/* globals beaker */
+/* globals dbrowser */
 import { html, css } from '../../../vendor/lit-element/lit-element.js'
 import { BasePopup } from './base.js'
 import popupsCSS from '../../../css/com/popups.css.js'
@@ -44,7 +44,7 @@ export class GroupSettingsPopup extends BasePopup {
       align-items: center;
     }
 
-    .img-ctrl beaker-img-fallbacks {
+    .img-ctrl dbrowser-img-fallbacks {
       height: 90px;
     }
 
@@ -89,10 +89,10 @@ export class GroupSettingsPopup extends BasePopup {
   }
 
   async load () {
-    var self = hyperdrive.self
+    var self = dwebfs.self
     var info = await self.getInfo()
-    var sidebarMd = await self.readFile('/beaker-forum/sidebar.md').catch(e => '')
-    var pinnedMessageMd = await self.readFile('/beaker-forum/pinned-message.md').catch(e => '')
+    var sidebarMd = await self.readFile('/dbrowser-forum/sidebar.md').catch(e => '')
+    var pinnedMessageMd = await self.readFile('/dbrowser-forum/pinned-message.md').catch(e => '')
     
     this.thumbDataURL = undefined
     this.bannerDataURL = undefined
@@ -110,7 +110,7 @@ export class GroupSettingsPopup extends BasePopup {
   }
 
   static destroy () {
-    return BasePopup.destroy('beaker-edit-profile-popup')
+    return BasePopup.destroy('dbrowser-edit-profile-popup')
   }
 
   // rendering
@@ -131,10 +131,10 @@ export class GroupSettingsPopup extends BasePopup {
             ` : this.thumbDataURL ? html`
               <img src=${this.thumbDataURL}>
             ` : html`
-              <beaker-img-fallbacks>
+              <dbrowser-img-fallbacks>
                 <img src="/thumb" slot="img1">
                 <img src="/.ui/img/default-group-thumb" slot="img2">
-              </beaker-img-fallbacks>
+              </dbrowser-img-fallbacks>
             `}
             <input type="file" accept=".jpg,.jpeg,.png" @change=${this.onChooseThumbFile}>
             <div class="btn-group">
@@ -149,10 +149,10 @@ export class GroupSettingsPopup extends BasePopup {
             ` : this.bannerDataURL ? html`
               <img src=${this.bannerDataURL}>
             ` : html`
-              <beaker-img-fallbacks>
+              <dbrowser-img-fallbacks>
                 <img src="/banner" slot="img1">
                 <img src="/.ui/img/default-group-banner" slot="img2">
-              </beaker-img-fallbacks>
+              </dbrowser-img-fallbacks>
             `}
             <input type="file" accept=".jpg,.jpeg,.png" @change=${this.onChooseBannerFile}>
             <div class="btn-group">
@@ -271,22 +271,22 @@ export class GroupSettingsPopup extends BasePopup {
     }
 
     try {
-      let drive = hyperdrive.self
+      let drive = dwebfs.self
       await drive.configure({
         title: this.title,
         description: this.description
       })
       if (this.sidebarMd) {
-        await drive.mkdir('/beaker-forum').catch(e => undefined)
-        await drive.writeFile('/beaker-forum/sidebar.md', this.sidebarMd)
+        await drive.mkdir('/dbrowser-forum').catch(e => undefined)
+        await drive.writeFile('/dbrowser-forum/sidebar.md', this.sidebarMd)
       } else {
-        await drive.unlink('/beaker-forum/sidebar.md').catch(e => undefined)
+        await drive.unlink('/dbrowser-forum/sidebar.md').catch(e => undefined)
       }
       if (this.pinnedMessageMd) {
-        await drive.mkdir('/beaker-forum').catch(e => undefined)
-        await drive.writeFile('/beaker-forum/pinned-message.md', this.pinnedMessageMd)
+        await drive.mkdir('/dbrowser-forum').catch(e => undefined)
+        await drive.writeFile('/dbrowser-forum/pinned-message.md', this.pinnedMessageMd)
       } else {
-        await drive.unlink('/beaker-forum/pinned-message.md').catch(e => undefined)
+        await drive.unlink('/dbrowser-forum/pinned-message.md').catch(e => undefined)
       }
       if (this.bannerDataURL) {
         await Promise.all([
@@ -317,4 +317,4 @@ export class GroupSettingsPopup extends BasePopup {
   }
 }
 
-customElements.define('beaker-group-settings-popup', GroupSettingsPopup)
+customElements.define('dbrowser-group-settings-popup', GroupSettingsPopup)

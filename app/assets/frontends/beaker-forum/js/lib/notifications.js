@@ -48,7 +48,7 @@ export const events = new EventTarget()
 export const STORED_EVENT_LIMIT = 300 // TODO
 export const INDEXES = /** @type IndexDefinition[] */([
   {
-    path: '/beaker-forum/comments/',
+    path: '/dbrowser-forum/comments/',
     filterFn (change, {userUrl}) {
       if (change.type !== 'put') return false
       if (!change.value.stat) return false
@@ -162,7 +162,7 @@ export async function updateIndex (userUrl) {
     userKeySet.delete(userUrl)
 
     for (let userKey of userKeySet) {
-      let drive = hyperdrive.load(userKey)
+      let drive = dwebfs.load(userKey)
       let driveMeta = await db.get('drives', drive.url)
       let lastVersion = driveMeta ? driveMeta.version : undefined
       let currentVersion = (await drive.getInfo()).version

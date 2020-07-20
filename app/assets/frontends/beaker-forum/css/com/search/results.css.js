@@ -50,7 +50,7 @@ a:hover {
   color: green;
 }
 
-beaker-paginator {
+dbrowser-paginator {
   margin: 20px 10px;
   padding-top: 20px;
   border-top: 1px solid #dde;

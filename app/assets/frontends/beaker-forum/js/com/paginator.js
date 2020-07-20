@@ -43,4 +43,4 @@ export class PostButtons extends LitElement {
   }
 }
 
-customElements.define('beaker-paginator', PostButtons)
+customElements.define('dbrowser-paginator', PostButtons)

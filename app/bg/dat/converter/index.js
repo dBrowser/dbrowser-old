@@ -1,1 +1,1 @@
-require('@beaker/dat-legacy-tools/bin.js')
+require('@dbrowser/dweb-legacy-tools/bin.js')

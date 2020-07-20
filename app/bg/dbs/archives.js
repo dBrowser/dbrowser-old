@@ -2,9 +2,9 @@ import path from 'path'
 import url from 'url'
 import mkdirp from 'mkdirp'
 import Events from 'events'
-import datEncoding from 'dat-encoding'
+import datEncoding from 'dweb-encoding'
 import jetpack from 'fs-jetpack'
-import { InvalidArchiveKeyError } from 'beaker-error-constants'
+import { InvalidArchiveKeyError } from 'dbrowser-error-constants'
 import * as db from './profile-data-db'
 import lock from '../../lib/lock'
 import { HYPERDRIVE_HASH_REGEX } from '../../lib/const'
@@ -14,7 +14,7 @@ import * as hyperDns from '../hyper/dns'
 // =
 
 /**
- * @typedef {import('../dat/daemon').DaemonHyperdrive} DaemonHyperdrive
+ * @typedef {import('../dweb/daemon').DaemonHyperdrive} DaemonHyperdrive
  *
  * @typedef {Object} LibraryArchiveMeta
  * @prop {string} key
@@ -38,7 +38,7 @@ import * as hyperDns from '../hyper/dns'
 // globals
 // =
 
-var datPath/** @type string - path to the dat folder */
+var /** @type string - path to the dweb folder */
 var events = new Events()
 
 // exported methods
@@ -50,15 +50,15 @@ var events = new Events()
  */
 export function setup (opts) {
   // make sure the folders exist
-  datPath = path.join(opts.userDataPath, 'Dat')
-  mkdirp.sync(path.join(datPath, 'Archives'))
+   = path.join(opts.userDataPath, 'DWeb')
+  mkdirp.sync(path.join(, 'Archives'))
 }
 
 /**
  * @returns {string}
  */
 export function getDatPath () {
-  return datPath
+  return 
 }
 
 /**
@@ -76,7 +76,7 @@ export function getArchiveMetaPath (archiveOrKey) {
   } else {
     key = datEncoding.toStr(archiveOrKey.key)
   }
-  return path.join(datPath, 'Archives', 'Meta', key.slice(0, 2), key.slice(2))
+  return path.join(, 'Archives', 'Meta', key.slice(0, 2), key.slice(2))
 }
 
 /**

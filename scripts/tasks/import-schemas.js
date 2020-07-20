@@ -9,7 +9,7 @@ const SCHEMAS = [
   'status',
   'bookmark',
   'reaction',
-  'dats',
+  'dwebs',
   'vote'
 ]
 
@@ -17,7 +17,7 @@ console.log('')
 console.log('Cloning unwalled.garden')
 console.log('')
 var tmpdir = fs.mkdtempSync('unwalled-garden-')
-childProcess.execSync(`git clone https://github.com/beakerbrowser/unwalled.garden ${tmpdir}`)
+childProcess.execSync(`git clone https://github.com/dbrowser/unwalled.garden ${tmpdir}`)
 
 console.log('')
 console.log('Copying schema definitions')
