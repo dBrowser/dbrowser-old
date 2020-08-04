@@ -1,4 +1,4 @@
-import { InvalidDomainName } from 'dbrowser-error-constants'
+import { InvalidDomainName } from 'dbrowser-error-messages'
 import datDnsFactory from 'dweb-dns'
 import * as datDnsDb from '../dbs/dweb-dns'
 import * as drives from './drives'

@@ -10,7 +10,7 @@
 import path from 'path'
 import { app, BrowserWindow, BrowserView, Menu, clipboard } from 'electron'
 import * as rpc from 'pauls-electron-rpc'
-import { ModalActiveError } from 'dbrowser-error-constants'
+import { ModalActiveError } from 'dbrowser-error-messages'
 import * as tabManager from '../tab-manager'
 import modalsRPCManifest from '../../rpc-manifests/modals'
 import { findWebContentsParentWindow } from '../../lib/electron'

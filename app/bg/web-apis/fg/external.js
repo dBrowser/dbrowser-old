@@ -1,5 +1,5 @@
 import { fromEventStream } from './event-target'
-import errors from 'dbrowser-error-constants'
+import errors from 'dbrowser-error-messages'
 import capabilitiesManifest from '../manifests/external/capabilities'
 import contactsManifest from '../manifests/external/contacts'
 import markdownManifest from '../manifests/external/markdown'

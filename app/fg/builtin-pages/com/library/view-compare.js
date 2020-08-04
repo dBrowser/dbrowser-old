@@ -2,7 +2,7 @@
 
 import yo from 'yo-yo'
 import {Archive as LibraryDatArchive} from 'dbrowser-bpages-lib'
-import {diffLines} from '@dbrowser/dweb-archive-file-diff'
+import {diffLines} from 'dweb-archive-file-diff'
 import renderArchiveComparison from '../archive/archive-comparison'
 import * as toast from '../toast'
 

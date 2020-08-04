@@ -2,7 +2,7 @@
 
 import { EventTargetFromStream } from './event-target'
 
-import errors from 'dbrowser-error-constants'
+import errors from 'dbrowser-error-messages'
 import experimentalGlobalFetchManifest from '../manifests/external/experimental/global-fetch'
 import experimentalCapturePageManifest from '../manifests/external/experimental/capture-page'
 import experimentalDatPeersManifest from '../manifests/external/experimental/dweb-peers'

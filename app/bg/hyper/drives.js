@@ -3,7 +3,7 @@ import EventEmitter from 'events'
 import datEncoding from 'dweb-encoding'
 import { parseDriveUrl } from '../../lib/urls'
 import _debounce from 'lodash.debounce'
-import pda from 'pauls-dweb-api2'
+import pda from 'dbrowser-dweb-api2'
 import { wait } from '../../lib/functions'
 import * as logLib from '../logger'
 const baseLogger = logLib.get()
@@ -25,7 +25,7 @@ import * as filesystem from '../filesystem/index'
 // =
 
 import { HYPERDRIVE_HASH_REGEX, DRIVE_MANIFEST_FILENAME } from '../../lib/const'
-import { InvalidURLError, TimeoutError } from 'dbrowser-error-constants'
+import { InvalidURLError, TimeoutError } from 'dbrowser-error-messages'
 
 // typedefs
 // =

@@ -1,4 +1,4 @@
-import { InvalidDomainName } from 'dbrowser-error-constants'
+import { InvalidDomainName } from 'dbrowser-error-messages'
 import * as logLib from '../logger'
 const logger = logLib.child({category: 'dweb', subcategory: 'dns'})
 

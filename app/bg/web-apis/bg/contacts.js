@@ -2,7 +2,7 @@ import * as modals from '../../ui/subwindows/modals'
 import * as drives from '../../hyper/drives'
 import * as filesystem from '../../filesystem/index'
 import * as permissions from '../../ui/permissions'
-import { UserDeniedError, PermissionsError } from 'dbrowser-error-constants'
+import { UserDeniedError, PermissionsError } from 'dbrowser-error-messages'
 import { HYPERDRIVE_HASH_REGEX } from '../../../lib/const'
 
 // typedefs

@@ -29,16 +29,16 @@
   },
   "build": {
     "afterSign": "./afterSignHook.js",
-    "appId": "com.bluelinklabs.dbrowser-browser",
+    "appId": "com.peepslabs.dbrowser-browser",
     "asar": false,
     "asarUnpack": [
       "./fg/json-renderer/index.build.js",
       "./fg/syntax-highlighter/index.js",
-      "./node_modules/@dbrowser/dweb-legacy-tools/**",
+      "./node_modules/dweb-legacy-tools/**",
       "./node_modules/sodium-native/**",
       "./node_modules/dwebfs-daemon/**"
     ],
-    "copyright": "© 2020, Blue Link Labs",
+    "copyright": "© 2020, peeps Labs",
     "directories": {
       "app": "../app",
       "buildResources": "../build",

@@ -3,8 +3,8 @@ import shellWebAPI from '../web-apis/bg/shell'
 import drivesWebAPI from '../web-apis/bg/drives'
 import hyper from '../hyper/index'
 import * as filesystem from '../filesystem/index'
-import pda from 'pauls-dweb-api2'
-import { UserDeniedError } from 'dbrowser-error-constants'
+import pda from 'dbrowser-dweb-api2'
+import { UserDeniedError } from 'dbrowser-error-messages'
 
 export async function runSelectFileDialog (win, opts = {}) {
     var res

@@ -1,1 +1,1 @@
-require('@dbrowser/dweb-legacy-tools/bin.js')
+require('dweb-legacy-tools/bin.js')

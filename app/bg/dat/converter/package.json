@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@dbrowser/dweb-legacy-tools": "^1.1.0"
+    "dweb-legacy-tools": "1.0.1"
   }
 }

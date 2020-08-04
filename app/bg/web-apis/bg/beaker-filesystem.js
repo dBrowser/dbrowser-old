@@ -1,4 +1,4 @@
-import { PermissionsError } from 'dbrowser-error-constants'
+import { PermissionsError } from 'dbrowser-error-messages'
 import * as filesystem from '../../filesystem/index'
 
 // typedefs

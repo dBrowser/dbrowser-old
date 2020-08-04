@@ -6,7 +6,7 @@ import _get from 'lodash.get'
 import { parseDriveUrl } from '../../lib/urls'
 import * as permPromptSubwindow from './subwindows/perm-prompt'
 import * as tabManager from './tab-manager'
-import {PermissionsError, UserDeniedError} from 'dbrowser-error-constants'
+import {PermissionsError, UserDeniedError} from 'dbrowser-error-messages'
 
 // globals
 // =

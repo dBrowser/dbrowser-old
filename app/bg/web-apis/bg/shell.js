@@ -1,5 +1,5 @@
 import { BrowserView, dialog } from 'electron'
-import pda from 'pauls-dweb-api2'
+import pda from 'dbrowser-dweb-api2'
 import * as tabManager from '../../ui/tab-manager'
 import * as modals from '../../ui/subwindows/modals'
 import * as prompts from '../../ui/subwindows/prompts'
@@ -8,7 +8,7 @@ import { lookupDrive } from './dwebfs'
 import { parseDriveUrl } from '../../../lib/urls'
 import { joinPath } from '../../../lib/strings'
 import assert from 'assert'
-import { UserDeniedError, ArchiveNotWritableError } from 'dbrowser-error-constants'
+import { UserDeniedError, ArchiveNotWritableError } from 'dbrowser-error-messages'
 import _pick from 'lodash.pick'
 
 // typedefs

@@ -1,5 +1,5 @@
 import moment from 'moment'
-import {TimeoutError} from 'dbrowser-error-constants'
+import {TimeoutError} from 'dbrowser-error-messages'
 
 moment.updateLocale('en', {
   relativeTime: {s: 'seconds'}

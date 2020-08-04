@@ -1,6 +1,6 @@
 import path from 'path'
 import { parseDriveUrl } from '../../../lib/urls'
-import pda from 'pauls-dweb-api2'
+import pda from 'dbrowser-dweb-api2'
 import pick from 'lodash.pick'
 import _get from 'lodash.get'
 import _flattenDeep from 'lodash.flattendeep'
@@ -16,7 +16,7 @@ import * as filesystem from '../../filesystem/index'
 import { query } from '../../filesystem/query'
 import drivesAPI from './drives'
 import { DRIVE_MANIFEST_FILENAME, DRIVE_CONFIGURABLE_FIELDS, HYPERDRIVE_HASH_REGEX, DAT_QUOTA_DEFAULT_BYTES_ALLOWED, DRIVE_VALID_PATH_REGEX, DEFAULT_DRIVE_API_TIMEOUT } from '../../../lib/const'
-import { PermissionsError, UserDeniedError, QuotaExceededError, ArchiveNotWritableError, InvalidURLError, ProtectedFileNotWritableError, InvalidPathError } from 'dbrowser-error-constants'
+import { PermissionsError, UserDeniedError, QuotaExceededError, ArchiveNotWritableError, InvalidURLError, ProtectedFileNotWritableError, InvalidPathError } from 'dbrowser-error-messages'
 
 // exported api
 // =

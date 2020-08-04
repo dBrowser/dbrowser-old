@@ -1,5 +1,5 @@
 import { parseDriveUrl } from '../../../../lib/urls'
-import { PermissionsError } from 'dbrowser-error-constants'
+import { PermissionsError } from 'dbrowser-error-messages'
 import * as permissions from '../../../ui/permissions'
 import * as drives from '../../../hyper/drives'
 import * as hyperDns from '../../../hyper/dns'

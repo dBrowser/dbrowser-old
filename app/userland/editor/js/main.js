@@ -4,7 +4,7 @@ import { LitElement, html } from '../../app-stdlib/vendor/lit-element/lit-elemen
 import { repeat } from '../../app-stdlib/vendor/lit-element/lit-html/directives/repeat.js'
 import { isFilenameBinary } from '../../app-stdlib/js/is-ext-binary.js'
 import lock from '../../../lib/lock.js'
-import datServeResolvePath from '@dbrowser/dweb-serve-resolve-path'
+import datServeResolvePath from 'dweb-serve-resolve-path'
 import { joinPath } from '../../app-stdlib/js/strings.js'
 import * as contextMenu from '../../app-stdlib/js/com/context-menu.js'
 import { writeToClipboard } from '../../app-stdlib/js/clipboard.js'

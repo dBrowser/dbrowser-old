@@ -1,5 +1,5 @@
 import { EventTarget, bindEventStream, fromEventStream } from './event-target'
-import errors from 'dbrowser-error-constants'
+import errors from 'dbrowser-error-messages'
 import loggerManifest from '../manifests/internal/logger'
 import beakerBrowserManifest from '../manifests/internal/browser'
 import bookmarksManifest from '../manifests/internal/bookmarks'

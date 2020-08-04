@@ -1,4 +1,4 @@
-import errors from 'dbrowser-error-constants'
+import errors from 'dbrowser-error-messages'
 import { parseDriveUrl } from '../../../lib/urls'
 import hyperdriveManifest from '../manifests/external/dwebfs'
 import filesystemManifest from '../manifests/internal/dbrowser-filesystem'

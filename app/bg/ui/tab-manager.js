@@ -1,6 +1,6 @@
 import { app, dialog, BrowserView, BrowserWindow, Menu, clipboard, ipcMain, webContents } from 'electron'
 import errorPage from '../lib/error-page'
-import * as libTools from '@dbrowser/library-tools'
+import * as libTools from 'dbrowser-library-tools'
 import path from 'path'
 import { promises as fs } from 'fs'
 import { EventEmitter } from 'events'

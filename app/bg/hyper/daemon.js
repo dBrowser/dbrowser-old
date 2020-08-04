@@ -5,7 +5,7 @@ import { createMetadata } from 'dwebfs-daemon/lib/metadata'
 import constants from 'dwebfs-daemon-client/lib/constants'
 import { HyperdriveClient } from 'dwebfs-daemon-client'
 import datEncoding from 'dweb-encoding'
-import * as pda from 'pauls-dweb-api2'
+import * as pda from 'dbrowser-dweb-api2'
 import pm2 from 'pm2'
 import EventEmitter from 'events'
 import { getEnvVar } from '../lib/env'
@@ -341,7 +341,7 @@ async function reconnectDriveSession (driveObj) {
 }
 
 /**
- * Provides a pauls-dweb-api2 object for the given drive
+ * Provides a dbrowser-dweb-api2 object for the given drive
  * @param {Object} drive
  * @returns {DaemonHyperdrivePDA}
  */
