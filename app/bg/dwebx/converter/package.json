@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@dbrowser/dwebx-legacy-tools": "git://github.com/dBrowser/dwebx-legacy-tools.git#c7ab0d446449f0f989d28a2f68a39a722c986516"
+    }
+}
