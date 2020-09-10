@@ -34,7 +34,7 @@
     "fs-jetpack": "^1.3.1",
     "fs-reverse": "0.0.3",
     "function-queue": "0.0.12",
-    "ddrive-daemon": "git://github.com/DistributedWeb/ddrive-daemon.git#3ccb3e8b817edaa4fc2578b3e79ca07105272752",
+    "ddrive-daemon": "~1.0.0",
     "ddrive-daemon-client": "git://github.com/DistributedWeb/ddrive-daemon-client.git#ef82164e659a2fa29a6c738f9251b4e8b7046f7a",
     "icojs": "^0.12.3",
     "identify-filetype": "^1.0.0",
