@@ -14559,7 +14559,7 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],70:[function(require,module,exports){
-module.exports = require('./lib/_stream_duplex.js');
+module.exports = require('./lib/_stream_duplex.js.js');
 
 },{"./lib/_stream_duplex.js":71}],71:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
@@ -16830,19 +16830,19 @@ module.exports = require('events').EventEmitter;
 module.exports = require('./readable').PassThrough
 
 },{"./readable":80}],80:[function(require,module,exports){
-exports = module.exports = require('./lib/_stream_readable.js');
+exports = module.exports = require('./lib/_stream_readable.js.js');
 exports.Stream = exports;
 exports.Readable = exports;
-exports.Writable = require('./lib/_stream_writable.js');
-exports.Duplex = require('./lib/_stream_duplex.js');
-exports.Transform = require('./lib/_stream_transform.js');
-exports.PassThrough = require('./lib/_stream_passthrough.js');
+exports.Writable = require('./lib/_stream_writable.js.js');
+exports.Duplex = require('./lib/_stream_duplex.js.js');
+exports.Transform = require('./lib/_stream_transform.js.js');
+exports.PassThrough = require('./lib/_stream_passthrough.js.js');
 
 },{"./lib/_stream_duplex.js":71,"./lib/_stream_passthrough.js":72,"./lib/_stream_readable.js":73,"./lib/_stream_transform.js":74,"./lib/_stream_writable.js":75}],81:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
 },{"./readable":80}],82:[function(require,module,exports){
-module.exports = require('./lib/_stream_writable.js');
+module.exports = require('./lib/_stream_writable.js.js');
 
 },{"./lib/_stream_writable.js":75}],83:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
